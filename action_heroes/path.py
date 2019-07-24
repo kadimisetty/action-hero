@@ -1,92 +1,133 @@
-import argparse
+from argparse import Action
 
 
-# TODO
-# Files:
-# - Specific Format/Extension
-# - With Number of Lines
-# - Specific Encoding
-
-
-class ValidPathAction(argparse.Action):
+class ResolvePathAction(Action):
     pass
 
 
-class ExistingDirectoryAction(argparse.Action):
+class EnsurePathAction(Action):
     pass
 
 
-class NonExistingDirectoryAction(argparse.Action):
+class EnsureDirectoryAction(Action):
     pass
 
 
-class WritableDirectoryAction(argparse.Action):
+class EnsureFileAction(Action):
     pass
 
 
-class UnWritableDirectoryAction(argparse.Action):
+class PathIsValidAction(Action):
     pass
 
 
-class ReadableDirectoryAction(argparse.Action):
+class PathExistsAction(Action):
     pass
 
 
-class UnReadableDirectoryAction(argparse.Action):
+class PathDoesNotExistsAction(Action):
     pass
 
 
-class ExecutableDirectoryAction(argparse.Action):
+class PathIsWritableAction(Action):
     pass
 
 
-class UnExecutableDirectoryAction(argparse.Action):
+class PathIsNotWritableAction(Action):
     pass
 
 
-class ValidDirectoryAction(argparse.Action):
+class PathIsReadableAction(Action):
     pass
 
 
-class WritableFileAction(argparse.Action):
+class PathIsNotReadableAction(Action):
     pass
 
 
-class UnWritableFileAction(argparse.Action):
+class PathIsExecutableAction(Action):
     pass
 
 
-class ReadableFileAction(argparse.Action):
+class PathIsNotExecutableAction(Action):
     pass
 
 
-class UnReadableFileAction(argparse.Action):
+class DirectoryExistsAction(Action):
     pass
 
 
-class ExecutableFileAction(argparse.Action):
+class DirectoryDoesNotExistAction(Action):
     pass
 
 
-class UnExecutableFileAction(argparse.Action):
+class DirectoryIsWritableAction(Action):
     pass
 
 
-class ValidFileAction(argparse.Action):
+class DirectoryIsNotWritableAction(Action):
     pass
 
 
-class ExistingFileAction(argparse.Action):
+class DirectoryIsReadableAction(Action):
     pass
 
 
-class NonExistingFileAction(argparse.Action):
+class DirectoryIsNotReadableAction(Action):
     pass
 
 
-class EmptyFileAction(argparse.Action):
+class DirectoryIsExecutableAction(Action):
     pass
 
 
-class NonEmptyFileAction(argparse.Action):
+class DirectoryIsNotExecutableAction(Action):
+    pass
+
+
+class FileIsWritableAction(Action):
+    pass
+
+
+class FileIsNotWritableAction(Action):
+    pass
+
+
+class FileIsReadableAction(Action):
+    pass
+
+
+class FileIsNotReadableAction(Action):
+    pass
+
+
+class FileIsExecutableAction(Action):
+    pass
+
+
+class FileIsNotExecutableAction(Action):
+    pass
+
+
+class FileIsValidAction(Action):
+    pass
+
+
+class FileExistsAction(Action):
+    pass
+
+
+class FileDoesNotExistAction(Action):
+    pass
+
+
+class FileIsEmptyAction(Action):
+    pass
+
+
+class FileIsNotEmptyAction(Action):
+    pass
+
+
+class FileHasExtension(Action):
     pass
