@@ -18,6 +18,7 @@ from action_heroes.path_utils import (
     is_writable_directory,
     is_writable_file,
     is_writable_path,
+    resolve_path,
 )
 
 
@@ -218,9 +219,7 @@ class TestExecutableUtils(unittest.TestCase):
         USER_EXECUTING = stat.S_IXUSR
         GROUP_EXECUTING = stat.S_IXGRP
         OTHER_EXECUTING = stat.S_IXOTH
-        EXECUTING = (
-            USER_EXECUTING | GROUP_EXECUTING | OTHER_EXECUTING
-        )
+        EXECUTING = USER_EXECUTING | GROUP_EXECUTING | OTHER_EXECUTING
 
         current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
         os.chmod(path, current_permissions | EXECUTING)
@@ -309,3 +308,15 @@ class TestSymbolicLinkUtils(unittest.TestCase):
     def test_is_symbolic_link_on_existing_file(self):
         with tempfile.NamedTemporaryFile() as temporary_file:
             self.assertFalse(is_symbolic_link(temporary_file.name))
+
+
+class TestResolvePath(unittest.TestCase):
+    def test_resolve_path_resolves_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            expected = os.path.realpath(directory)
+            self.assertEqual(resolve_path(directory), expected)
+
+    def test_resolve_path_resolves_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            expected = os.path.realpath(temporary_file.name)
+            self.assertEqual(resolve_path(temporary_file.name), expected)
