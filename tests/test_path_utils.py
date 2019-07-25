@@ -178,11 +178,10 @@ class TestReadableUtils(unittest.TestCase):
 
     def test_is_readable_path_on_unreadable_file(self):
         with tempfile.NamedTemporaryFile() as temporary_file:
-            self.remove_write_permissions(temporary_file.name)
+            self.remove_read_permissions(temporary_file.name)
             self.assertFalse(is_readable_path(temporary_file.name))
 
 
-@unittest.skip
 class TestExecutableUtils(unittest.TestCase):
     @staticmethod
     def remove_execute_permissions(path):
@@ -204,6 +203,64 @@ class TestExecutableUtils(unittest.TestCase):
 
         current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
         os.chmod(path, current_permissions & NO_EXECUTING)
+
+    @staticmethod
+    def add_execute_permissions(path):
+        """Add execute permissions and keep other permissions intact.
+
+        Params:
+            path:  The path whose permissions to alter.
+
+        Source:
+            https://stackoverflow.com/a/38511116/225903
+
+        """
+        USER_EXECUTING = stat.S_IXUSR
+        GROUP_EXECUTING = stat.S_IXGRP
+        OTHER_EXECUTING = stat.S_IXOTH
+        EXECUTING = (
+            USER_EXECUTING | GROUP_EXECUTING | OTHER_EXECUTING
+        )
+
+        current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
+        os.chmod(path, current_permissions | EXECUTING)
+
+    def test_is_executable_directory_on_executable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertTrue(is_executable_directory(directory))
+
+    def test_is_executable_directory_on_unexecutable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.remove_execute_permissions(directory)
+            self.assertFalse(is_executable_directory(directory))
+
+    def test_is_executable_file_on_executable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.add_execute_permissions(temporary_file.name)
+            self.assertTrue(is_executable_file(temporary_file.name))
+
+    def test_is_executable_file_on_unexecutable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.remove_execute_permissions(temporary_file.name)
+            self.assertFalse(is_executable_file(temporary_file.name))
+
+    def test_is_executable_path_on_executable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertTrue(is_executable_path(directory))
+
+    def test_is_executable_path_on_unexecutable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.remove_execute_permissions(directory)
+            self.assertFalse(is_executable_path(directory))
+
+    def test_is_executable_path_on_executable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.add_execute_permissions(temporary_file.name)
+            self.assertTrue(is_executable_path(temporary_file.name))
+
+    def test_is_executable_path_on_unexecutable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.assertFalse(is_executable_path(temporary_file.name))
 
 
 class TestSymbolicLinkUtils(unittest.TestCase):
