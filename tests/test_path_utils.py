@@ -20,6 +20,7 @@ from action_heroes.path_utils import (
     is_writable_directory,
     is_writable_file,
     is_writable_path,
+    is_existing_or_creatable_path,
     resolve_path,
 )
 
@@ -342,3 +343,45 @@ class TestCreatePath(unittest.TestCase):
 
             # Check if file was created successfully
             self.assertTrue(os.path.isfile(filename), True)
+
+
+class TestExistingOrCreatablePath(unittest.TestCase):
+    def test_is_existing_or_creatable_path_on_existing_dir(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertTrue(is_existing_or_creatable_path(directory))
+
+    def test_is_existing_or_creatable_path_on_nonexisting_creatable_dir(self):
+        # Create and delete a temp directory so we know that it is a valid path
+        directory = tempfile.mkdtemp()
+        os.rmdir(directory)
+        self.assertTrue(is_existing_or_creatable_path(directory))
+
+    def test_is_existing_or_creatable_path_on_uncreatable_dir(self):
+        with tempfile.TemporaryDirectory() as parent_directory:
+            # Create a directory name with a char forbidden in POSIX and WIN*
+            forbidden_char = "/"
+            directory_name = "SOMEDIR{}".format(forbidden_char)
+            directory_path = os.path.join(parent_directory, directory_name)
+
+            # Assert that the forbidden character prohibited path creation
+            self.assertFalse(is_existing_or_creatable_path(directory_path))
+
+    def test_is_existing_or_creatable_path_on_existing_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.assertTrue(is_existing_or_creatable_path(temporary_file.name))
+
+    def test_is_existing_or_creatable_path_on_nonexisting_creatable_file(self):
+        # Create and delete a temp file so we know that it is a valid path
+        temporary_file = tempfile.mkstemp()[1]
+        os.remove(temporary_file)
+        self.assertTrue(is_existing_or_creatable_path(temporary_file))
+
+    def test_is_existing_or_creatable_path_on_uncreatable_file(self):
+        with tempfile.TemporaryDirectory() as parent_directory:
+            # Create a file name with a char forbidden in POSIX and WIN*
+            forbidden_char = "/"
+            file_name = "SOMEDIR{}".format(forbidden_char)
+            file_path = os.path.join(parent_directory, file_name)
+
+            # Assert that the forbidden character prohibited path creation
+            self.assertFalse(is_existing_or_creatable_path(file_path))

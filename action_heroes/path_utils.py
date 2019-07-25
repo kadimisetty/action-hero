@@ -10,6 +10,7 @@ __all__ = [
     "is_executable_path",
     "is_existing_directory",
     "is_existing_file",
+    "is_existing_or_creatable_path",
     "is_existing_path",
     "is_readable_directory",
     "is_readable_file",
@@ -100,3 +101,33 @@ def is_executable_path(path):
 def resolve_path(path):
     """Returns resolved canonical path removing symbolic links if present"""
     return os.path.realpath(path)
+
+
+def is_existing_or_creatable_path(path):
+    """Returns True if path already exists or is creatable by current User
+
+    IMPORTANT NOTE:
+        This solution is a work-around, in that, an ignorable tempfile with a
+        shortlife is created and removed.
+        Source: https://stackoverflow.com/a/48499049/225903
+
+        For a better, although far more complicated solution, read:
+        https://stackoverflow.com/a/34102855/225903
+
+    """
+    try:
+        # Mode x: Open for exclusive creation, fail if the path already exists
+        with open(path, mode='x') as _:
+            # Raises OSError if:
+            # Condition 1. file exists
+            # Condition 2. Unable to create at path
+
+            # Else successfully able to create at path
+            return True
+
+    except OSError:
+        # Handle Condition 1. Path exists
+        if os.path.isfile(path) or os.path.isdir(path):
+            return True
+        # Handle Condition 2. Unable to create at path
+        return False
