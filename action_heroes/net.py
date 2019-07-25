@@ -1,27 +1,27 @@
-import argparse
+from argparse import Action
 
 
-class ValidIPv4Action(argparse.Action):
+class IPIsValidIPv4AddressAction(Action):
     """Check if IP is valid ipv4 address"""
     pass
 
 
-class ValidIPv6Action(argparse.Action):
+class IPIsValidIPV6Action(Action):
     """Check if IP is valid ipv6 address"""
     pass
 
 
-class ValidURLAction(argparse.Action):
+class URLIsValidAction(Action):
     """Check if URL is valid"""
     pass
 
 
-class ReachableURLAction(argparse.Action):
+class URLIsReachableAction(Action):
     """Check if URL is reachable"""
     pass
 
 
-class URLWithHTTPResponseStatusCodeAction(argparse.Action):
+class URLWithHTTPResponseStatusCodeAction(Action):
     """Check is upplied URL responds with expected HTTP response status code
 
     Params:
