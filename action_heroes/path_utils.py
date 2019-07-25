@@ -1,7 +1,24 @@
 import os
 
 
-def is_link(path):
+__all__ = [
+    "is_executable_directory",
+    "is_executable_file",
+    "is_executable_path",
+    "is_existing_directory",
+    "is_existing_file",
+    "is_existing_path",
+    "is_readable_directory",
+    "is_readable_file",
+    "is_readable_path",
+    "is_symbolic_link",
+    "is_writable_directory",
+    "is_writable_file",
+    "is_writable_path"
+]
+
+
+def is_symbolic_link(path):
     """Return True if path is existing directory that is a symbolic link"""
     return os.path.islink(path)
 

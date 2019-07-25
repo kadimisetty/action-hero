@@ -1,0 +1,182 @@
+import unittest
+import tempfile
+import shutil
+import stat
+import os
+
+from action_heroes.path_utils import (
+    is_executable_directory,
+    is_executable_file,
+    is_executable_path,
+    is_existing_directory,
+    is_existing_file,
+    is_existing_path,
+    is_readable_directory,
+    is_readable_file,
+    is_readable_path,
+    is_symbolic_link,
+    is_writable_directory,
+    is_writable_file,
+    is_writable_path,
+)
+
+
+class TestExistenceUtils(unittest.TestCase):
+    def test_is_existing_directory_on_exisiting_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertTrue(is_existing_directory(directory))
+
+    def test_is_existing_directory_on_nonexisting_directory(self):
+        # Create and Remove a directory to confirm it doesnt exist
+        nonexistent_directory = tempfile.mkdtemp()
+        os.rmdir(nonexistent_directory)
+
+        self.assertFalse(is_existing_directory(nonexistent_directory))
+
+    def test_is_existing_file_on_exisiting_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.assertTrue(is_existing_file(temporary_file.name))
+
+    def test_is_existing_file_on_nonexisting_file(self):
+        # Create and Remove a file to confirm it doesnt exist
+        nonexistent_file = tempfile.mkstemp()[1]
+        os.remove(nonexistent_file)
+
+        self.assertFalse(is_existing_file(nonexistent_file))
+
+    def test_is_existing_path_on_exisiting_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_path:
+            self.assertTrue(is_existing_path(temporary_path.name))
+
+    def test_is_existing_path_on_nonexisting_file(self):
+        # Create and Remove a file to confirm it doesnt exist
+        nonexistent_path = tempfile.mkstemp()[1]
+        os.remove(nonexistent_path)
+
+        self.assertFalse(is_existing_path(nonexistent_path))
+
+    def test_is_existing_path_on_exisiting_directory(self):
+        with tempfile.TemporaryDirectory() as path:
+            self.assertTrue(is_existing_path(path))
+
+    def test_is_existing_path_on_nonexisting_directory(self):
+        # Create and Remove a directory to confirm it doesnt exist
+        nonexistent_path = tempfile.mkdtemp()
+        os.rmdir(nonexistent_path)
+
+        self.assertFalse(is_existing_path(nonexistent_path))
+
+
+class TestWritableUtils(unittest.TestCase):
+    @staticmethod
+    def remove_write_permissions(path):
+        """Remove write permissions and keep other permissions intact.
+
+        Params:
+            path:  The path whose permissions to alter.
+
+        Source:
+            https://stackoverflow.com/a/38511116/225903
+
+        """
+        NO_USER_WRITING = ~stat.S_IWUSR
+        NO_GROUP_WRITING = ~stat.S_IWGRP
+        NO_OTHER_WRITING = ~stat.S_IWOTH
+        NO_WRITING = NO_USER_WRITING & NO_GROUP_WRITING & NO_OTHER_WRITING
+
+        current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
+        os.chmod(path, current_permissions & NO_WRITING)
+
+    def test_is_writable_directory_on_writable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertTrue(is_writable_directory(directory))
+
+    def test_is_writable_directory_on_unwritable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.remove_write_permissions(directory)
+            self.assertFalse(is_writable_directory(directory))
+
+    def test_is_writable_file_on_writable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.assertTrue(is_writable_file(temporary_file.name))
+
+    def test_is_writable_file_on_unwritable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.remove_write_permissions(temporary_file.name)
+            self.assertFalse(is_writable_file(temporary_file.name))
+
+    def test_is_writable_path_on_writable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertTrue(is_writable_path(directory))
+
+    def test_is_writable_path_on_unwritable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.remove_write_permissions(directory)
+            self.assertFalse(is_writable_path(directory))
+
+    def test_is_writable_path_on_writable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.assertTrue(is_writable_path(temporary_file.name))
+
+    def test_is_writable_path_on_unwritable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.remove_write_permissions(temporary_file.name)
+            self.assertFalse(is_writable_path(temporary_file.name))
+
+
+@unittest.skip
+class TestReadableUtils(unittest.TestCase):
+    pass
+
+
+@unittest.skip
+class TestExecutableUtils(unittest.TestCase):
+    pass
+
+
+class TestSymbolicLinkUtils(unittest.TestCase):
+    def setUp(self):
+        # Create parent directory to hold symbolic links
+        self.parent_directory = tempfile.mkdtemp()
+
+        # Create temporary directory and a symbolic link pointing to it
+        self.tmp_directory = tempfile.mkdtemp()
+        self.link_to_tmp_directory = os.path.join(
+            self.parent_directory, os.path.basename(self.tmp_directory)
+        )
+        os.symlink(
+            src=self.tmp_directory,
+            dst=self.link_to_tmp_directory,
+            target_is_directory=True,
+        )
+
+        # Create temporary file and a symbolic link pointing to it
+        self.tmp_file = tempfile.mkstemp()[1]
+        self.link_to_tmp_file = os.path.join(
+            self.parent_directory, os.path.basename(self.tmp_file)
+        )
+        os.symlink(src=self.tmp_file, dst=self.link_to_tmp_file)
+
+    def tearDown(self):
+        # Unlink symbolic links
+        os.unlink(self.link_to_tmp_file)
+        os.unlink(self.link_to_tmp_directory)
+
+        # Remove temporary directory and file
+        shutil.rmtree(self.parent_directory)
+        os.rmdir(self.tmp_directory)
+        os.remove(self.tmp_file)
+
+    def test_is_symbolic_link_on_existing_link_to_directory(self):
+        self.assertTrue(is_symbolic_link(self.link_to_tmp_directory))
+
+    def test_is_symbolic_link_on_existing_link_to_file(self):
+        self.assertTrue(is_symbolic_link(self.link_to_tmp_file))
+
+    def test_is_symbolic_link_on_existing_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertFalse(is_symbolic_link(directory))
+
+    def test_is_symbolic_link_on_existing_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.assertFalse(is_symbolic_link(temporary_file.name))
