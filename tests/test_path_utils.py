@@ -126,12 +126,84 @@ class TestWritableUtils(unittest.TestCase):
 
 @unittest.skip
 class TestReadableUtils(unittest.TestCase):
-    pass
+    @staticmethod
+    def remove_read_permissions(path):
+        """Remove read permissions and keep other permissions intact.
+
+        Params:
+            path:  The path whose permissions to alter.
+
+        Source:
+            https://stackoverflow.com/a/38511116/225903
+
+        """
+        NO_USER_READING = ~stat.S_IRUSR
+        NO_GROUP_READING = ~stat.S_IRGRP
+        NO_OTHER_READING = ~stat.S_IROTH
+        NO_READING = NO_USER_READING & NO_GROUP_READING & NO_OTHER_READING
+
+        current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
+        os.chmod(path, current_permissions & NO_READING)
+
+    def test_is_readable_directory_on_readable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertTrue(is_readable_directory(directory))
+
+    def test_is_readable_directory_on_unreadable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.remove_read_permissions(directory)
+            self.assertFalse(is_readable_directory(directory))
+
+    def test_is_readable_file_on_readable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.assertTrue(is_readable_file(temporary_file.name))
+
+    def test_is_readable_file_on_unreadable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.remove_read_permissions(temporary_file.name)
+            self.assertFalse(is_readable_file(temporary_file.name))
+
+    def test_is_readable_path_on_readable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.assertTrue(is_readable_path(directory))
+
+    def test_is_readable_path_on_unreadable_directory(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.remove_read_permissions(directory)
+            self.assertFalse(is_readable_path(directory))
+
+    def test_is_readable_path_on_readable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.assertTrue(is_readable_path(temporary_file.name))
+
+    def test_is_readable_path_on_unreadable_file(self):
+        with tempfile.NamedTemporaryFile() as temporary_file:
+            self.remove_write_permissions(temporary_file.name)
+            self.assertFalse(is_readable_path(temporary_file.name))
 
 
 @unittest.skip
 class TestExecutableUtils(unittest.TestCase):
-    pass
+    @staticmethod
+    def remove_execute_permissions(path):
+        """Remove execute permissions and keep other permissions intact.
+
+        Params:
+            path:  The path whose permissions to alter.
+
+        Source:
+            https://stackoverflow.com/a/38511116/225903
+
+        """
+        NO_USER_EXECUTING = ~stat.S_IXUSR
+        NO_GROUP_EXECUTING = ~stat.S_IXGRP
+        NO_OTHER_EXECUTING = ~stat.S_IXOTH
+        NO_EXECUTING = (
+            NO_USER_EXECUTING & NO_GROUP_EXECUTING & NO_OTHER_EXECUTING
+        )
+
+        current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
+        os.chmod(path, current_permissions & NO_EXECUTING)
 
 
 class TestSymbolicLinkUtils(unittest.TestCase):
@@ -162,7 +234,7 @@ class TestSymbolicLinkUtils(unittest.TestCase):
         os.unlink(self.link_to_tmp_file)
         os.unlink(self.link_to_tmp_directory)
 
-        # Remove temporary directory and file
+        # Remove temporary directories and file
         shutil.rmtree(self.parent_directory)
         os.rmdir(self.tmp_directory)
         os.remove(self.tmp_file)
