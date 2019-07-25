@@ -4,6 +4,7 @@ from action_heroes.path_utils import (
     create_directory,
     create_file,
     is_existing_directory,
+    is_existing_path,
     is_valid_directory,
     is_valid_file,
     is_valid_path,
@@ -19,6 +20,7 @@ __all__ = [
     "DirectoryIsNotReadableAction",
     "DirectoryIsNotWritableAction",
     "DirectoryIsReadableAction",
+    "DirectoryIsValidAction",
     "DirectoryIsWritableAction",
     "EnsureDirectoryAction",
     "EnsureFileAction",
@@ -122,11 +124,41 @@ class PathIsValidAction(Action):
 
 
 class PathExistsAction(Action):
-    pass
+    """Check if Path exists"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check validity of list of paths
+            if False in [is_existing_path(path) for path in values]:
+                raise ValueError(
+                    "supplied paths contain atleast one invalid path"
+                )
+        else:
+            # Check validity of single path
+            path = values
+            if not is_existing_path(path):
+                raise ValueError("supplied path is invalid")
+
+        setattr(namespace, self.dest, values)
 
 
 class PathDoesNotExistsAction(Action):
-    pass
+    """Check if Path does not exist"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check validity of list of paths
+            if True in [is_existing_path(path) for path in values]:
+                raise ValueError(
+                    "supplied paths contain atleast one invalid path"
+                )
+        else:
+            # Check validity of single path
+            path = values
+            if is_existing_path(path):
+                raise ValueError("supplied path is invalid")
+
+        setattr(namespace, self.dest, values)
 
 
 class PathIsWritableAction(Action):
@@ -202,7 +234,6 @@ class DirectoryIsValidAction(Action):
                 raise ValueError("supplied path is invalid")
 
         setattr(namespace, self.dest, values)
-
 
 
 class FileIsWritableAction(Action):
