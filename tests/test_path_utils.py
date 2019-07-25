@@ -5,6 +5,8 @@ import stat
 import os
 
 from action_heroes.path_utils import (
+    create_directory,
+    create_file,
     is_executable_directory,
     is_executable_file,
     is_executable_path,
@@ -320,3 +322,23 @@ class TestResolvePath(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as temporary_file:
             expected = os.path.realpath(temporary_file.name)
             self.assertEqual(resolve_path(temporary_file.name), expected)
+
+
+class TestCreatePath(unittest.TestCase):
+    def test_create_directory(self):
+        with tempfile.TemporaryDirectory() as parent_directory:
+            # Create a directory in termporary directory
+            filename = os.path.join(parent_directory, "SOMEDIR")
+            create_directory(filename)
+
+            # Check if directory was created successfully
+            self.assertTrue(os.path.isdir(filename), True)
+
+    def test_create_file(self):
+        with tempfile.TemporaryDirectory() as parent_directory:
+            # Create a file in termporary directory
+            filename = os.path.join(parent_directory, "SOMEFILE")
+            create_file(filename)
+
+            # Check if file was created successfully
+            self.assertTrue(os.path.isfile(filename), True)

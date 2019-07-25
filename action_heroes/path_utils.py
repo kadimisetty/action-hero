@@ -1,8 +1,10 @@
 import os
+import pathlib
 
 
 __all__ = [
     "create_directory",
+    "create_file",
     "is_executable_directory",
     "is_executable_file",
     "is_executable_path",
@@ -15,14 +17,20 @@ __all__ = [
     "is_symbolic_link",
     "is_writable_directory",
     "is_writable_file",
-    "is_writable_path"
+    "is_writable_path",
     "resolve_path",
 ]
 
 
+def create_file(path):
+    """Creates a file with name of path"""
+    pathlib.Path(path).touch()
+
+
 def create_directory(path):
     """Creates a directory with name of path"""
-    return os.mkdir(path)
+    os.mkdir(path)
+
 
 def is_symbolic_link(path):
     """Return True if path is existing directory that is a symbolic link"""

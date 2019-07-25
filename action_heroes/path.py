@@ -2,6 +2,7 @@ from argparse import Action
 
 from action_heroes.path_utils import (
     create_directory,
+    create_file,
     is_existing_directory,
     resolve_path,
 )
@@ -79,7 +80,23 @@ class EnsureDirectoryAction(Action):
 
 
 class EnsureFileAction(Action):
-    pass
+    """Ensure file exists and create it if it doesnt"""
+
+    @staticmethod
+    def _ensure_file(filename):
+        if not is_existing_directory(filename):
+            create_file(filename)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Ensure list of filenames
+            [self._ensure_file(path) for path in values]
+        else:
+            # Ensure single filename
+            path = values
+            self._ensure_file(path)
+
+        setattr(namespace, self.dest, values)
 
 
 class PathIsValidAction(Action):
