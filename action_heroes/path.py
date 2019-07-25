@@ -1,5 +1,11 @@
 from argparse import Action
 
+from action_heroes.path_utils import (
+    create_directory,
+    is_existing_directory,
+    resolve_path,
+)
+
 
 __all__ = [
     "DirectoryDoesNotExistAction",
@@ -12,7 +18,6 @@ __all__ = [
     "DirectoryIsWritableAction",
     "EnsureDirectoryAction",
     "EnsureFileAction",
-    "EnsurePathAction",
     "FileDoesNotExistAction",
     "FileExistsAction",
     "FileHasExtension",
@@ -39,15 +44,38 @@ __all__ = [
 
 
 class ResolvePathAction(Action):
-    pass
+    """Resolves path to canonical removing symbolic links if present"""
 
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Resolve list of paths
+            values = [resolve_path(path) for path in values]
+        else:
+            # Resolve single path
+            path = values
+            values = resolve_path(path)
 
-class EnsurePathAction(Action):
-    pass
+        setattr(namespace, self.dest, values)
 
 
 class EnsureDirectoryAction(Action):
-    pass
+    """Ensure directory exists and create it if it doesnt"""
+
+    @staticmethod
+    def _ensure_directory(directory):
+        if not is_existing_directory(directory):
+            create_directory(directory)
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Ensure list of directories
+            [self._ensure_directory(path) for path in values]
+        else:
+            # Ensure single directory
+            path = values
+            self._ensure_directory(path)
+
+        setattr(namespace, self.dest, values)
 
 
 class EnsureFileAction(Action):

@@ -2,6 +2,7 @@ import os
 
 
 __all__ = [
+    "create_directory",
     "is_executable_directory",
     "is_executable_file",
     "is_executable_path",
@@ -15,8 +16,13 @@ __all__ = [
     "is_writable_directory",
     "is_writable_file",
     "is_writable_path"
+    "resolve_path",
 ]
 
+
+def create_directory(path):
+    """Creates a directory with name of path"""
+    return os.mkdir(path)
 
 def is_symbolic_link(path):
     """Return True if path is existing directory that is a symbolic link"""
@@ -81,3 +87,8 @@ def is_readable_path(path):
 def is_executable_path(path):
     """Returns True if path has execute permission flag set"""
     return os.access(path, os.X_OK)
+
+
+def resolve_path(path):
+    """Returns resolved canonical path removing symbolic links if present"""
+    return os.path.realpath(path)
