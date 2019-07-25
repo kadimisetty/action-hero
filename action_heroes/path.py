@@ -4,6 +4,8 @@ from action_heroes.path_utils import (
     create_directory,
     create_file,
     is_existing_directory,
+    is_valid_file,
+    is_valid_path,
     resolve_path,
 )
 
@@ -100,7 +102,22 @@ class EnsureFileAction(Action):
 
 
 class PathIsValidAction(Action):
-    pass
+    """Check validity of supplied path(s)"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check validity of list of paths
+            if False in [is_valid_path(path) for path in values]:
+                raise ValueError(
+                    "supplied paths contain atleast one invalid path"
+                )
+        else:
+            # Check validity of single path
+            path = values
+            if not is_valid_path(path):
+                raise ValueError("supplied path is invalid")
+
+        setattr(namespace, self.dest, values)
 
 
 class PathExistsAction(Action):
@@ -192,7 +209,22 @@ class FileIsNotExecutableAction(Action):
 
 
 class FileIsValidAction(Action):
-    pass
+    """Check validity of supplied file path(s)"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check validity of list of file paths
+            if False in [is_valid_file(path) for path in values]:
+                raise ValueError(
+                    "supplied file paths contain atleast one invalid file path"
+                )
+        else:
+            # Check validity of single path
+            path = values
+            if not is_valid_file(path):
+                raise ValueError("supplied file path is invalid")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileExistsAction(Action):

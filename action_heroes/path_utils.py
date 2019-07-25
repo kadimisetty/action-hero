@@ -16,6 +16,9 @@ __all__ = [
     "is_readable_file",
     "is_readable_path",
     "is_symbolic_link",
+    "is_valid_directory",
+    "is_valid_file",
+    "is_valid_path",
     "is_writable_directory",
     "is_writable_file",
     "is_writable_path",
@@ -131,3 +134,26 @@ def is_existing_or_creatable_path(path):
             return True
         # Handle Condition 2. Unable to create at path
         return False
+
+
+def is_valid_path(path):
+    """Returns True if path already exists or is creatable by current User"""
+    return is_existing_or_creatable_path(path)
+
+
+def is_valid_directory(path):
+    """
+    Returns True if directoy as path already exists or is creatable by current
+    User
+
+    """
+    return is_valid_path(path)
+
+
+def is_valid_file(path):
+    """
+    Returns True if file as path already exists or is creatable by current
+    User
+
+    """
+    return is_valid_path(path)
