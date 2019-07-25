@@ -8,8 +8,14 @@ from action_heroes.path import (
     EnsureFileAction,
     ResolvePathAction,
     PathIsValidAction,
+    DirectoryIsValidAction,
 )
-from action_heroes.path_utils import resolve_path, is_valid_path, is_valid_file
+from action_heroes.path_utils import (
+    resolve_path,
+    is_valid_path,
+    is_valid_file,
+    is_valid_directory,
+)
 
 
 class ParserEnclosedTestCase(unittest.TestCase):
@@ -289,6 +295,75 @@ class TestFileIsValidAction(ParserEnclosedTestCase):
 
                 # Assemble mixed valid and invalid path
                 paths = [invalid_file_path, valid_file_path.name]
+
+                with self.assertRaises(ValueError):
+                    # Parse args with list of paths
+                    self.parser.parse_args(["--path", *paths])
+
+
+class TestDirectoryIsValidAction(ParserEnclosedTestCase):
+    def test_valid_directory_on_valid_directory_path(self):
+        self.parser.add_argument("--path", action=DirectoryIsValidAction)
+        with tempfile.TemporaryDirectory() as path:
+            # Assert path is valid path
+            self.assertTrue(is_valid_directory(path))
+            # Parse args with list of paths
+            args = self.parser.parse_args(["--path", path])
+            # Assert path from args is valid path
+            self.assertTrue(is_valid_directory(args.path))
+
+    def test_valid_directory_on_multiple_valid_directory_paths(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=DirectoryIsValidAction
+        )
+
+        # Create few temporary paths
+        path1 = tempfile.mkdtemp()
+        path2 = tempfile.mkdtemp()
+        path3 = tempfile.mkdtemp()
+        paths = [path1, path2, path3]
+
+        # Parse args with list of paths
+        self.parser.parse_args(["--path", *paths])
+        self.assertNotIn(False, [is_valid_directory(p) for p in paths])
+
+        # Delete all temporary file paths
+        [os.rmdir(path) for path in paths]
+
+    def test_valid_directory_on_invalid_directory_path(self):
+        self.parser.add_argument("--path", action=PathIsValidAction)
+        with tempfile.TemporaryDirectory() as parent_directory:
+            # Create a file name with a char forbidden in POSIX and WIN*
+            forbidden_char = "/"
+            dir_name = "SOMEFILE{}".format(forbidden_char)
+            dir_path = os.path.join(parent_directory, dir_name)
+
+            # Assert that the forbidden character prohibited path creation
+            self.assertFalse(is_valid_file(dir_path))
+
+            with self.assertRaises(ValueError):
+                # Parse args with prohibited filename
+                self.parser.parse_args(["--path", dir_path])
+
+    def test_valid_file_on_mixed_valid_and_invalid_file_path(self):
+        self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
+
+        with tempfile.TemporaryDirectory() as parent_directory:
+            # Create a file name with a char forbidden in POSIX and WIN*
+            forbidden_char = "/"
+            invalid_dir_name = "SOMEDIR{}".format(forbidden_char)
+            invalid_dir_path = os.path.join(
+                parent_directory, invalid_dir_name
+            )
+
+            # Assert that the forbidden character prohibited path creation
+            self.assertFalse(is_valid_file(invalid_dir_path))
+
+            # Create valid path
+            with tempfile.TemporaryDirectory() as valid_dir_path:
+
+                # Assemble mixed valid and invalid path
+                paths = [invalid_dir_path, valid_dir_path]
 
                 with self.assertRaises(ValueError):
                     # Parse args with list of paths

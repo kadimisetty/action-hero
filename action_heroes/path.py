@@ -4,6 +4,7 @@ from action_heroes.path_utils import (
     create_directory,
     create_file,
     is_existing_directory,
+    is_valid_directory,
     is_valid_file,
     is_valid_path,
     resolve_path,
@@ -182,6 +183,26 @@ class DirectoryIsExecutableAction(Action):
 
 class DirectoryIsNotExecutableAction(Action):
     pass
+
+
+class DirectoryIsValidAction(Action):
+    """Check validity of supplied dir path(s)"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check validity of list of directory paths
+            if False in [is_valid_directory(path) for path in values]:
+                raise ValueError(
+                    "supplied paths contain atleast one invalid path"
+                )
+        else:
+            # Check validity of single directory path
+            path = values
+            if not is_valid_directory(path):
+                raise ValueError("supplied path is invalid")
+
+        setattr(namespace, self.dest, values)
+
 
 
 class FileIsWritableAction(Action):
