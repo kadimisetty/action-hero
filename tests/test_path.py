@@ -28,6 +28,7 @@ from action_heroes.path_utils import (
     is_valid_path,
     is_writable_file,
     resolve_path,
+    remove_write_permission,
 )
 
 
@@ -655,25 +656,72 @@ class TestDirectoryDoesNotExistsAction(ParserEnclosedTestCase):
 
 class TestFileIsWritableAction(ParserEnclosedTestCase):
     def test_file_writable_on_writable_file(self):
-        self.parser.add_argument( "--path", action=FileIsWritableAction)
+        self.parser.add_argument("--path", action=FileIsWritableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
-            # Assert fileis writable
+            # Assert fil eis writable
             self.assertTrue(is_writable_file(file1.name))
-            # Parse args
-            args = self.parser.parse_args(["--path", file1.name])
+            # No errors when parsing args
+            self.parser.parse_args(["--path", file1.name])
             # Assert file is still writable
             self.assertTrue(is_writable_file(file1.name))
-            self.assertTrue(is_writable_file(args.path))
 
     def test_file_writable_on_unwritable_file(self):
-        self.parser.add_argument( "--path", action=FileIsWritableAction)
+        self.parser.add_argument("--path", action=FileIsWritableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
             # Assert fileis writable
             self.assertTrue(is_writable_file(file1.name))
-            # Parse args
-            args = self.parser.parse_args(["--path", file1.name])
-            # Assert file is still writable
+            # No errors when parsing args
+            self.parser.parse_args(["--path", file1.name])
+
+    def test_file_writable_on_mixed_writable_and_unwritable_file(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=FileIsWritableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify writable and unwritable file
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            file2 = tempfile.mkstemp(dir=dir1)[1]
+            remove_write_permission(file2)
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1, file2])
+
+
+class TestFileIsNotWritableAction(ParserEnclosedTestCase):
+    def test_on_writable_file(self):
+        self.parser.add_argument("--path", action=FileIsNotWritableAction)
+        # Specify file
+        with tempfile.NamedTemporaryFile() as file1:
+            # Assert file is writable
             self.assertTrue(is_writable_file(file1.name))
-            self.assertTrue(is_writable_file(args.path))
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1.name])
+
+    def test_on_unwritable_file(self):
+        self.parser.add_argument("--path", action=FileIsNotWritableAction)
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify file and remove write permission
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            remove_write_permission(file1)
+            # Assert file is unwritable
+            self.assertFalse(is_writable_file(file1))
+            # No Error on parse args
+            self.parser.parse_args(["--path", file1])
+            # Assert file is unwritable
+            self.assertFalse(is_writable_file(file1))
+
+    def test_on_mixed_writable_and_unwritable_file(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=FileIsNotWritableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify writable and unwritable files
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            file2 = tempfile.mkstemp(dir=dir1)[1]
+            remove_write_permission(file2)
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1, file2])
