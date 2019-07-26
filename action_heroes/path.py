@@ -165,27 +165,27 @@ class PathDoesNotExistsAction(Action):
 
 
 class PathIsWritableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class PathIsNotWritableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class PathIsReadableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class PathIsNotReadableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class PathIsExecutableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
@@ -233,32 +233,32 @@ class DirectoryDoesNotExistAction(Action):
 
 
 class DirectoryIsWritableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class DirectoryIsNotWritableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class DirectoryIsReadableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class DirectoryIsNotReadableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class DirectoryIsExecutableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class DirectoryIsNotExecutableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
@@ -320,22 +320,22 @@ class FileIsNotWritableAction(Action):
 
 
 class FileIsReadableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class FileIsNotReadableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class FileIsExecutableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class FileIsNotExecutableAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
@@ -397,12 +397,12 @@ class FileDoesNotExistAction(Action):
 
 
 class FileIsEmptyAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
 class FileIsNotEmptyAction(Action):
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
 
 
