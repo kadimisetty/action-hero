@@ -163,27 +163,33 @@ class PathDoesNotExistsAction(Action):
 
 
 class PathIsWritableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class PathIsNotWritableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class PathIsReadableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class PathIsNotReadableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class PathIsExecutableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class PathIsNotExecutableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class DirectoryExistsAction(Action):
@@ -225,27 +231,33 @@ class DirectoryDoesNotExistAction(Action):
 
 
 class DirectoryIsWritableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class DirectoryIsNotWritableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class DirectoryIsReadableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class DirectoryIsNotReadableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class DirectoryIsExecutableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class DirectoryIsNotExecutableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class DirectoryIsValidAction(Action):
@@ -268,27 +280,33 @@ class DirectoryIsValidAction(Action):
 
 
 class FileIsWritableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class FileIsNotWritableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class FileIsReadableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class FileIsNotReadableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class FileIsExecutableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class FileIsNotExecutableAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class FileIsValidAction(Action):
@@ -349,12 +367,21 @@ class FileDoesNotExistAction(Action):
 
 
 class FileIsEmptyAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class FileIsNotEmptyAction(Action):
-    pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class FileHasExtension(Action):
-    pass
+    """Check if file has specified extension
+
+    TODO: Accept extension as an argument
+
+    """
+
+    def __call__(self):
+        raise NotImplementedError

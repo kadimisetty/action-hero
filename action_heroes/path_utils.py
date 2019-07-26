@@ -5,6 +5,7 @@ import pathlib
 __all__ = [
     "create_directory",
     "create_file",
+    "get_extension",
     "is_executable_directory",
     "is_executable_file",
     "is_executable_path",
@@ -24,6 +25,17 @@ __all__ = [
     "is_writable_path",
     "resolve_path",
 ]
+
+
+def get_extension(path):
+    """Fet file extension/prefix"""
+    suffix = pathlib.Path(path).suffix
+    # Return suffix is nonempty without the starting dot
+    # or blank string if theres none
+    if suffix and suffix.startswith("."):
+        return suffix[1:]
+    else:
+        return ""
 
 
 def create_file(path):

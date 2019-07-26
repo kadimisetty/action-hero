@@ -1,10 +1,12 @@
 import unittest
+import pathlib
 import tempfile
 import shutil
 import stat
 import os
 
 from action_heroes.path_utils import (
+    get_extension,
     create_directory,
     create_file,
     is_executable_directory,
@@ -474,3 +476,16 @@ class TestValidFile(unittest.TestCase):
 
             # Assert that the forbidden character prohibited path creation
             self.assertFalse(is_valid_file(file_path))
+
+class TestFileExtension(unittest.TestCase):
+    def test_get_extension_on_extension(self):
+        with tempfile.NamedTemporaryFile(suffix=".EXT") as file1:
+            self.assertEqual(get_extension(file1.name), "EXT")
+
+    def test_get_extension_on_no_extension(self):
+        with tempfile.NamedTemporaryFile() as file1:
+            self.assertEqual(get_extension(file1.name), "")
+
+    def test_get_extension_on_two_word_extension(self):
+        with tempfile.NamedTemporaryFile(suffix=".tar.gz") as file1:
+            self.assertEqual(get_extension(file1.name), "gz")
