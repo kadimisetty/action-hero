@@ -11,19 +11,22 @@ from action_heroes.path import (
     EnsureFileAction,
     FileDoesNotExistAction,
     FileExistsAction,
+    FileIsNotWritableAction,
+    FileIsWritableAction,
     PathDoesNotExistsAction,
     PathExistsAction,
     PathIsValidAction,
     ResolvePathAction,
 )
 from action_heroes.path_utils import (
+    is_executable_file,
+    is_existing_directory,
     is_existing_file,
     is_existing_path,
-    is_existing_directory,
-    is_executable_file,
     is_valid_directory,
     is_valid_file,
     is_valid_path,
+    is_writable_file,
     resolve_path,
 )
 
@@ -648,3 +651,29 @@ class TestDirectoryDoesNotExistsAction(ParserEnclosedTestCase):
             self.parser.parse_args(["--path", dir1, dir2])
         # Tear down remaining temporary directories
         os.rmdir(dir2)
+
+
+class TestFileIsWritableAction(ParserEnclosedTestCase):
+    def test_file_writable_on_writable_file(self):
+        self.parser.add_argument( "--path", action=FileIsWritableAction)
+        # Specify file
+        with tempfile.NamedTemporaryFile() as file1:
+            # Assert fileis writable
+            self.assertTrue(is_writable_file(file1.name))
+            # Parse args
+            args = self.parser.parse_args(["--path", file1.name])
+            # Assert file is still writable
+            self.assertTrue(is_writable_file(file1.name))
+            self.assertTrue(is_writable_file(args.path))
+
+    def test_file_writable_on_unwritable_file(self):
+        self.parser.add_argument( "--path", action=FileIsWritableAction)
+        # Specify file
+        with tempfile.NamedTemporaryFile() as file1:
+            # Assert fileis writable
+            self.assertTrue(is_writable_file(file1.name))
+            # Parse args
+            args = self.parser.parse_args(["--path", file1.name])
+            # Assert file is still writable
+            self.assertTrue(is_writable_file(file1.name))
+            self.assertTrue(is_writable_file(args.path))

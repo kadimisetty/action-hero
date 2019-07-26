@@ -1,8 +1,10 @@
 import os
+import stat
 import pathlib
 
 
 __all__ = [
+    "add_execute_permission",
     "create_directory",
     "create_file",
     "get_extension",
@@ -23,6 +25,9 @@ __all__ = [
     "is_writable_directory",
     "is_writable_file",
     "is_writable_path",
+    "remove_execute_permission",
+    "remove_read_permission",
+    "remove_write_permission",
     "resolve_path",
 ]
 
@@ -132,7 +137,7 @@ def is_existing_or_creatable_path(path):
     """
     try:
         # Mode x: Open for exclusive creation, fail if the path already exists
-        with open(path, mode='x') as _:
+        with open(path, mode="x") as _:
             # Raises OSError if:
             # Condition 1. file exists
             # Condition 2. Unable to create at path
@@ -169,3 +174,81 @@ def is_valid_file(path):
 
     """
     return is_valid_path(path)
+
+
+def remove_write_permission(path):
+    """Remove write permissions and keep other permissions intact.
+
+    Params:
+        path:  The path whose permissions to alter.
+
+    Source:
+        https://stackoverflow.com/a/38511116/225903
+
+    """
+    NO_USER_WRITING = ~stat.S_IWUSR
+    NO_GROUP_WRITING = ~stat.S_IWGRP
+    NO_OTHER_WRITING = ~stat.S_IWOTH
+    NO_WRITING = NO_USER_WRITING & NO_GROUP_WRITING & NO_OTHER_WRITING
+
+    current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
+    os.chmod(path, current_permissions & NO_WRITING)
+
+
+def remove_read_permission(path):
+    """Remove read permissions and keep other permissions intact.
+
+    Params:
+        path:  The path whose permissions to alter.
+
+    Source:
+        https://stackoverflow.com/a/38511116/225903
+
+    """
+    NO_USER_READING = ~stat.S_IRUSR
+    NO_GROUP_READING = ~stat.S_IRGRP
+    NO_OTHER_READING = ~stat.S_IROTH
+    NO_READING = NO_USER_READING & NO_GROUP_READING & NO_OTHER_READING
+
+    current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
+    os.chmod(path, current_permissions & NO_READING)
+
+
+def remove_execute_permission(path):
+    """Remove execute permissions and keep other permissions intact.
+
+    Params:
+        path:  The path whose permissions to alter.
+
+    Source:
+        https://stackoverflow.com/a/38511116/225903
+
+    """
+    NO_USER_EXECUTING = ~stat.S_IXUSR
+    NO_GROUP_EXECUTING = ~stat.S_IXGRP
+    NO_OTHER_EXECUTING = ~stat.S_IXOTH
+    NO_EXECUTING = (
+        NO_USER_EXECUTING & NO_GROUP_EXECUTING & NO_OTHER_EXECUTING
+    )
+
+    current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
+    os.chmod(path, current_permissions & NO_EXECUTING)
+
+
+def add_execute_permission(path):
+    """Add execute permission and keep other permissions intact.
+
+    Params:
+        path:  The path whose permissions to alter.
+
+    Source:
+        https://stackoverflow.com/a/38511116/225903
+
+    """
+    USER_EXECUTING = stat.S_IXUSR
+    GROUP_EXECUTING = stat.S_IXGRP
+    OTHER_EXECUTING = stat.S_IXOTH
+    EXECUTING = USER_EXECUTING | GROUP_EXECUTING | OTHER_EXECUTING
+
+    current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
+    os.chmod(path, current_permissions | EXECUTING)

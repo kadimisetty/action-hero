@@ -9,6 +9,8 @@ from action_heroes.path_utils import (
     is_valid_directory,
     is_valid_file,
     is_valid_path,
+    is_writable_directory,
+    is_writable_file,
     resolve_path,
 )
 
@@ -280,13 +282,41 @@ class DirectoryIsValidAction(Action):
 
 
 class FileIsWritableAction(Action):
-    def __call__(self):
-        raise NotImplementedError
+    """Check if file is writable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of files are all writable
+            if False in [is_writable_file(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one unwritable file"
+                )
+        else:
+            # Check if file is writable
+            path = values
+            if not is_writable_file(path):
+                raise ValueError("supplied file is unwritable")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileIsNotWritableAction(Action):
-    def __call__(self):
-        raise NotImplementedError
+    """Check if file is not writable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of files are all not writable
+            if True in [is_writable_file(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one writable file"
+                )
+        else:
+            # Check if file is not writable
+            path = values
+            if is_writable_file(path):
+                raise ValueError("supplied file is writable")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileIsReadableAction(Action):

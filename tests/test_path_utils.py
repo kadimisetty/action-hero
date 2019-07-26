@@ -1,14 +1,13 @@
 import unittest
-import pathlib
 import tempfile
 import shutil
 import stat
 import os
 
 from action_heroes.path_utils import (
-    get_extension,
     create_directory,
     create_file,
+    get_extension,
     is_executable_directory,
     is_executable_file,
     is_executable_path,
@@ -26,6 +25,10 @@ from action_heroes.path_utils import (
     is_writable_directory,
     is_writable_file,
     is_writable_path,
+    add_execute_permission,
+    remove_execute_permission,
+    remove_read_permission,
+    remove_write_permission,
     resolve_path,
 )
 
@@ -76,32 +79,13 @@ class TestExistenceUtils(unittest.TestCase):
 
 
 class TestWritableUtils(unittest.TestCase):
-    @staticmethod
-    def _remove_write_permission(path):
-        """Remove write permissions and keep other permissions intact.
-
-        Params:
-            path:  The path whose permissions to alter.
-
-        Source:
-            https://stackoverflow.com/a/38511116/225903
-
-        """
-        NO_USER_WRITING = ~stat.S_IWUSR
-        NO_GROUP_WRITING = ~stat.S_IWGRP
-        NO_OTHER_WRITING = ~stat.S_IWOTH
-        NO_WRITING = NO_USER_WRITING & NO_GROUP_WRITING & NO_OTHER_WRITING
-
-        current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
-        os.chmod(path, current_permissions & NO_WRITING)
-
     def test_is_writable_directory_on_writable_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_writable_directory(dir1))
 
     def test_is_writable_directory_on_unwritable_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
-            self._remove_write_permission(dir1)
+            remove_write_permission(dir1)
             self.assertFalse(is_writable_directory(dir1))
 
     def test_is_writable_file_on_writable_file(self):
@@ -110,7 +94,7 @@ class TestWritableUtils(unittest.TestCase):
 
     def test_is_writable_file_on_unwritable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
-            self._remove_write_permission(file1.name)
+            remove_write_permission(file1.name)
             self.assertFalse(is_writable_file(file1.name))
 
     def test_is_writable_path_on_writable_directory(self):
@@ -119,7 +103,7 @@ class TestWritableUtils(unittest.TestCase):
 
     def test_is_writable_path_on_unwritable_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
-            self._remove_write_permission(dir1)
+            remove_write_permission(dir1)
             self.assertFalse(is_writable_path(dir1))
 
     def test_is_writable_path_on_writable_file(self):
@@ -128,39 +112,21 @@ class TestWritableUtils(unittest.TestCase):
 
     def test_is_writable_path_on_unwritable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
-            self._remove_write_permission(file1.name)
+            remove_write_permission(file1.name)
             self.assertFalse(is_writable_path(file1.name))
 
 
-@unittest.skip
 class TestReadableUtils(unittest.TestCase):
-    @staticmethod
-    def _remove_read_permissions(path):
-        """Remove read permissions and keep other permissions intact.
-
-        Params:
-            path:  The path whose permissions to alter.
-
-        Source:
-            https://stackoverflow.com/a/38511116/225903
-
-        """
-        NO_USER_READING = ~stat.S_IRUSR
-        NO_GROUP_READING = ~stat.S_IRGRP
-        NO_OTHER_READING = ~stat.S_IROTH
-        NO_READING = NO_USER_READING & NO_GROUP_READING & NO_OTHER_READING
-
-        current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
-        os.chmod(path, current_permissions & NO_READING)
-
     def test_is_readable_directory_on_readable_directory(self):
+        # Specify temporary directory
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_readable_directory(dir1))
 
     def test_is_readable_directory_on_unreadable_directory(self):
-        with tempfile.TemporaryDirectory() as dir1:
-            self._remove_read_permissions(dir1)
-            self.assertFalse(is_readable_directory(dir1))
+        dir1 = tempfile.mkdtemp()
+        remove_read_permission(dir1)
+        self.assertFalse(is_readable_directory(dir1))
+        os.rmdir(dir1)
 
     def test_is_readable_file_on_readable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
@@ -168,7 +134,7 @@ class TestReadableUtils(unittest.TestCase):
 
     def test_is_readable_file_on_unreadable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
-            self._remove_read_permissions(file1.name)
+            remove_read_permission(file1.name)
             self.assertFalse(is_readable_file(file1.name))
 
     def test_is_readable_path_on_readable_directory(self):
@@ -176,9 +142,10 @@ class TestReadableUtils(unittest.TestCase):
             self.assertTrue(is_readable_path(dir1))
 
     def test_is_readable_path_on_unreadable_directory(self):
-        with tempfile.TemporaryDirectory() as dir1:
-            self._remove_read_permissions(dir1)
-            self.assertFalse(is_readable_path(dir1))
+        dir1 = tempfile.mkdtemp()
+        remove_read_permission(dir1)
+        self.assertFalse(is_readable_directory(dir1))
+        os.rmdir(dir1)
 
     def test_is_readable_path_on_readable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
@@ -186,68 +153,28 @@ class TestReadableUtils(unittest.TestCase):
 
     def test_is_readable_path_on_unreadable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
-            self._remove_read_permissions(file1.name)
+            remove_read_permission(file1.name)
             self.assertFalse(is_readable_path(file1.name))
 
 
 class TestExecutableUtils(unittest.TestCase):
-    @staticmethod
-    def _remove_execute_permissions(path):
-        """Remove execute permissions and keep other permissions intact.
-
-        Params:
-            path:  The path whose permissions to alter.
-
-        Source:
-            https://stackoverflow.com/a/38511116/225903
-
-        """
-        NO_USER_EXECUTING = ~stat.S_IXUSR
-        NO_GROUP_EXECUTING = ~stat.S_IXGRP
-        NO_OTHER_EXECUTING = ~stat.S_IXOTH
-        NO_EXECUTING = (
-            NO_USER_EXECUTING & NO_GROUP_EXECUTING & NO_OTHER_EXECUTING
-        )
-
-        current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
-        os.chmod(path, current_permissions & NO_EXECUTING)
-
-    @staticmethod
-    def _add_execute_permissions(path):
-        """Add execute permissions and keep other permissions intact.
-
-        Params:
-            path:  The path whose permissions to alter.
-
-        Source:
-            https://stackoverflow.com/a/38511116/225903
-
-        """
-        USER_EXECUTING = stat.S_IXUSR
-        GROUP_EXECUTING = stat.S_IXGRP
-        OTHER_EXECUTING = stat.S_IXOTH
-        EXECUTING = USER_EXECUTING | GROUP_EXECUTING | OTHER_EXECUTING
-
-        current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
-        os.chmod(path, current_permissions | EXECUTING)
-
     def test_is_executable_directory_on_executable_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_executable_directory(dir1))
 
     def test_is_executable_directory_on_unexecutable_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
-            self._remove_execute_permissions(dir1)
+            remove_execute_permission(dir1)
             self.assertFalse(is_executable_directory(dir1))
 
     def test_is_executable_file_on_executable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
-            self._add_execute_permissions(file1.name)
+            add_execute_permission(file1.name)
             self.assertTrue(is_executable_file(file1.name))
 
     def test_is_executable_file_on_unexecutable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
-            self._remove_execute_permissions(file1.name)
+            remove_execute_permission(file1.name)
             self.assertFalse(is_executable_file(file1.name))
 
     def test_is_executable_path_on_executable_directory(self):
@@ -256,12 +183,12 @@ class TestExecutableUtils(unittest.TestCase):
 
     def test_is_executable_path_on_unexecutable_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
-            self._remove_execute_permissions(dir1)
+            remove_execute_permission(dir1)
             self.assertFalse(is_executable_path(dir1))
 
     def test_is_executable_path_on_executable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
-            self._add_execute_permissions(file1.name)
+            add_execute_permission(file1.name)
             self.assertTrue(is_executable_path(file1.name))
 
     def test_is_executable_path_on_unexecutable_file(self):
