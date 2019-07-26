@@ -626,7 +626,7 @@ class TestDirectoryDoesNotExistsAction(ParserEnclosedTestCase):
         # Assert directory exists
         self.assertTrue(is_existing_directory(directory1))
         # Remove specified directory
-        os.remdir(directory1)
+        os.rmdir(directory1)
         # Pargs args with removed specified directory
         self.parser.parse_args(["--path", directory1])
 
