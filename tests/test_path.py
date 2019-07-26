@@ -17,6 +17,7 @@ from action_heroes.path import (
     ResolvePathAction,
 )
 from action_heroes.path_utils import (
+    is_existing_file,
     is_existing_path,
     is_existing_directory,
     is_executable_file,
@@ -466,3 +467,183 @@ class TestPathDoesNotExistsAction(ParserEnclosedTestCase):
 
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", *paths])
+
+
+class TestFileExistsAction(ParserEnclosedTestCase):
+    def test_file_exists_on_existing_path(self):
+        self.parser.add_argument("--path", action=FileExistsAction)
+        # Specify file to check
+        with tempfile.NamedTemporaryFile() as file_to_check:
+            # Assert specified file exists
+            self.assertTrue(is_existing_file(file_to_check.name))
+            # Parse args with --path as specified file
+            self.parser.parse_args(["--path", file_to_check.name])
+            # Assert specified file still exists
+            self.assertTrue(is_existing_file(file_to_check.name))
+
+    def test_file_exists_on_nonexisting_file(self):
+        self.parser.add_argument("--path", action=FileExistsAction)
+        with tempfile.TemporaryDirectory() as directory_to_check:
+            # Specify a file to check
+            file_to_check = tempfile.mkstemp(dir=directory_to_check)[1]
+            # Assert specified  file exists
+            self.assertTrue(is_existing_file(file_to_check))
+            # Remove file
+            os.remove(file_to_check)
+            # Assert specified file no longer exists
+            self.assertFalse(is_existing_file(file_to_check))
+
+            with self.assertRaises(ValueError):
+                # Parse args with --path as specified file that does not exist
+                self.parser.parse_args(["--path", file_to_check])
+
+    def test_file_exists_on_mixed_existing_and_nonexisting_path(self):
+        self.parser.add_argument("--path", nargs="+", action=FileExistsAction)
+        with tempfile.TemporaryDirectory() as directory:
+            # Specify file to check
+            file1 = tempfile.mkstemp(dir=directory)[1]
+            file2 = tempfile.mkstemp(dir=directory)[1]
+            file3 = tempfile.mkstemp(dir=directory)[1]
+            # Assert specified files exists
+            self.assertTrue(is_existing_file(file1))
+            self.assertTrue(is_existing_file(file2))
+            self.assertTrue(is_existing_file(file3))
+            # Remove file 1
+            os.remove(file1)
+            # Assert specified file no longer exists
+            self.assertFalse(is_existing_file(file1))
+            # Assemble mixed list of existing and nonexisting paths
+            paths = [file1, file2, file3]
+
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", *paths])
+
+
+class TestFileDoesNotExistsAction(ParserEnclosedTestCase):
+    def test_file_does_not_exist_on_existing_path(self):
+        self.parser.add_argument("--path", action=FileDoesNotExistAction)
+        # Specify file to check
+        with tempfile.NamedTemporaryFile() as file1:
+            with self.assertRaises(ValueError):
+                # Parse args with --path as specified file that does not exist
+                self.parser.parse_args(["--path", file1.name])
+
+    def test_file_does_not_exists_on_nonexisting_path(self):
+        self.parser.add_argument("--path", action=FileDoesNotExistAction)
+        with tempfile.TemporaryDirectory() as directory:
+            # Specify a file to check
+            file1 = tempfile.mkstemp(dir=directory)[1]
+            # Assert specified  file exists
+            self.assertTrue(is_existing_file(file1))
+            # Remove file
+            os.remove(file1)
+            # Assert specified file no longer exists
+            self.assertFalse(is_existing_file(file1))
+            # Parse args with --path as specified file
+            self.parser.parse_args(["--path", file1])
+            # Assert specified file no longer exists
+            self.assertFalse(is_existing_file(file1))
+
+    def test_file_does_not_exist_on_mixed_existing_and_nonexisting_path(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=FileDoesNotExistAction
+        )
+        # Specify a file to check
+        file1 = tempfile.mkstemp()[1]
+        file2 = tempfile.mkstemp()[1]
+        # Assert specified file exists
+        self.assertTrue(is_existing_file(file1))
+        self.assertTrue(is_existing_file(file2))
+        # Remove file
+        os.remove(file1)
+        self.assertFalse(is_existing_file(file1))
+        # Assemble mixed list of existing and nonexisting paths
+        paths = [file1, file2]
+
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--path", *paths])
+
+        # Tear down remaining temporary files
+        os.remove(file2)
+
+
+class TestDirectoryExistsAction(ParserEnclosedTestCase):
+    def test_directory_exists_on_existing_path(self):
+        self.parser.add_argument("--path", action=DirectoryExistsAction)
+        # Specify directory to check
+        with tempfile.TemporaryDirectory() as directory:
+            # Assert specified directory exists
+            self.assertTrue(is_existing_directory(directory))
+            # Parse args with --path as specified directory
+            self.parser.parse_args(["--path", directory])
+            # Assert specified directory still exists
+            self.assertTrue(is_existing_path(directory))
+
+    def test_directory_exists_on_nonexisting_path(self):
+        self.parser.add_argument("--path", action=DirectoryExistsAction)
+        # Specifiy directory
+        directory1 = tempfile.mkdtemp()
+        # Assert specified directory exists
+        self.assertTrue(is_existing_directory(directory1))
+        # Remove specified directory
+        os.rmdir(directory1)
+        # Assert specified directory doesnt exist
+        self.assertFalse(is_existing_directory(directory1))
+
+        with self.assertRaises(ValueError):
+            # Parse args with list of paths
+            self.parser.parse_args(["--path", directory1])
+
+    def test_path_exists_on_mixed_existing_and_nonexisting_path(self):
+        self.parser.add_argument("--path", action=DirectoryExistsAction)
+        # Specifiy directores
+        directory1 = tempfile.mkdtemp()
+        directory2 = tempfile.mkdtemp()
+        # Assert specified directory exists
+        self.assertTrue(is_existing_directory(directory1))
+        self.assertTrue(is_existing_directory(directory2))
+        # Remove specified directory
+        os.rmdir(directory1)
+        # Assert specified directory doesnt exist
+        self.assertFalse(is_existing_directory(directory1))
+
+        with self.assertRaises(ValueError):
+            # Parse args with list of paths
+            self.parser.parse_args(["--path", directory1, directory2])
+
+
+class TestDirectoryDoesNotExistsAction(ParserEnclosedTestCase):
+    def test_directory_does_not_exist_on_existing_path(self):
+        self.parser.add_argument("--path", action=DirectoryDoesNotExistAction)
+        with tempfile.TemporaryDirectory() as directory1:
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", directory1])
+
+    def test_directory_does_not_exists_on_nonexisting_path(self):
+        self.parser.add_argument("--path", action=DirectoryDoesNotExistAction)
+        # Specify directory
+        directory1 = tempfile.mkdtemp()
+        # Assert directory exists
+        self.assertTrue(is_existing_directory(directory1))
+        # Remove specified directory
+        os.remdir(directory1)
+        # Pargs args with removed specified directory
+        self.parser.parse_args(["--path", directory1])
+
+    def test_path_does_not_exist_on_mixed_existing_and_nonexisting_path(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=DirectoryDoesNotExistAction
+        )
+        # Specify directories
+        directory1 = tempfile.mkdtemp()
+        directory2 = tempfile.mkdtemp()
+        # Assert directories exists
+        self.assertTrue(is_existing_directory(directory1))
+        self.assertTrue(is_existing_directory(directory2))
+        # Remove one specified directory
+        os.rmdir(directory1)
+        # Pargs args with one removed specified directory
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--path", directory1, directory2])
+        # Tear down remaining temporary directories
+        os.rmdir(directory2)

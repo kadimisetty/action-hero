@@ -4,6 +4,7 @@ from action_heroes.path_utils import (
     create_directory,
     create_file,
     is_existing_directory,
+    is_existing_file,
     is_existing_path,
     is_valid_directory,
     is_valid_file,
@@ -186,11 +187,41 @@ class PathIsNotExecutableAction(Action):
 
 
 class DirectoryExistsAction(Action):
-    pass
+    """Check if Directory exists"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check existence of list of paths
+            if False in [is_existing_directory(path) for path in values]:
+                raise ValueError(
+                    "supplied paths contain atleast one invalid path"
+                )
+        else:
+            # Check existence of single path
+            path = values
+            if not is_existing_directory(path):
+                raise ValueError("supplied path is invalid")
+
+        setattr(namespace, self.dest, values)
 
 
 class DirectoryDoesNotExistAction(Action):
-    pass
+    """Check if Directory does not exist"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check existence of list of paths
+            if True in [is_existing_directory(path) for path in values]:
+                raise ValueError(
+                    "supplied paths contain atleast one invalid path"
+                )
+        else:
+            # Check existence of single path
+            path = values
+            if is_existing_directory(path):
+                raise ValueError("supplied path is invalid")
+
+        setattr(namespace, self.dest, values)
 
 
 class DirectoryIsWritableAction(Action):
@@ -280,11 +311,41 @@ class FileIsValidAction(Action):
 
 
 class FileExistsAction(Action):
-    pass
+    """Check if File exists"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check existence of list of paths
+            if False in [is_existing_file(path) for path in values]:
+                raise ValueError(
+                    "supplied paths contain atleast one invalid path"
+                )
+        else:
+            # Check existence of single path
+            path = values
+            if not is_existing_file(path):
+                raise ValueError("supplied path is invalid")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileDoesNotExistAction(Action):
-    pass
+    """Check if File exists"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check existence of list of paths
+            if True in [is_existing_file(path) for path in values]:
+                raise ValueError(
+                    "supplied paths contain atleast one invalid path"
+                )
+        else:
+            # Check existence of single path
+            path = values
+            if is_existing_file(path):
+                raise ValueError("supplied path is invalid")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileIsEmptyAction(Action):
