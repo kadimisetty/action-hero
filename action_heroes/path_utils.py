@@ -60,17 +60,17 @@ def is_existing_directory(path):
 
 def is_readable_directory(path):
     """Returns True if path is a directory with read permissible flag set"""
-    return is_readable_path(path)
+    return is_existing_directory(path) and is_readable_path(path)
 
 
 def is_writable_directory(path):
     """Returns True if path is a directory with write permissible flag set"""
-    return is_writable_path(path)
+    return is_existing_directory(path) and is_writable_path(path)
 
 
 def is_executable_directory(path):
     """Returns True if path is a directory with execute permissible flag set"""
-    return is_executable_path(path)
+    return is_existing_directory(path) and is_executable_path(path)
 
 
 def is_existing_file(path):
@@ -80,17 +80,17 @@ def is_existing_file(path):
 
 def is_readable_file(path):
     """Returns True if path is a file with read permissible flag set"""
-    return is_readable_path(path)
+    return is_existing_file(path) and is_readable_path(path)
 
 
 def is_writable_file(path):
     """Returns True if path is a file with write permissible flag set"""
-    return is_writable_path(path)
+    return is_existing_file(path) and is_writable_path(path)
 
 
 def is_executable_file(path):
     """Return True if path is a file with execute permissible flag set"""
-    return is_executable_path(path)
+    return is_existing_file(path) and is_executable_path(path)
 
 
 def is_existing_path(path):
