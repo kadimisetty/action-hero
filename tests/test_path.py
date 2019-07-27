@@ -6,6 +6,8 @@ from argparse import ArgumentParser
 from action_heroes.path import (
     DirectoryDoesNotExistAction,
     DirectoryExistsAction,
+    DirectoryIsExecutableAction,
+    DirectoryIsNotExecutableAction,
     DirectoryIsNotReadableAction,
     DirectoryIsNotWritableAction,
     DirectoryIsReadableAction,
@@ -15,12 +17,18 @@ from action_heroes.path import (
     EnsureFileAction,
     FileDoesNotExistAction,
     FileExistsAction,
+    FileIsEmptyAction,
+    FileIsExecutableAction,
+    FileIsNotEmptyAction,
+    FileIsNotExecutableAction,
     FileIsNotReadableAction,
     FileIsNotWritableAction,
     FileIsReadableAction,
     FileIsWritableAction,
     PathDoesNotExistsAction,
     PathExistsAction,
+    PathIsExecutableAction,
+    PathIsNotExecutableAction,
     PathIsNotReadableAction,
     PathIsNotWritableAction,
     PathIsReadableAction,
@@ -29,6 +37,9 @@ from action_heroes.path import (
     ResolvePathAction,
 )
 from action_heroes.path_utils import (
+    add_execute_permission,
+    is_empty_file,
+    is_executable_directory,
     is_executable_file,
     is_existing_directory,
     is_existing_file,
@@ -1150,3 +1161,333 @@ class TestPathIsNotReadableAction(ParserEnclosedTestCase):
             # Assert ValueError raised when parsing args
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1, dir2])
+
+
+class TestFileIsExecutableAction(ParserEnclosedTestCase):
+    def test_on_executable_file(self):
+        self.parser.add_argument("--path", action=FileIsExecutableAction)
+        # Specify file and make executable
+        with tempfile.NamedTemporaryFile() as file1:
+            add_execute_permission(file1.name)
+            self.assertTrue(is_executable_file(file1.name))
+            # No errors when parsing args
+            self.parser.parse_args(["--path", file1.name])
+
+    def test_on_unexecutable_file(self):
+        self.parser.add_argument("--path", action=FileIsExecutableAction)
+        # Specify file and assert not executable
+        with tempfile.NamedTemporaryFile() as file1:
+            self.assertFalse(is_executable_file(file1.name))
+            # Assert ValueError on parsing
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1.name])
+
+    def test_on_mixed_executable_and_unexecutable_file(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=FileIsExecutableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify readable and unreadable file
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            file2 = tempfile.mkstemp(dir=dir1)[1]
+            add_execute_permission(file2)
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1, file2])
+
+
+class TestFileIsNotExecutableAction(ParserEnclosedTestCase):
+    def test_on_executable_file(self):
+        self.parser.add_argument("--path", action=FileIsNotExecutableAction)
+        # Specify file and make executable
+        with tempfile.NamedTemporaryFile() as file1:
+            add_execute_permission(file1.name)
+            self.assertTrue(is_executable_file(file1.name))
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1.name])
+
+    def test_on_unreadable_file(self):
+        self.parser.add_argument("--path", action=FileIsNotExecutableAction)
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify file and remove write permission
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            # Assert file is unexecutable
+            self.assertFalse(is_executable_file(file1))
+            # No Error on parse args
+            self.parser.parse_args(["--path", file1])
+            # Assert file is unexecutable
+            self.assertFalse(is_executable_file(file1))
+
+    def test_on_mixed_executable_and_unexecutable_file(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=FileIsNotExecutableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify executable and unexecutable files
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            add_execute_permission(file1)
+            file2 = tempfile.mkstemp(dir=dir1)[1]
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1, file2])
+
+
+class TestDirectoryIsExecutableAction(ParserEnclosedTestCase):
+    def test_on_executable_directory(self):
+        self.parser.add_argument("--path", action=DirectoryIsExecutableAction)
+        # Specify directory and make executable
+        with tempfile.TemporaryDirectory() as dir1:
+            self.assertTrue(is_executable_directory(dir1))
+            # No errors when parsing args
+            self.parser.parse_args(["--path", dir1])
+
+    def test_on_unexecutable_directory(self):
+        self.parser.add_argument("--path", action=DirectoryIsExecutableAction)
+        # Specify dir and make unexecutable
+        with tempfile.TemporaryDirectory() as dir1:
+            remove_execute_permission(dir1)
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1])
+
+    def test_on_mixed_executable_and_unexecutable_directories(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=DirectoryIsExecutableAction
+        )
+        # Specify executable and unexecutable dirs
+        with tempfile.TemporaryDirectory() as dir1:
+            dir2 = tempfile.mkdtemp()
+            remove_execute_permission(dir2)
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1, dir2])
+
+
+class TestDirectoryIsNotExecutableAction(ParserEnclosedTestCase):
+    def test_on_executable_directory(self):
+        self.parser.add_argument(
+            "--path", action=DirectoryIsNotExecutableAction
+        )
+        # Specify directory
+        with tempfile.TemporaryDirectory() as dir1:
+            # Assert directory is executable
+            self.assertTrue(is_executable_directory(dir1))
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1])
+
+    def test_on_unexecutable_directory(self):
+        self.parser.add_argument(
+            "--path", action=DirectoryIsNotExecutableAction
+        )
+        # Specify dir amd make unexecutable
+        with tempfile.TemporaryDirectory() as dir1:
+            dir1 = tempfile.mkdtemp()
+            remove_execute_permission(dir1)
+            # No errors when parsing args
+            self.parser.parse_args(["--path", dir1])
+            # Assert directory is still unreadable
+            self.assertFalse(is_executable_directory(dir1))
+
+    def test_on_mixed_executable_and_unexecutable_directories(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=DirectoryIsNotExecutableAction
+        )
+        # Specify executable and unexecutable dirs
+        with tempfile.TemporaryDirectory() as dir1:
+            dir2 = tempfile.mkdtemp()
+            remove_execute_permission(dir2)
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1, dir2])
+
+
+class TestPathIsExecutableAction(ParserEnclosedTestCase):
+    def test_on_executable_file(self):
+        self.parser.add_argument("--path", action=PathIsExecutableAction)
+        # Specify file and make executable
+        with tempfile.NamedTemporaryFile() as file1:
+            add_execute_permission(file1.name)
+            self.assertTrue(is_executable_file(file1.name))
+            # No errors when parsing args
+            self.parser.parse_args(["--path", file1.name])
+
+    def test_on_unexecutable_file(self):
+        self.parser.add_argument("--path", action=PathIsExecutableAction)
+        # Specify file and assert not executable
+        with tempfile.NamedTemporaryFile() as file1:
+            self.assertFalse(is_executable_file(file1.name))
+            # Assert ValueError on parsing
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1.name])
+
+    def test_on_mixed_executable_and_unexecutable_file(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=PathIsExecutableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify readable and unreadable file
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            file2 = tempfile.mkstemp(dir=dir1)[1]
+            add_execute_permission(file2)
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1, file2])
+
+    def test_on_executable_directory(self):
+        self.parser.add_argument("--path", action=PathIsExecutableAction)
+        # Specify directory and make executable
+        with tempfile.TemporaryDirectory() as dir1:
+            self.assertTrue(is_executable_directory(dir1))
+            # No errors when parsing args
+            self.parser.parse_args(["--path", dir1])
+
+    def test_on_unexecutable_directory(self):
+        self.parser.add_argument("--path", action=PathIsExecutableAction)
+        # Specify dir and make unexecutable
+        with tempfile.TemporaryDirectory() as dir1:
+            remove_execute_permission(dir1)
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1])
+
+    def test_on_mixed_executable_and_unexecutable_directories(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=PathIsExecutableAction
+        )
+        # Specify executable and unexecutable dirs
+        with tempfile.TemporaryDirectory() as dir1:
+            dir2 = tempfile.mkdtemp()
+            remove_execute_permission(dir2)
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1, dir2])
+
+
+class TestPathIsNotExecutableAction(ParserEnclosedTestCase):
+    def test_on_executable_file(self):
+        self.parser.add_argument("--path", action=PathIsNotExecutableAction)
+        # Specify file and make executable
+        with tempfile.NamedTemporaryFile() as file1:
+            add_execute_permission(file1.name)
+            self.assertTrue(is_executable_file(file1.name))
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1.name])
+
+    def test_on_unreadable_file(self):
+        self.parser.add_argument("--path", action=PathIsNotExecutableAction)
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify file and remove write permission
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            # Assert file is unexecutable
+            self.assertFalse(is_executable_file(file1))
+            # No Error on parse args
+            self.parser.parse_args(["--path", file1])
+            # Assert file is unexecutable
+            self.assertFalse(is_executable_file(file1))
+
+    def test_on_mixed_executable_and_unexecutable_file(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=PathIsNotExecutableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify executable and unexecutable files
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            add_execute_permission(file1)
+            file2 = tempfile.mkstemp(dir=dir1)[1]
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1, file2])
+
+    def test_on_executable_directory(self):
+        self.parser.add_argument("--path", action=PathIsNotExecutableAction)
+        # Specify directory
+        with tempfile.TemporaryDirectory() as dir1:
+            # Assert directory is executable
+            self.assertTrue(is_executable_directory(dir1))
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1])
+
+    def test_on_unexecutable_directory(self):
+        self.parser.add_argument("--path", action=PathIsNotExecutableAction)
+        # Specify dir amd make unexecutable
+        with tempfile.TemporaryDirectory() as dir1:
+            dir1 = tempfile.mkdtemp()
+            remove_execute_permission(dir1)
+            # No errors when parsing args
+            self.parser.parse_args(["--path", dir1])
+            # Assert directory is still unreadable
+            self.assertFalse(is_executable_directory(dir1))
+
+    def test_on_mixed_executable_and_unexecutable_directories(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=PathIsNotExecutableAction
+        )
+        # Specify executable and unexecutable dirs
+        with tempfile.TemporaryDirectory() as dir1:
+            dir2 = tempfile.mkdtemp()
+            remove_execute_permission(dir2)
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1, dir2])
+
+
+class TestFileIsEmptyAction(ParserEnclosedTestCase):
+    def test_on_empty_file(self):
+        self.parser.add_argument("--path", action=FileIsEmptyAction)
+        with tempfile.NamedTemporaryFile() as file1:
+            self.assertTrue(is_empty_file(file1.name))
+            self.parser.parse_args(["--path", file1.name])
+
+    def test_on_nonempty_file(self):
+        self.parser.add_argument("--path", action=FileIsEmptyAction)
+        with tempfile.NamedTemporaryFile() as file1:
+            with open(file1.name, "a") as file_for_writing:
+                file_for_writing.write("SOME TEXT")
+            self.assertFalse(is_empty_file(file1.name))
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1.name])
+
+    def test_on_list_of_empty_and_nonempty_files(self):
+        self.parser.add_argument("--path", nargs="+", action=FileIsEmptyAction)
+        with tempfile.NamedTemporaryFile() as file1:
+            with tempfile.NamedTemporaryFile() as file2:
+                with open(file2.name, "a") as file_for_writing:
+                    file_for_writing.write("SOME TEXT")
+                self.assertTrue(is_empty_file(file1.name))
+                self.assertFalse(is_empty_file(file2.name))
+                with self.assertRaises(ValueError):
+                    self.parser.parse_args(["--path", file1.name, file2.name])
+
+
+class TestFileIsNotEmptyAction(ParserEnclosedTestCase):
+    def test_on_empty_file(self):
+        self.parser.add_argument("--path", action=FileIsNotEmptyAction)
+        with tempfile.NamedTemporaryFile() as file1:
+            self.assertTrue(is_empty_file(file1.name))
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1.name])
+
+    def test_on_nonempty_file(self):
+        self.parser.add_argument("--path", action=FileIsNotEmptyAction)
+        with tempfile.NamedTemporaryFile() as file1:
+            with open(file1.name, "a") as file_for_writing:
+                file_for_writing.write("SOME TEXT")
+            self.assertFalse(is_empty_file(file1.name))
+            self.parser.parse_args(["--path", file1.name])
+
+    def test_on_list_of_empty_and_nonempty_files(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=FileIsNotEmptyAction
+        )
+        with tempfile.NamedTemporaryFile() as file1:
+            with tempfile.NamedTemporaryFile() as file2:
+                with open(file2.name, "a") as file_for_writing:
+                    file_for_writing.write("SOME TEXT")
+                self.assertTrue(is_empty_file(file1.name))
+                self.assertFalse(is_empty_file(file2.name))
+                with self.assertRaises(ValueError):
+                    self.parser.parse_args(["--path", file1.name, file2.name])

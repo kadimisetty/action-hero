@@ -5,9 +5,11 @@ import stat
 import os
 
 from action_heroes.path_utils import (
+    add_execute_permission,
     create_directory,
     create_file,
     get_extension,
+    is_empty_file,
     is_executable_directory,
     is_executable_file,
     is_executable_path,
@@ -25,7 +27,6 @@ from action_heroes.path_utils import (
     is_writable_directory,
     is_writable_file,
     is_writable_path,
-    add_execute_permission,
     remove_execute_permission,
     remove_read_permission,
     remove_write_permission,
@@ -416,3 +417,15 @@ class TestFileExtension(unittest.TestCase):
     def test_get_extension_on_two_word_extension(self):
         with tempfile.NamedTemporaryFile(suffix=".tar.gz") as file1:
             self.assertEqual(get_extension(file1.name), "gz")
+
+
+class TestFileIsEmpty(unittest.TestCase):
+    def test_on_empty_file(self):
+        with tempfile.NamedTemporaryFile() as file1:
+            self.assertTrue(is_empty_file(file1.name))
+
+    def test_on_nonempty_file(self):
+        with tempfile.NamedTemporaryFile() as file1:
+            with open(file1.name, 'a') as file_for_writing:
+                file_for_writing.write('SOME TEXT')
+            self.assertFalse(is_empty_file(file1.name))

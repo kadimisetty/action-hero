@@ -8,6 +8,7 @@ __all__ = [
     "create_directory",
     "create_file",
     "get_extension",
+    "is_empty_file",
     "is_executable_directory",
     "is_executable_file",
     "is_executable_path",
@@ -252,3 +253,8 @@ def add_execute_permission(path):
 
     current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
     os.chmod(path, current_permissions | EXECUTING)
+
+
+def is_empty_file(path):
+    """Returns True if file is empty"""
+    return is_existing_file(path) and os.stat(path).st_size == 0

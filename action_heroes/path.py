@@ -3,6 +3,10 @@ from argparse import Action
 from action_heroes.path_utils import (
     create_directory,
     create_file,
+    is_empty_file,
+    is_executable_directory,
+    is_executable_file,
+    is_executable_path,
     is_existing_directory,
     is_existing_file,
     is_existing_path,
@@ -244,15 +248,42 @@ class PathIsNotReadableAction(Action):
         setattr(namespace, self.dest, values)
 
 
-
 class PathIsExecutableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if path is executable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of paths are all executable
+            if False in [is_executable_path(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one unexecutable file"
+                )
+        else:
+            # Check if path is executable
+            path = values
+            if not is_executable_path(path):
+                raise ValueError("supplied file is unexecutable")
+
+        setattr(namespace, self.dest, values)
 
 
 class PathIsNotExecutableAction(Action):
-    def __call__(self):
-        raise NotImplementedError
+    """Check if path is not executable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of paths are all not  executable
+            if True in [is_executable_path(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one executable file"
+                )
+        else:
+            # Check if path is not executable
+            path = values
+            if is_executable_path(path):
+                raise ValueError("supplied file is executable")
+
+        setattr(namespace, self.dest, values)
 
 
 class DirectoryExistsAction(Action):
@@ -351,7 +382,7 @@ class DirectoryIsReadableAction(Action):
 
 
 class DirectoryIsNotReadableAction(Action):
-    """Check if directory is not writable"""
+    """Check if directory is not readable"""
 
     def __call__(self, parser, namespace, values, option_string=None):
         if isinstance(values, list):
@@ -370,13 +401,42 @@ class DirectoryIsNotReadableAction(Action):
 
 
 class DirectoryIsExecutableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if directory is executable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of directories are all executable
+            if False in [is_executable_directory(path) for path in values]:
+                raise ValueError(
+                    "supplied dirs contain atleast one executable dir"
+                )
+        else:
+            # Check if directory is executable
+            path = values
+            if not is_executable_directory(path):
+                raise ValueError("supplied dir is dir")
+
+        setattr(namespace, self.dest, values)
+
 
 
 class DirectoryIsNotExecutableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if directory is not executable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of directories are all not executable
+            if True in [is_executable_directory(path) for path in values]:
+                raise ValueError(
+                    "supplied dirs contain atleast one executable dir"
+                )
+        else:
+            # Check if directory is not executable
+            path = values
+            if is_executable_directory(path):
+                raise ValueError("supplied dir is dir")
+
+        setattr(namespace, self.dest, values)
 
 
 class DirectoryIsValidAction(Action):
@@ -475,13 +535,41 @@ class FileIsNotReadableAction(Action):
 
 
 class FileIsExecutableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if file is executable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of files are all executable
+            if False in [is_executable_file(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one executable file"
+                )
+        else:
+            # Check if file is executable
+            path = values
+            if not is_executable_file(path):
+                raise ValueError("supplied file is readable")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileIsNotExecutableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if file is not writable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of files are all not executable
+            if True in [is_executable_file(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one executable file"
+                )
+        else:
+            # Check if file is not executable
+            path = values
+            if is_executable_file(path):
+                raise ValueError("supplied file is executable")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileIsValidAction(Action):
@@ -542,13 +630,41 @@ class FileDoesNotExistAction(Action):
 
 
 class FileIsEmptyAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if file is empty"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of files are all empty
+            if False in [is_empty_file(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one file that is not empty"
+                )
+        else:
+            # Check if file is empty
+            path = values
+            if not is_empty_file(path):
+                raise ValueError("supplied file is not empty")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileIsNotEmptyAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if file is not empty"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of files are not all empty
+            if True in [is_empty_file(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one file that is empty"
+                )
+        else:
+            # Check if file is not empty
+            path = values
+            if is_empty_file(path):
+                raise ValueError("supplied file is empty")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileHasExtension(Action):
