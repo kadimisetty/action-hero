@@ -1009,3 +1009,144 @@ class TestDirectoryIsNotReadableAction(ParserEnclosedTestCase):
             # Assert ValueError raised when parsing args
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1, dir2])
+
+
+class TestPathIsReadableAction(ParserEnclosedTestCase):
+    def test_on_readable_file(self):
+        self.parser.add_argument("--path", action=PathIsReadableAction)
+        # Specify file
+        with tempfile.NamedTemporaryFile() as file1:
+            # Assert file is readable
+            self.assertTrue(is_readable_file(file1.name))
+            # No errors when parsing args
+            self.parser.parse_args(["--path", file1.name])
+            # Assert file is still readable
+            self.assertTrue(is_readable_file(file1.name))
+
+    def test_on_unreadable_file(self):
+        self.parser.add_argument("--path", action=PathIsReadableAction)
+        # Specify file
+        with tempfile.NamedTemporaryFile() as file1:
+            # Assert file is readable
+            self.assertTrue(is_readable_file(file1.name))
+            # No errors when parsing args
+            self.parser.parse_args(["--path", file1.name])
+
+    def test_on_mixed_readable_and_unreadable_file(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=PathIsReadableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify readable and unreadable file
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            file2 = tempfile.mkstemp(dir=dir1)[1]
+            remove_read_permission(file2)
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1, file2])
+
+    def test_on_readable_directory(self):
+        self.parser.add_argument("--path", action=PathIsReadableAction)
+        # Specify directory
+        with tempfile.TemporaryDirectory() as dir1:
+            # Assert directory is readable
+            self.assertTrue(is_readable_directory(dir1))
+            # No errors when parsing args
+            self.parser.parse_args(["--path", dir1])
+            # Assert directory is still readable
+            self.assertTrue(is_readable_directory(dir1))
+
+    def test_on_unreadable_directory(self):
+        self.parser.add_argument("--path", action=PathIsReadableAction)
+        # Specify dir amd make unreadable
+        dir1 = tempfile.mkdtemp()
+        remove_read_permission(dir1)
+        # Assert ValueError raised when parsing args
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--path", dir1])
+        # Tear down temp dirs
+        os.rmdir(dir1)
+
+    def test_on_mixed_readable_and_unreadable_directories(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=PathIsReadableAction
+        )
+        # Specify readable and unreadable dirs
+        with tempfile.TemporaryDirectory() as dir1:
+            dir2 = tempfile.mkdtemp()
+            remove_read_permission(dir2)
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1, dir2])
+
+
+class TestPathIsNotReadableAction(ParserEnclosedTestCase):
+    def test_on_readable_file(self):
+        self.parser.add_argument("--path", action=PathIsNotReadableAction)
+        # Specify file
+        with tempfile.NamedTemporaryFile() as file1:
+            # Assert file is readable
+            self.assertTrue(is_readable_file(file1.name))
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1.name])
+
+    def test_on_unreadable_file(self):
+        self.parser.add_argument("--path", action=PathIsNotReadableAction)
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify file and remove write permission
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            remove_read_permission(file1)
+            # Assert file is unreadable
+            self.assertFalse(is_readable_file(file1))
+            # No Error on parse args
+            self.parser.parse_args(["--path", file1])
+            # Assert file is unreadable
+            self.assertFalse(is_readable_path(file1))
+
+    def test_on_mixed_readable_and_unreadable_file(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=PathIsNotReadableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify readable and unreadable files
+            file1 = tempfile.mkstemp(dir=dir1)[1]
+            file2 = tempfile.mkstemp(dir=dir1)[1]
+            remove_write_permission(file2)
+            # Check if ValueError raised on parse
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", file1, file2])
+
+    def test_on_readable_directory(self):
+        self.parser.add_argument("--path", action=PathIsNotReadableAction)
+        # Specify directory
+        with tempfile.TemporaryDirectory() as dir1:
+            # Assert directory is readable
+            self.assertTrue(is_readable_directory(dir1))
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1])
+
+    def test_on_unreadable_directory(self):
+        self.parser.add_argument("--path", action=PathIsNotReadableAction)
+        # Specify dir amd make unreadable
+        dir1 = tempfile.mkdtemp()
+        remove_read_permission(dir1)
+        # No errors when parsing args
+        self.parser.parse_args(["--path", dir1])
+        # Assert directory is still unreadable
+        self.assertFalse(is_readable_directory(dir1))
+        # Tear down temp dirs
+        os.rmdir(dir1)
+
+    def test_on_mixed_readable_and_unreadable_directories(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=PathIsNotReadableAction
+        )
+        # Specify readable and unreadable dirs
+        with tempfile.TemporaryDirectory() as dir1:
+            dir2 = tempfile.mkdtemp()
+            remove_read_permission(dir2)
+            # Assert ValueError raised when parsing args
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1, dir2])

@@ -207,13 +207,42 @@ class PathIsNotWritableAction(Action):
 
 
 class PathIsReadableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if path is readable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of paths are all readable
+            if False in [is_readable_path(path) for path in values]:
+                raise ValueError(
+                    "supplied paths contain atleast one readable path"
+                )
+        else:
+            # Check if path is readable
+            path = values
+            if not is_readable_path(path):
+                raise ValueError("supplied path is readable")
+
+        setattr(namespace, self.dest, values)
 
 
 class PathIsNotReadableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if path is not writable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of paths are all not readable
+            if True in [is_readable_path(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one readable path"
+                )
+        else:
+            # Check if path is not readable
+            path = values
+            if is_readable_path(path):
+                raise ValueError("supplied path is readable")
+
+        setattr(namespace, self.dest, values)
+
 
 
 class PathIsExecutableAction(Action):
