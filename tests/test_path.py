@@ -6,7 +6,9 @@ from argparse import ArgumentParser
 from action_heroes.path import (
     DirectoryDoesNotExistAction,
     DirectoryExistsAction,
+    DirectoryIsNotWritableAction,
     DirectoryIsValidAction,
+    DirectoryIsWritableAction,
     EnsureDirectoryAction,
     EnsureFileAction,
     FileDoesNotExistAction,
@@ -16,6 +18,9 @@ from action_heroes.path import (
     PathDoesNotExistsAction,
     PathExistsAction,
     PathIsValidAction,
+    PathIsWritableAction,
+    PathIsNotWritableAction,
+    ResolvePathAction,
     ResolvePathAction,
 )
 from action_heroes.path_utils import (
@@ -725,3 +730,127 @@ class TestFileIsNotWritableAction(ParserEnclosedTestCase):
             # Check if ValueError raised on parse
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1, file2])
+
+
+class TestDirectoryIsWritableAction(ParserEnclosedTestCase):
+    def test_on_writable_directory(self):
+        self.parser.add_argument("--path", action=DirectoryIsWritableAction)
+        # Specify writable directory
+        with tempfile.TemporaryDirectory() as dir1:
+            # Parse with readable directory
+            self.parser.parse_args(["--path", dir1])
+
+    def test_on_wunwritable_directory(self):
+        self.parser.add_argument("--path", action=DirectoryIsWritableAction)
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify unwritable directory and remove write permissions
+            dir2 = tempfile.mkdtemp(dir=dir1)
+            remove_write_permission(dir2)
+            # Asserts error on parsing unwritable directory
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir2])
+
+    def test_on_writable_and_unwritable_directories(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=DirectoryIsWritableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify unwritable directory and remove write permissions
+            dir2 = tempfile.mkdtemp(dir=dir1)
+            remove_write_permission(dir2)
+            # Asserts error on parsing unwritable directory
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1, dir2])
+
+
+class TestDirectoryIsNotWritableAction(ParserEnclosedTestCase):
+    def test_on_writable_directory(self):
+        self.parser.add_argument("--path", action=DirectoryIsNotWritableAction)
+        # Specify writable directory
+        with tempfile.TemporaryDirectory() as dir1:
+            # Asserts error on parsing unwritable directory
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1])
+
+    def test_on_wunwritable_directory(self):
+        self.parser.add_argument("--path", action=DirectoryIsNotWritableAction)
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify unwritable directory and remove write permissions
+            dir2 = tempfile.mkdtemp(dir=dir1)
+            remove_write_permission(dir2)
+            # Parse with readable directory
+            self.parser.parse_args(["--path", dir2])
+
+    def test_on_writable_and_unwritable_directories(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=DirectoryIsNotWritableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify unwritable directory and remove write permissions
+            dir2 = tempfile.mkdtemp(dir=dir1)
+            remove_write_permission(dir2)
+            # Asserts error on parsing unwritable directory
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1, dir2])
+
+
+class TestPathIsWritableAction(ParserEnclosedTestCase):
+    def test_on_writable_directory(self):
+        self.parser.add_argument("--path", action=PathIsWritableAction)
+        # Specify writable directory
+        with tempfile.TemporaryDirectory() as dir1:
+            # Parse with readable directory
+            self.parser.parse_args(["--path", dir1])
+
+    def test_on_wunwritable_directory(self):
+        self.parser.add_argument("--path", action=PathIsWritableAction)
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify unwritable directory and remove write permissions
+            dir2 = tempfile.mkdtemp(dir=dir1)
+            remove_write_permission(dir2)
+            # Asserts error on parsing unwritable directory
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir2])
+
+    def test_on_writable_and_unwritable_directories(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=PathIsWritableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify unwritable directory and remove write permissions
+            dir2 = tempfile.mkdtemp(dir=dir1)
+            remove_write_permission(dir2)
+            # Asserts error on parsing unwritable directory
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1, dir2])
+
+
+class TestPathIsNotWritableAction(ParserEnclosedTestCase):
+    def test_on_writable_directory(self):
+        self.parser.add_argument("--path", action=PathIsNotWritableAction)
+        # Specify writable directory
+        with tempfile.TemporaryDirectory() as dir1:
+            # Asserts error on parsing unwritable directory
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1])
+
+    def test_on_wunwritable_directory(self):
+        self.parser.add_argument("--path", action=PathIsNotWritableAction)
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify unwritable directory and remove write permissions
+            dir2 = tempfile.mkdtemp(dir=dir1)
+            remove_write_permission(dir2)
+            # Parse with readable directory
+            self.parser.parse_args(["--path", dir2])
+
+    def test_on_writable_and_unwritable_directories(self):
+        self.parser.add_argument(
+            "--path", nargs="+", action=PathIsNotWritableAction
+        )
+        with tempfile.TemporaryDirectory() as dir1:
+            # Specify unwritable directory and remove write permissions
+            dir2 = tempfile.mkdtemp(dir=dir1)
+            remove_write_permission(dir2)
+            # Asserts error on parsing unwritable directory
+            with self.assertRaises(ValueError):
+                self.parser.parse_args(["--path", dir1, dir2])

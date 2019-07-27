@@ -11,6 +11,7 @@ from action_heroes.path_utils import (
     is_valid_path,
     is_writable_directory,
     is_writable_file,
+    is_writable_path,
     resolve_path,
 )
 
@@ -165,13 +166,41 @@ class PathDoesNotExistsAction(Action):
 
 
 class PathIsWritableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if path is writable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of paths are all writable
+            if False in [is_writable_path(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one unwritable file"
+                )
+        else:
+            # Check if path is writable
+            path = values
+            if not is_writable_path(path):
+                raise ValueError("supplied file is unwritable")
+
+        setattr(namespace, self.dest, values)
 
 
 class PathIsNotWritableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if path is not writable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of paths are all not  writable
+            if True in [is_writable_path(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one writable file"
+                )
+        else:
+            # Check if path is not writable
+            path = values
+            if is_writable_path(path):
+                raise ValueError("supplied file is writable")
+
+        setattr(namespace, self.dest, values)
 
 
 class PathIsReadableAction(Action):
@@ -233,13 +262,41 @@ class DirectoryDoesNotExistAction(Action):
 
 
 class DirectoryIsWritableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if directory is writable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of directories are all writable
+            if False in [is_writable_directory(path) for path in values]:
+                raise ValueError(
+                    "supplied dirs contain atleast one unwritable dir"
+                )
+        else:
+            # Check if file is writable
+            path = values
+            if not is_writable_directory(path):
+                raise ValueError("supplied dir is unwritable")
+
+        setattr(namespace, self.dest, values)
 
 
 class DirectoryIsNotWritableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if directory is not writable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of directories are all not writable
+            if True in [is_writable_directory(path) for path in values]:
+                raise ValueError(
+                    "supplied dirs contain atleast one writable dir"
+                )
+        else:
+            # Check if file is not writable
+            path = values
+            if is_writable_directory(path):
+                raise ValueError("supplied dir is writable")
+
+        setattr(namespace, self.dest, values)
 
 
 class DirectoryIsReadableAction(Action):
@@ -413,5 +470,5 @@ class FileHasExtension(Action):
 
     """
 
-    def __call__(self):
+    def __init__(self):
         raise NotImplementedError
