@@ -6,6 +6,9 @@ from action_heroes.path_utils import (
     is_existing_directory,
     is_existing_file,
     is_existing_path,
+    is_readable_directory,
+    is_readable_file,
+    is_readable_path,
     is_valid_directory,
     is_valid_file,
     is_valid_path,
@@ -300,13 +303,41 @@ class DirectoryIsNotWritableAction(Action):
 
 
 class DirectoryIsReadableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if directory is readable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of directories are all readable
+            if False in [is_readable_directory(path) for path in values]:
+                raise ValueError(
+                    "supplied dirs contain atleast one readable dir"
+                )
+        else:
+            # Check if directory is readable
+            path = values
+            if not is_readable_directory(path):
+                raise ValueError("supplied dir is dir")
+
+        setattr(namespace, self.dest, values)
 
 
 class DirectoryIsNotReadableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if directory is not writable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of directories are all not readable
+            if True in [is_readable_directory(path) for path in values]:
+                raise ValueError(
+                    "supplied dirs contain atleast one readable dir"
+                )
+        else:
+            # Check if directory is not readable
+            path = values
+            if is_readable_directory(path):
+                raise ValueError("supplied dir is dir")
+
+        setattr(namespace, self.dest, values)
 
 
 class DirectoryIsExecutableAction(Action):
@@ -377,13 +408,41 @@ class FileIsNotWritableAction(Action):
 
 
 class FileIsReadableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if file is readable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of files are all readable
+            if False in [is_readable_file(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one readable file"
+                )
+        else:
+            # Check if file is readable
+            path = values
+            if not is_readable_file(path):
+                raise ValueError("supplied file is readable")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileIsNotReadableAction(Action):
-    def __init__(self):
-        raise NotImplementedError
+    """Check if file is not writable"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if list of files are all not readable
+            if True in [is_readable_file(path) for path in values]:
+                raise ValueError(
+                    "supplied files contain atleast one readable file"
+                )
+        else:
+            # Check if file is not readable
+            path = values
+            if is_readable_file(path):
+                raise ValueError("supplied file is readable")
+
+        setattr(namespace, self.dest, values)
 
 
 class FileIsExecutableAction(Action):
