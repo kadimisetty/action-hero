@@ -61,7 +61,7 @@ __all__ = [
 
 
 class ResolvePathAction(Action):
-    """Resolves path to canonical removing symbolic links if present"""
+    """Resolves path to canonical path removing symbolic links if present"""
 
     def __call__(self, parser, namespace, values, option_string=None):
         if isinstance(values, list):
@@ -105,10 +105,10 @@ class EnsureFileAction(Action):
 
     def __call__(self, parser, namespace, values, option_string=None):
         if isinstance(values, list):
-            # Ensure list of filenames
+            # Ensure list of files
             [self._ensure_file(path) for path in values]
         else:
-            # Ensure single filename
+            # Ensure single files
             path = values
             self._ensure_file(path)
 
@@ -116,17 +116,17 @@ class EnsureFileAction(Action):
 
 
 class PathIsValidAction(Action):
-    """Check validity of supplied path(s)"""
+    """Check if path is valid"""
 
     def __call__(self, parser, namespace, values, option_string=None):
         if isinstance(values, list):
-            # Check validity of list of paths
+            # Check if all paths in list are valid
             if False in [is_valid_path(path) for path in values]:
                 raise ValueError(
-                    "supplied paths contain atleast one invalid path"
+                    "supplied paths has one or more invalid paths"
                 )
         else:
-            # Check validity of single path
+            # Check if path is valid
             path = values
             if not is_valid_path(path):
                 raise ValueError("supplied path is invalid")
@@ -142,13 +142,13 @@ class PathExistsAction(Action):
             # Check validity of list of paths
             if False in [is_existing_path(path) for path in values]:
                 raise ValueError(
-                    "supplied paths contain atleast one invalid path"
+                    "supplied paths have one or more paths that doen't exist"
                 )
         else:
             # Check validity of single path
             path = values
             if not is_existing_path(path):
-                raise ValueError("supplied path is invalid")
+                raise ValueError("supplied path doesn't exist")
 
         setattr(namespace, self.dest, values)
 
@@ -161,13 +161,13 @@ class PathDoesNotExistsAction(Action):
             # Check validity of list of paths
             if True in [is_existing_path(path) for path in values]:
                 raise ValueError(
-                    "supplied paths contain atleast one invalid path"
+                    "supplied paths have one or more paths that exist"
                 )
         else:
             # Check validity of single path
             path = values
             if is_existing_path(path):
-                raise ValueError("supplied path is invalid")
+                raise ValueError("supplied path exists")
 
         setattr(namespace, self.dest, values)
 
@@ -180,13 +180,13 @@ class PathIsWritableAction(Action):
             # Check if list of paths are all writable
             if False in [is_writable_path(path) for path in values]:
                 raise ValueError(
-                    "supplied files contain atleast one unwritable file"
+                    "supplied paths contain atleast one unwritable path"
                 )
         else:
             # Check if path is writable
             path = values
             if not is_writable_path(path):
-                raise ValueError("supplied file is unwritable")
+                raise ValueError("supplied path is unwritable")
 
         setattr(namespace, self.dest, values)
 
@@ -199,13 +199,13 @@ class PathIsNotWritableAction(Action):
             # Check if list of paths are all not  writable
             if True in [is_writable_path(path) for path in values]:
                 raise ValueError(
-                    "supplied files contain atleast one writable file"
+                    "supplied paths contain atleast one writable path"
                 )
         else:
             # Check if path is not writable
             path = values
             if is_writable_path(path):
-                raise ValueError("supplied file is writable")
+                raise ValueError("supplied path is writable")
 
         setattr(namespace, self.dest, values)
 
@@ -218,13 +218,13 @@ class PathIsReadableAction(Action):
             # Check if list of paths are all readable
             if False in [is_readable_path(path) for path in values]:
                 raise ValueError(
-                    "supplied paths contain atleast one readable path"
+                    "supplied paths contain atleast one unreadable path"
                 )
         else:
             # Check if path is readable
             path = values
             if not is_readable_path(path):
-                raise ValueError("supplied path is readable")
+                raise ValueError("supplied path is unreadable")
 
         setattr(namespace, self.dest, values)
 
@@ -237,7 +237,7 @@ class PathIsNotReadableAction(Action):
             # Check if list of paths are all not readable
             if True in [is_readable_path(path) for path in values]:
                 raise ValueError(
-                    "supplied files contain atleast one readable path"
+                    "supplied paths contain atleast one readable path"
                 )
         else:
             # Check if path is not readable
@@ -256,13 +256,13 @@ class PathIsExecutableAction(Action):
             # Check if list of paths are all executable
             if False in [is_executable_path(path) for path in values]:
                 raise ValueError(
-                    "supplied files contain atleast one unexecutable file"
+                    "supplied path contain atleast one unexecutable path"
                 )
         else:
             # Check if path is executable
             path = values
             if not is_executable_path(path):
-                raise ValueError("supplied file is unexecutable")
+                raise ValueError("supplied path is unexecutable")
 
         setattr(namespace, self.dest, values)
 
@@ -275,13 +275,13 @@ class PathIsNotExecutableAction(Action):
             # Check if list of paths are all not  executable
             if True in [is_executable_path(path) for path in values]:
                 raise ValueError(
-                    "supplied files contain atleast one executable file"
+                    "supplied paths contain atleast one executable path"
                 )
         else:
             # Check if path is not executable
             path = values
             if is_executable_path(path):
-                raise ValueError("supplied file is executable")
+                raise ValueError("supplied path is executable")
 
         setattr(namespace, self.dest, values)
 
@@ -294,13 +294,13 @@ class DirectoryExistsAction(Action):
             # Check existence of list of paths
             if False in [is_existing_directory(path) for path in values]:
                 raise ValueError(
-                    "supplied paths contain atleast one invalid path"
+                    "supplied dirs contain atleast one dir that doesn't exist"
                 )
         else:
             # Check existence of single path
             path = values
             if not is_existing_directory(path):
-                raise ValueError("supplied path is invalid")
+                raise ValueError("supplied dir doesn't exist")
 
         setattr(namespace, self.dest, values)
 
@@ -313,13 +313,13 @@ class DirectoryDoesNotExistAction(Action):
             # Check existence of list of paths
             if True in [is_existing_directory(path) for path in values]:
                 raise ValueError(
-                    "supplied paths contain atleast one invalid path"
+                    "supplied dirs contain atleast one dir that exists"
                 )
         else:
             # Check existence of single path
             path = values
             if is_existing_directory(path):
-                raise ValueError("supplied path is invalid")
+                raise ValueError("supplied path exists")
 
         setattr(namespace, self.dest, values)
 
@@ -370,13 +370,13 @@ class DirectoryIsReadableAction(Action):
             # Check if list of directories are all readable
             if False in [is_readable_directory(path) for path in values]:
                 raise ValueError(
-                    "supplied dirs contain atleast one readable dir"
+                    "supplied dirs contain atleast one unreadable dir"
                 )
         else:
             # Check if directory is readable
             path = values
             if not is_readable_directory(path):
-                raise ValueError("supplied dir is dir")
+                raise ValueError("supplied dir is unreadable")
 
         setattr(namespace, self.dest, values)
 
@@ -395,7 +395,7 @@ class DirectoryIsNotReadableAction(Action):
             # Check if directory is not readable
             path = values
             if is_readable_directory(path):
-                raise ValueError("supplied dir is dir")
+                raise ValueError("supplied dir is readable")
 
         setattr(namespace, self.dest, values)
 
@@ -414,10 +414,9 @@ class DirectoryIsExecutableAction(Action):
             # Check if directory is executable
             path = values
             if not is_executable_directory(path):
-                raise ValueError("supplied dir is dir")
+                raise ValueError("supplied dir is executable")
 
         setattr(namespace, self.dest, values)
-
 
 
 class DirectoryIsNotExecutableAction(Action):
@@ -428,13 +427,13 @@ class DirectoryIsNotExecutableAction(Action):
             # Check if list of directories are all not executable
             if True in [is_executable_directory(path) for path in values]:
                 raise ValueError(
-                    "supplied dirs contain atleast one executable dir"
+                    "supplied dirs contain atleast one unexecutable dir"
                 )
         else:
             # Check if directory is not executable
             path = values
             if is_executable_directory(path):
-                raise ValueError("supplied dir is dir")
+                raise ValueError("supplied dir is unexecutable")
 
         setattr(namespace, self.dest, values)
 
@@ -504,13 +503,13 @@ class FileIsReadableAction(Action):
             # Check if list of files are all readable
             if False in [is_readable_file(path) for path in values]:
                 raise ValueError(
-                    "supplied files contain atleast one readable file"
+                    "supplied files contain atleast one unreadable file"
                 )
         else:
             # Check if file is readable
             path = values
             if not is_readable_file(path):
-                raise ValueError("supplied file is readable")
+                raise ValueError("supplied file is unreadable")
 
         setattr(namespace, self.dest, values)
 
@@ -542,13 +541,13 @@ class FileIsExecutableAction(Action):
             # Check if list of files are all executable
             if False in [is_executable_file(path) for path in values]:
                 raise ValueError(
-                    "supplied files contain atleast one executable file"
+                    "supplied files contain atleast one unexecutable file"
                 )
         else:
             # Check if file is executable
             path = values
             if not is_executable_file(path):
-                raise ValueError("supplied file is readable")
+                raise ValueError("supplied file is unexecutable")
 
         setattr(namespace, self.dest, values)
 
@@ -599,13 +598,13 @@ class FileExistsAction(Action):
             # Check existence of list of paths
             if False in [is_existing_file(path) for path in values]:
                 raise ValueError(
-                    "supplied paths contain atleast one invalid path"
+                    "supplied paths has atleast one path that doesn't exist"
                 )
         else:
             # Check existence of single path
             path = values
             if not is_existing_file(path):
-                raise ValueError("supplied path is invalid")
+                raise ValueError("supplied path exists")
 
         setattr(namespace, self.dest, values)
 
@@ -618,13 +617,13 @@ class FileDoesNotExistAction(Action):
             # Check existence of list of paths
             if True in [is_existing_file(path) for path in values]:
                 raise ValueError(
-                    "supplied paths contain atleast one invalid path"
+                    "supplied paths has atleast one path that exists"
                 )
         else:
             # Check existence of single path
             path = values
             if is_existing_file(path):
-                raise ValueError("supplied path is invalid")
+                raise ValueError("supplied path is exists")
 
         setattr(namespace, self.dest, values)
 
