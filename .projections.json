@@ -1,8 +1,4 @@
 {
-  "action_heroes/*.py": {
-    "alternate": "tests/test_{}.py"
-  },
-  "tests/test_*.py": {
-    "alternate": "action_heroes/{}.py"
-  }
+  "action_heroes/*.py": { "alternate": "tests/test_{}.py" },
+  "tests/test_*.py": { "alternate": "action_heroes/{}.py" }
 }

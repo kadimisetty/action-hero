@@ -15,4 +15,5 @@ class TestGetAbout(unittest.TestCase):
 
 
 class TestGetConfigAsGet(unittest.TestCase):
-    pass
+    def __init__(self):
+        raise NotImplementedError
