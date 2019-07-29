@@ -124,6 +124,16 @@ class TestIsConvertibleToUUIDAction(ParserEnclosedTestCase):
         value = "cc3c3eb9-48a1-4307-8e92-700d9a25fffe"
         self.parser.parse_args(["--value", value])
 
+    def test_on_valid_uppercase_uuid_value(self):
+        self.parser.add_argument("--value", action=IsConvertibleToUUIDAction)
+        value = "CC3C3EB9-48A1-4307-8E92-700D9A25FFFE"
+        self.parser.parse_args(["--value", value])
+
+    def test_on_valid_mixedcase_uuid_value(self):
+        self.parser.add_argument("--value", action=IsConvertibleToUUIDAction)
+        value = "cC3C3Eb9-48a1-4307-8e92-700d9a25fFFE"
+        self.parser.parse_args(["--value", value])
+
     def test_on_valid_uuid_values_list(self):
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToUUIDAction
