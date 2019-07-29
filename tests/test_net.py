@@ -1,6 +1,5 @@
 import unittest
 from argparse import ArgumentParser
-from functools import wraps
 
 import requests
 
@@ -13,20 +12,22 @@ from action_heroes.net import (
 )
 
 
-def run_only_when_when_internet_is_up(check_url="http://www.google.com"):
-    def run_only_when_when_internet_is_up_decorator(func):
+def run_only_when_when_internet_is_up(urls=["http://www.google.com"]):
+    def run_only_when_when_internet_is_up_wrapper(func):
         def wrapper(*args, **kwargs):
+            # Do network check
             try:
-                # Do network check
-                requests.get(check_url).raise_for_status()
+                [requests.get(url).raise_for_status() for url in urls]
 
                 func(*args, **kwargs)
 
             # Do nothing on response error
             except requests.exceptions.RequestException:
                 pass
+
         return wrapper
-    return run_only_when_when_internet_is_up_decorator
+
+    return run_only_when_when_internet_is_up_wrapper
 
 
 class ParserEnclosedTestCase(unittest.TestCase):
@@ -220,39 +221,68 @@ class TestIPIsValidIPAddressAction(ParserEnclosedTestCase):
 
 
 class TestURLIsReachableAction(ParserEnclosedTestCase):
-    @run_only_when_when_internet_is_up
+    @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
     def test_on_reachable_url(self):
         self.parser.add_argument("--url", action=URLIsReachableAction)
         url = "http://google.com"
         self.parser.parse_args(["--url", url])
 
-    @run_only_when_when_internet_is_up
+    @run_only_when_when_internet_is_up(
+        urls=["http://www.google.com", "http://www.microsoft.com"]
+    )
     def test_on_reachable_urls(self):
         self.parser.add_argument(
             "--url", nargs="+", action=URLIsReachableAction
         )
-        pass
+        urls = ["http://www.google.com", "http://www.microsoft.com"]
+        self.parser.parse_args(["--url", *urls])
 
-    @run_only_when_when_internet_is_up
+    @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
     def test_on_unreachable_url(self):
         self.parser.add_argument("--url", action=URLIsReachableAction)
-        pass
+        unreachable = "XXX"
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--url", unreachable])
 
-    @run_only_when_when_internet_is_up
+    @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
     def test_on_unreachable_urls(self):
         self.parser.add_argument(
             "--url", nargs="+", action=URLIsReachableAction
         )
-        pass
-
-    @run_only_when_when_internet_is_up
-    def test_on_invalid_urls(self):
-        self.parser.add_argument(
-            "--url", nargs="+", action=URLIsReachableAction
-        )
-        pass
+        unreachable = ["XXX", "httt://www.notreal.com"]
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--url", *unreachable])
 
 
 class TestURLIsNotReachableAction(ParserEnclosedTestCase):
-    def test(self):
-        pass
+    @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
+    def test_on_reachable_url(self):
+        self.parser.add_argument("--url", action=URLIsNotReachableAction)
+        url = "http://google.com"
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--url", url])
+
+    @run_only_when_when_internet_is_up(
+        urls=["http://www.google.com", "http://www.microsoft.com"]
+    )
+    def test_on_reachable_urls(self):
+        self.parser.add_argument(
+            "--url", nargs="+", action=URLIsNotReachableAction
+        )
+        urls = ["http://www.google.com", "http://www.microsoft.com"]
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--url", *urls])
+
+    @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
+    def test_on_unreachable_url(self):
+        self.parser.add_argument("--url", action=URLIsNotReachableAction)
+        unreachable = "XXX"
+        self.parser.parse_args(["--url", unreachable])
+
+    @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
+    def test_on_unreachable_urls(self):
+        self.parser.add_argument(
+            "--url", nargs="+", action=URLIsNotReachableAction
+        )
+        unreachable = ["XXX", "YYY"]
+        self.parser.parse_args(["--url", *unreachable])

@@ -91,14 +91,14 @@ class URLIsNotReachableAction(Action):
     def __call__(self, parser, namespace, values, option_string=None):
         if isinstance(values, list):
             # Check list of urls are all not reachable
-            if False in [is_reachable_url(url) for url in values]:
+            if True in [is_reachable_url(url) for url in values]:
                 raise ValueError(
                     "urls has atleast one url that is reachable"
                 )
         else:
             # Check url is not reachable
             url = values
-            if not is_reachable_url(url):
+            if is_reachable_url(url):
                 raise ValueError("url is reachable")
 
         setattr(namespace, self.dest, values)
