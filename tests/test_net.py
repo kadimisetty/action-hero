@@ -1,19 +1,32 @@
 import unittest
 from argparse import ArgumentParser
+from functools import wraps
+
+import requests
 
 from action_heroes.net import (
+    IPIsValidIPAddressAction,
     IPIsValidIPv4AddressAction,
     IPIsValidIPv6AddressAction,
-    IPIsValidIPAddressAction,
+    URLIsNotReachableAction,
+    URLIsReachableAction,
 )
 
-from action_heroes.net_utils import (
-    is_valid_ip_address,
-    is_valid_ipv4_address,
-    is_valid_ipv6_address,
-    is_reachable_url,
-    status_code_from_response_to_request_url,
-)
+
+def run_only_when_when_internet_is_up(check_url="http://www.google.com"):
+    def run_only_when_when_internet_is_up_decorator(func):
+        def wrapper(*args, **kwargs):
+            try:
+                # Do network check
+                requests.get(check_url).raise_for_status()
+
+                func(*args, **kwargs)
+
+            # Do nothing on response error
+            except requests.exceptions.RequestException:
+                pass
+        return wrapper
+    return run_only_when_when_internet_is_up_decorator
 
 
 class ParserEnclosedTestCase(unittest.TestCase):
@@ -102,5 +115,144 @@ class TestIPIsValidIPV6Action(ParserEnclosedTestCase):
             self.parser.parse_args(["--ip", *valid, *invalid])
 
 
-class TestIPIsValidIPAction(ParserEnclosedTestCase):
-    pass
+class TestIPIsValidIPAddressAction(ParserEnclosedTestCase):
+    def test_on_valid_ipv4_address(self):
+        self.parser.add_argument("--ip", action=IPIsValidIPAddressAction)
+        # Parse without raising any errors
+        self.parser.parse_args(["--ip", "192.168.0.2"])
+
+    def test_on_invalid_ipv4_address(self):
+        self.parser.add_argument("--ip", action=IPIsValidIPAddressAction)
+        # Asser error raised on parse
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--ip", "500.168.0.1"])
+
+    def test_on_valid_ipv4_address_list(self):
+        self.parser.add_argument(
+            "--ip", nargs="+", action=IPIsValidIPAddressAction
+        )
+        ips = ["192.168.0.2"]
+        # Parse without raising any errors
+        self.parser.parse_args(["--ip", *ips])
+
+    def test_on_invalid_ipv4_address_list(self):
+        self.parser.add_argument(
+            "--ip", nargs="+", action=IPIsValidIPAddressAction
+        )
+        ips = ["500.168.0.1", "2001:db8:0:1"]
+        # Asser error raised on parse
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--ip", *ips])
+
+    def test_on_mixed_valid_and_invalid_ipv4_addresses_list(self):
+        self.parser.add_argument(
+            "--ip", nargs="+", action=IPIsValidIPAddressAction
+        )
+        valid = ["192.168.0.2"]
+        invalid = ["500.168.0.1"]
+        # Asser error raised on parse
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--ip", *valid, *invalid])
+
+    def test_on_valid_ipv6_address(self):
+        self.parser.add_argument("--ip", action=IPIsValidIPAddressAction)
+        # Parse without raising any errors
+        self.parser.parse_args(["--ip", "FE80::0202:B3FF:FE1E:8329"])
+
+    def test_on_invalid_ipv6_address(self):
+        self.parser.add_argument("--ip", action=IPIsValidIPAddressAction)
+        # Asser error raised on parse
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--ip", "1000.168.0.1"])
+
+    def test_on_valid_ipv6_address_list(self):
+        self.parser.add_argument(
+            "--ip", nargs="+", action=IPIsValidIPAddressAction
+        )
+        ips = ["2001:db8:1::ab9:C0A8:102", "FE80::0202:B3FF:FE1E:8329"]
+        # Parse without raising any errors
+        self.parser.parse_args(["--ip", *ips])
+
+    def test_on_invalid_ipv6_address_list(self):
+        self.parser.add_argument(
+            "--ip", nargs="+", action=IPIsValidIPAddressAction
+        )
+        ips = [":AA:2001:db8:1::ab9:C0A8:102", ":::FE80::02:B3:FE1E:8329"]
+        # Asser error raised on parse
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--ip", *ips])
+
+    def test_on_mixed_valid_and_invalid_ipv4_and_ipv6_addresses_list(self):
+        self.parser.add_argument(
+            "--ip", nargs="+", action=IPIsValidIPAddressAction
+        )
+        valid = ["192.168.0.2"]
+        invalid = ["x122.168.0.1", "0.0.0.0.0.0"]
+        # Asser error raised on parse
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--ip", *valid, *invalid])
+
+    def test_on_mixed_valid_ipv4_and_ipv6_addresses_list(self):
+        self.parser.add_argument(
+            "--ip", nargs="+", action=IPIsValidIPAddressAction
+        )
+        ips = [
+            # "FE80::0202:B3FF:FE1E:8329",
+            "192.168.0.2",
+            "20.0.0.120",
+        ]
+        # Parse without raising any errors
+        self.parser.parse_args(["--ip", *ips])
+
+    def test_on_mixed_invalid_ipv4_and_ipv6_addresses_list(self):
+        self.parser.add_argument(
+            "--ip", nargs="+", action=IPIsValidIPAddressAction
+        )
+        invalid = [
+            "a.168.0.2",
+            "120",
+            ":AA:2001:db8:1::ab9:C0A8:102",
+            ":::FE80::02:B3:FE1E:8329",
+        ]
+        # Asser error raised on parse
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--ip", *invalid])
+
+
+class TestURLIsReachableAction(ParserEnclosedTestCase):
+    @run_only_when_when_internet_is_up
+    def test_on_reachable_url(self):
+        self.parser.add_argument("--url", action=URLIsReachableAction)
+        url = "http://google.com"
+        self.parser.parse_args(["--url", url])
+
+    @run_only_when_when_internet_is_up
+    def test_on_reachable_urls(self):
+        self.parser.add_argument(
+            "--url", nargs="+", action=URLIsReachableAction
+        )
+        pass
+
+    @run_only_when_when_internet_is_up
+    def test_on_unreachable_url(self):
+        self.parser.add_argument("--url", action=URLIsReachableAction)
+        pass
+
+    @run_only_when_when_internet_is_up
+    def test_on_unreachable_urls(self):
+        self.parser.add_argument(
+            "--url", nargs="+", action=URLIsReachableAction
+        )
+        pass
+
+    @run_only_when_when_internet_is_up
+    def test_on_invalid_urls(self):
+        self.parser.add_argument(
+            "--url", nargs="+", action=URLIsReachableAction
+        )
+        pass
+
+
+class TestURLIsNotReachableAction(ParserEnclosedTestCase):
+    def test(self):
+        pass

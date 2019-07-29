@@ -3,29 +3,29 @@ import ipaddress
 import requests
 
 
-def is_valid_ipv4_address(address):
+def is_valid_ipv4_address(ip):
     """Returns True if valid ipv4 address """
 
     try:
-        ipaddress.IPv4Address(address)
+        ipaddress.IPv4Address(ip)
         return True
     except ipaddress.AddressValueError:
         return False
 
 
-def is_valid_ipv6_address(address):
+def is_valid_ipv6_address(ip):
     """Returns True if valid ipv6 address """
 
     try:
-        ipaddress.IPv6Address(address)
+        ipaddress.IPv6Address(ip)
         return True
     except ipaddress.AddressValueError:
         return False
 
 
-def is_valid_ip_address(address):
+def is_valid_ip_address(ip):
     """Returns True if valid ipv4 or ipv6 address """
-    return is_valid_ipv4_address(address) or is_valid_ipv6_address(address)
+    return is_valid_ipv4_address(ip) or is_valid_ipv6_address(ip)
 
 
 def is_reachable_url(url):
