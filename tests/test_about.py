@@ -34,6 +34,9 @@ class TestAboutProject(unittest.TestCase):
     def test_section_project_has_license(self):
         self.assertIn("license", self.project)
 
+    def test_section_author_has_homepage(self):
+        self.assertIn("url", self.project)
+
 
 class TestAboutAuthor(unittest.TestCase):
     def setUp(self):
@@ -48,6 +51,3 @@ class TestAboutAuthor(unittest.TestCase):
 
     def test_section_author_has_email(self):
         self.assertIn("email", self.author)
-
-    def test_section_author_has_homepage(self):
-        self.assertIn("homepage", self.author)
