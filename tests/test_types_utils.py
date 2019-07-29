@@ -97,7 +97,7 @@ class TestIsConvertibleToUUID(unittest.TestCase):
 
     def test_on_invalid_UUID_values_list(self):
         values = ["chocolate-pudding", "231", "002345234"]
-        [self.assertFalse(is_convertible_to_UUID(value)) for value in values]
+        self.assertIn(False, [is_convertible_to_UUID(v) for v in values])
 
     def test_on_mixed_valid_and_invalid_UUID_values_list(self):
 
@@ -109,4 +109,4 @@ class TestIsConvertibleToUUID(unittest.TestCase):
             "527e620b-180d-49d0-9811-8c4e0aa7f095",
             "002345234",
         ]
-        [self.assertFalse(is_convertible_to_UUID(value)) for value in values]
+        self.assertIn(False, [is_convertible_to_UUID(v) for v in values])

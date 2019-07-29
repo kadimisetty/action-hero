@@ -49,15 +49,26 @@ def is_convertible_to_UUID(value, version=4):
 
     Note:
         - UUID v.4
-        - Format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx where
-        - x is a hex digit and y is one of (8, 9, A, B)
+        - General Format:
+            - xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+            - where x is a hex digit and y is one of (8, 9, A, B)
+
+        - Using python uuid.UUID and as so,
+        - Supporting these forms:
+            ca761232ed4211cebacd00aa0057b223
+            CA761232-ED42-11CE-BACD-00AA0057B223
+            {CA761232-ED42-11CE-BACD-00AA0057B223}
+        - not supporting these forms
+            (CA761232-ED42-11CE-BACD-00AA0057B223)
+            {0xCA761232, 0xED42, 0x11CE, {0xBA, 0xCD, 0x00, 0xAA, *LINER BREAK*
+            0x00, 0x57, 0xB2, 0x23}}
 
     """
     try:
         # 1. Check if can be converted to a UUID
         uuid.UUID(value, version=version)
 
-    except ValueError:
+    except (ValueError, AttributeError) :
         # 2. Return false if cannot be converted to UUID
         return False
 
