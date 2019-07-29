@@ -110,6 +110,36 @@ class TestIsTruthyAction(ParserEnclosedTestCase):
             self.parser.parse_args(["--value", *values])
 
 
+class TestIsFalsyAction(ParserEnclosedTestCase):
+    def test_on_truthy_value(self):
+        self.parser.add_argument("--value", action=IsFalsyAction)
+        value = "true"
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--value", value])
+
+    def test_on_truthy_values_list(self):
+        self.parser.add_argument("--value", nargs="+", action=IsFalsyAction)
+        values = ["true", "hundary"]
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--value", *values])
+
+    def test_on_falsy_value(self):
+        self.parser.add_argument("--value", action=IsFalsyAction)
+        value = ""
+        self.parser.parse_args(["--value", value])
+
+    def test_on_falsy_values_list(self):
+        self.parser.add_argument("--value", nargs="+", action=IsFalsyAction)
+        values = ["", "0"]
+        self.parser.parse_args(["--value", *values])
+
+    def test_on_mixed_truthy_and_falsy_values_list(self):
+        self.parser.add_argument("--value", nargs="+", action=IsFalsyAction)
+        values = ["", "0", "monday", "15"]
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--value", *values])
+
+
 class TestIsConvertibleToUUIDAction(ParserEnclosedTestCase):
     def test_on_valid_uuid_value(self):
         self.parser.add_argument("--value", action=IsConvertibleToUUIDAction)
