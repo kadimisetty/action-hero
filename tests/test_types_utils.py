@@ -1,8 +1,9 @@
 import unittest
 
 from action_heroes.types_utils import (
-    is_convertible_to_int,
+    is_convertible_to_UUID,
     is_convertible_to_float,
+    is_convertible_to_int,
     is_truthy,
 )
 
@@ -75,3 +76,37 @@ class TestIsTruthy(unittest.TestCase):
     def test_on_falsy_value_floats_zeroes_list(self):
         values = ["0", "0.0"]
         [self.assertFalse(is_truthy(value)) for value in values]
+
+
+class TestIsConvertibleToUUID(unittest.TestCase):
+    def test_on_valid_UUID_value(self):
+        value = "9cc79eb2-ed8a-4216-b1a8-9ab65bc4d92b"
+        self.assertTrue(is_convertible_to_UUID(value))
+
+    def test_on_valid_UUID_values_list(self):
+        values = [
+            "9cc79eb2-ed8a-4216-b1a8-9ab65bc4d92b",
+            "16fd2706-8baf-433b-82eb-8c7fada847da",
+            "527e620b-180d-49d0-9811-8c4e0aa7f095",
+        ]
+        [self.assertTrue(is_convertible_to_UUID(value)) for value in values]
+
+    def test_on_invalid_UUID_value(self):
+        value = "monday-tuesday-wednesday-thursday-friday-saturday-sunday"
+        self.assertFalse(is_convertible_to_UUID(value))
+
+    def test_on_invalid_UUID_values_list(self):
+        values = ["chocolate-pudding", "231", "002345234"]
+        [self.assertFalse(is_convertible_to_UUID(value)) for value in values]
+
+    def test_on_mixed_valid_and_invalid_UUID_values_list(self):
+
+        values = [
+            "9cc79eb2-ed8a-4216-b1a8-9ab65bc4d92b",
+            "chocolate-pudding",
+            "16fd2706-8baf-433b-82eb-8c7fada847da",
+            "231",
+            "527e620b-180d-49d0-9811-8c4e0aa7f095",
+            "002345234",
+        ]
+        [self.assertFalse(is_convertible_to_UUID(value)) for value in values]

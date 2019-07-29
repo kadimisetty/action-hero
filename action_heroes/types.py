@@ -3,6 +3,7 @@ from argparse import Action
 from action_heroes.types_utils import (
     is_convertible_to_int,
     is_convertible_to_float,
+    is_convertible_to_UUID,
     is_truthy,
 )
 
@@ -12,6 +13,7 @@ __all__ = [
     "IsConvertibleToFloatAction",
     "IsTruthyAction",
     "IsFalsyAction",
+    "IsConvertibleToUUIDAction",
 ]
 
 
@@ -71,20 +73,40 @@ class IsTruthyAction(Action):
 
         setattr(namespace, self.dest, values)
 
+
 class IsFalsyAction(Action):
     """Checks if value is falsy"""
 
     def __call__(self, parser, namespace, values, option_string=None):
         if isinstance(values, list):
             # Check if all values in list are falsy
-            if False in [is_convertible_to_float(value) for value in values]:
+            if True in [is_truthy(value) for value in values]:
                 raise ValueError(
                     "at least one value is truthy"
                 )
         else:
             # Check if value is falsy
             value = values
-            if not is_convertible_to_float(value):
+            if is_truthy(value):
                 raise ValueError("value is truthy")
+
+        setattr(namespace, self.dest, values)
+
+
+class IsConvertibleToUUIDAction(Action):
+    """Checks if value is convertible to UUID"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if all values in list are convertible to UUIDs
+            if False in [is_convertible_to_UUID(value) for value in values]:
+                raise ValueError(
+                    "at least one value is not convertible to UUIDs"
+                )
+        else:
+            # Check if value is convertible to UUIDs
+            value = values
+            if not is_convertible_to_UUID(value):
+                raise ValueError("value is convertible to UUIDs")
 
         setattr(namespace, self.dest, values)
