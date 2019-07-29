@@ -1,6 +1,4 @@
-import unittest
-from argparse import ArgumentParser
-
+from action_heroes.utils import ParserEnclosedTestCase
 from action_heroes.types import (
     IsConvertibleToFloatAction,
     IsConvertibleToIntAction,
@@ -8,12 +6,6 @@ from action_heroes.types import (
     IsFalsyAction,
     IsTruthyAction,
 )
-
-
-class ParserEnclosedTestCase(unittest.TestCase):
-    def setUp(self):
-        """Setup new parser"""
-        self.parser = ArgumentParser()
 
 
 class TestIsConvertibleToIntAction(ParserEnclosedTestCase):

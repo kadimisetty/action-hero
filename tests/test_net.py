@@ -1,8 +1,3 @@
-import unittest
-from argparse import ArgumentParser
-
-import requests
-
 from action_heroes.net import (
     IPIsValidIPAddressAction,
     IPIsValidIPv4AddressAction,
@@ -10,30 +5,10 @@ from action_heroes.net import (
     URLIsNotReachableAction,
     URLIsReachableAction,
 )
-
-
-def run_only_when_when_internet_is_up(urls=["http://www.google.com"]):
-    def run_only_when_when_internet_is_up_wrapper(func):
-        def wrapper(*args, **kwargs):
-            # Do network check
-            try:
-                [requests.get(url).raise_for_status() for url in urls]
-
-                func(*args, **kwargs)
-
-            # Do nothing on response error
-            except requests.exceptions.RequestException:
-                pass
-
-        return wrapper
-
-    return run_only_when_when_internet_is_up_wrapper
-
-
-class ParserEnclosedTestCase(unittest.TestCase):
-    def setUp(self):
-        """Setup new parser"""
-        self.parser = ArgumentParser()
+from action_heroes.utils import (
+    ParserEnclosedTestCase,
+    run_only_when_when_internet_is_up,
+)
 
 
 class TestIPIsValidIPv4AddressAction(ParserEnclosedTestCase):

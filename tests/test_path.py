@@ -1,8 +1,7 @@
 import os
-import unittest
 import tempfile
-from argparse import ArgumentParser
 
+from action_heroes.utils import ParserEnclosedTestCase
 from action_heroes.path import (
     DirectoryDoesNotExistAction,
     DirectoryExistsAction,
@@ -56,12 +55,6 @@ from action_heroes.path_utils import (
     remove_write_permission,
     resolve_path,
 )
-
-
-class ParserEnclosedTestCase(unittest.TestCase):
-    def setUp(self):
-        """Setup new parser"""
-        self.parser = ArgumentParser()
 
 
 class TestResolvePathAction(ParserEnclosedTestCase):

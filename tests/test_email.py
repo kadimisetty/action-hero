@@ -1,13 +1,5 @@
-import unittest
-from argparse import ArgumentParser
-
 from action_heroes.email import EmailIsValidAction
-
-
-class ParserEnclosedTestCase(unittest.TestCase):
-    def setUp(self):
-        """Setup new parser"""
-        self.parser = ArgumentParser()
+from action_heroes.utils import ParserEnclosedTestCase
 
 
 class TestEmailIsValidAction(ParserEnclosedTestCase):
