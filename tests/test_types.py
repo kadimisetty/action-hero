@@ -168,6 +168,7 @@ class TestIsConvertibleToUUIDAction(ParserEnclosedTestCase):
             "--value", nargs="+", action=IsConvertibleToUUIDAction
         )
         values = [
+            "urn:uuid:12345678-1234-5678-1234-567812345678",
             "ca761232ed4211cebacd00aa0057b223",
             "CA761232-ED42-11CE-BACD-00AA0057B223",
             "{CA761232-ED42-11CE-BACD-00AA0057B223}",
@@ -180,7 +181,10 @@ class TestIsConvertibleToUUIDAction(ParserEnclosedTestCase):
         )
         values = [
             "(CA761232-ED42-11CE-BACD-00AA0057B223)",
-            "{0xCA761232, 0xED42, 0x11CE, {0xBA, 0xCD, 0x00, 0xAA, 0x00, 0x57, 0xB2, 0x23}}",
+            "{}{}".format(
+                "{0xCA761232, 0xED42, 0x11CE, {0xBA, 0xCD, ",
+                "0x00, 0xAA, 0x00, 0x57, 0xB2, 0x23}}",
+            ),
         ]
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--value", *values])
