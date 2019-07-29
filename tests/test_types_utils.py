@@ -3,6 +3,7 @@ import unittest
 from action_heroes.types_utils import (
     is_convertible_to_int,
     is_convertible_to_float,
+    is_truthy,
 )
 
 
@@ -60,3 +61,17 @@ class TestIsConvertibleToFloat(unittest.TestCase):
     def test_on_invalid_value_blank(self):
         value = ""
         self.assertFalse(is_convertible_to_float(value))
+
+
+class TestIsTruthy(unittest.TestCase):
+    def test_on_truthy_value_strings(self):
+        value = "true"
+        self.assertTrue(is_truthy(value))
+
+    def test_on_falsy_value_strings_blank(self):
+        value = ""
+        self.assertFalse(is_truthy(value))
+
+    def test_on_falsy_value_floats_zeroes_list(self):
+        values = ["0", "0.0"]
+        [self.assertFalse(is_truthy(value)) for value in values]

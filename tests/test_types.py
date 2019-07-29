@@ -4,6 +4,8 @@ from argparse import ArgumentParser
 from action_heroes.types import (
     IsConvertibleToIntAction,
     IsConvertibleToFloatAction,
+    IsTruthyAction,
+    IsFalsyAction,
 )
 
 
@@ -81,5 +83,35 @@ class TestIsConvertibleToFloatAction(ParserEnclosedTestCase):
             "--value", nargs="+", action=IsConvertibleToFloatAction
         )
         values = ["4", "puppy", "hanoi", "9.25", "X", "12"]
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--value", *values])
+
+
+class TestIsTruthyAction(ParserEnclosedTestCase):
+    def test_on_truthy_value(self):
+        self.parser.add_argument("--value", action=IsTruthyAction)
+        value = "true"
+        self.parser.parse_args(["--value", value])
+
+    def test_on_truthy_values_list(self):
+        self.parser.add_argument("--value", nargs="+", action=IsTruthyAction)
+        values = ["true", "hundary"]
+        self.parser.parse_args(["--value", *values])
+
+    def test_on_falsy_value(self):
+        self.parser.add_argument("--value", action=IsTruthyAction)
+        value = ""
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--value", value])
+
+    def test_on_falsy_values_list(self):
+        self.parser.add_argument("--value", nargs="+", action=IsTruthyAction)
+        values = ["", "0"]
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--value", *values])
+
+    def test_on_mixed_truthy_and_falsy_values_list(self):
+        self.parser.add_argument("--value", nargs="+", action=IsTruthyAction)
+        values = ["", "0", "monday", "15"]
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--value", *values])

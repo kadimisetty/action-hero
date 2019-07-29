@@ -3,6 +3,7 @@ from argparse import Action
 from action_heroes.types_utils import (
     is_convertible_to_int,
     is_convertible_to_float,
+    is_truthy,
 )
 
 
@@ -48,5 +49,42 @@ class IsConvertibleToFloatAction(Action):
             value = values
             if not is_convertible_to_float(value):
                 raise ValueError("value cannot be converted to float")
+
+        setattr(namespace, self.dest, values)
+
+
+class IsTruthyAction(Action):
+    """Checks if value is truthy"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if all values in list are truthy
+            if False in [is_truthy(value) for value in values]:
+                raise ValueError(
+                    "at least one value is falsey"
+                )
+        else:
+            # Check if value is convertible to truthy
+            value = values
+            if not is_truthy(value):
+                raise ValueError("value is not falsy")
+
+        setattr(namespace, self.dest, values)
+
+class IsFalsyAction(Action):
+    """Checks if value is falsy"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        if isinstance(values, list):
+            # Check if all values in list are falsy
+            if False in [is_convertible_to_float(value) for value in values]:
+                raise ValueError(
+                    "at least one value is truthy"
+                )
+        else:
+            # Check if value is falsy
+            value = values
+            if not is_convertible_to_float(value):
+                raise ValueError("value is truthy")
 
         setattr(namespace, self.dest, values)
