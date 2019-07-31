@@ -61,7 +61,7 @@ pip install action_heroes
 ```
 
 
-## Help & FAQ
+## Help and FAQ
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · __[Help & FAQ](#help-and-faq)__ · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
 
 ### FAQ
