@@ -18,7 +18,7 @@ def run_only_when_when_internet_is_up(urls=["http://www.google.com"]):
     """Decorator that runs wrapped function when the internet is up.
 
     Note:
-        - Connection is checked by checking connecrion to values in urls
+        - Connection is checked by checking connection to values in urls
 
     """
 
@@ -60,8 +60,9 @@ class BaseAction(argparse.Action):
         """Runs cls.func. Used nside __call__
 
         Note:
-            Neds to be @classmethod to avoid interference with self when
-            calling itself and when caling cls.func within.
+            Needs to be @classmethod to avoid
+            1. including self when being called in other methods
+            2. not including self when calling other funcs within
         """
         return cls.func(value)
 
