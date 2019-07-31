@@ -56,17 +56,23 @@ class BaseAction(argparse.Action):
 
     @classmethod
     def run_user_func(cls, value):
+        """Runs cls.func. Used nside __call__
+
+        Note:
+            Neds to be @classmethod to avoid interference with self when
+            calling itself and when caling cls.func within.
+        """
         return cls.func(value)
 
     def __init__(
         self, option_strings, dest, nargs=None, help=None, metavar=None
     ):
-        if not self.func:
-            raise ValueError("func is required")
-        elif not self.err_msg_singular:
-            raise ValueError("func is required")
-        if not self.err_msg_plural:
-            raise ValueError("func is required")
+        for attr in ["func", "err_msg_singular", "err_msg_plural"]:
+            # Use getattr. hasattr returns True as they're initialized to None.
+            if not getattr(self, attr):
+                raise ValueError(
+                    "Please supply required attribute: {}".format(attr)
+                )
 
         super(BaseAction, self).__init__(
             option_strings=option_strings,
