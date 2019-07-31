@@ -11,7 +11,7 @@
 
 ####
 
-`action_heroes` is a python package that provides a bunch of   
+`action_heroes` is a python package that provides 
 __custom argparse _Actions_ to help you write command line interfaces.__
 
 
@@ -23,7 +23,7 @@ __custom argparse _Actions_ to help you write command line interfaces.__
 <dl>
 
 <dt>1. argparse</dt>
-<dd><code>argparse</code> is a python module, in the python standard library, used to build command line interfaces that accept user arguments.
+<dd><code>argparse</code> is a python standard library module used to build command line interfaces that accept user arguments.
 <a href="https://docs.python.org/3/library/argparse.html">⚓︎</a>
 </dd>
 
