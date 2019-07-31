@@ -6,8 +6,9 @@ import requests
 
 
 __all__ = [
-    "MapAction",
     "CheckAction",
+    "MapAction",
+    "MapAndReplaceAction",
     "ParserEnclosedTestCase",
     "run_only_when_when_internet_is_up",
 ]
@@ -67,7 +68,7 @@ class BaseAction(argparse.Action):
     def __init__(
         self, option_strings, dest, nargs=None, help=None, metavar=None
     ):
-        for attr in ["func", "err_msg_singular", "err_msg_plural"]:
+        for attr in ["func"]:
             # Use getattr. hasattr returns True as they're initialized to None.
             if not getattr(self, attr):
                 raise ValueError(
@@ -84,10 +85,11 @@ class BaseAction(argparse.Action):
 
 
 class CheckAction(BaseAction):
+    """Checks all values return True with func"""
     def __call__(self, parser, namespace, values, option_string=None):
         # When values are a list of strings
         if isinstance(values, list):
-            if False in [self.run_user_func(value) for value in values]:
+            if not all([self.run_user_func(value) for value in values]):
                 raise ValueError(self.err_msg_plural)
 
         # When values is one string
@@ -100,6 +102,7 @@ class CheckAction(BaseAction):
 
 
 class MapAction(BaseAction):
+    """Maps func on values"""
     def __call__(self, parser, namespace, values, option_string=None):
         # When values are a list of strings
         if isinstance(values, list):
@@ -109,5 +112,22 @@ class MapAction(BaseAction):
         else:
             value = values
             self.run_user_func(value)
+
+        setattr(namespace, self.dest, values)
+
+
+class MapAndReplaceAction(BaseAction):
+    """Maps func on values and replaces values with the result"""
+    def __call__(self, parser, namespace, values, option_string=None):
+        # When values are a list of strings
+        if isinstance(values, list):
+            updated = [self.run_user_func(value) for value in values]
+            values = updated
+
+        # When values is one string
+        else:
+            value = values
+            updated = self.run_user_func(value)
+            values = updated
 
         setattr(namespace, self.dest, values)
