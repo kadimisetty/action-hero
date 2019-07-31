@@ -1,4 +1,4 @@
-from argparse import Action
+from action_heroes.utils import CheckAction
 
 from action_heroes.types_utils import (
     is_convertible_to_int,
@@ -17,96 +17,43 @@ __all__ = [
 ]
 
 
-class IsConvertibleToIntAction(Action):
-    """Check if value can be convertible to int"""
+class IsConvertibleToIntAction(CheckAction):
+    """Check if value is convertible to int"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if all values in list are convertible to int
-            if False in [is_convertible_to_int(value) for value in values]:
-                raise ValueError(
-                    "at least one value cannot be converted to int"
-                )
-        else:
-            # Check if value is convertible to int
-            value = values
-            if not is_convertible_to_int(value):
-                raise ValueError("value cannot be converted to int")
-
-        setattr(namespace, self.dest, values)
+    func = is_convertible_to_int
+    err_msg_singular = "Atleast one value is not convertible to int"
+    err_msg_plural = "Value is not convertible to int"
 
 
-class IsConvertibleToFloatAction(Action):
-    """asd asda sd"""
+class IsConvertibleToFloatAction(CheckAction):
+    """Check if value is convertible to float"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if all values in list are convertible to float
-            if False in [is_convertible_to_float(value) for value in values]:
-                raise ValueError(
-                    "at least one value cannot be converted to float"
-                )
-        else:
-            # Check if value is convertible to float
-            value = values
-            if not is_convertible_to_float(value):
-                raise ValueError("value cannot be converted to float")
-
-        setattr(namespace, self.dest, values)
+    func = is_convertible_to_float
+    err_msg_singular = "Atleast one value is not convertible to float"
+    err_msg_plural = "Value is not convertible to float"
 
 
-class IsTruthyAction(Action):
+class IsTruthyAction(CheckAction):
     """Checks if value is truthy"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if all values in list are truthy
-            if False in [is_truthy(value) for value in values]:
-                raise ValueError(
-                    "at least one value is falsey"
-                )
-        else:
-            # Check if value is convertible to truthy
-            value = values
-            if not is_truthy(value):
-                raise ValueError("value is not falsy")
-
-        setattr(namespace, self.dest, values)
+    func = is_truthy
+    err_msg_singular = "Atleast one value is falsy"
+    err_msg_plural = "Value is falsy"
 
 
-class IsFalsyAction(Action):
+class IsFalsyAction(CheckAction):
     """Checks if value is falsy"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if all values in list are falsy
-            if True in [is_truthy(value) for value in values]:
-                raise ValueError(
-                    "at least one value is truthy"
-                )
-        else:
-            # Check if value is falsy
-            value = values
-            if is_truthy(value):
-                raise ValueError("value is truthy")
+    def func(value):
+        return not is_truthy(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one value is falsy"
+    err_msg_plural = "value is falsy"
 
 
-class IsConvertibleToUUIDAction(Action):
+class IsConvertibleToUUIDAction(CheckAction):
     """Checks if value is convertible to UUID"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if all values in list are convertible to UUIDs
-            if False in [is_convertible_to_UUID(value) for value in values]:
-                raise ValueError(
-                    "at least one value is not convertible to UUIDs"
-                )
-        else:
-            # Check if value is convertible to UUIDs
-            value = values
-            if not is_convertible_to_UUID(value):
-                raise ValueError("value is convertible to UUIDs")
-
-        setattr(namespace, self.dest, values)
+    func = is_convertible_to_UUID
+    err_msg_singular = "Atleast one value cannot be converted to UUID"
+    err_msg_plural = "Value cannot be converted to UUID"
