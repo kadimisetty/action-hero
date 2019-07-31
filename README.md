@@ -17,8 +17,7 @@
 __custom argparse _Actions_ to help you write command line interfaces.__
 
 
->  Contents — [Introduction](#introduction) · __[Quick Usage](#quick-usage)__ · [Help](#help) · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
-
+>  Jump to — __[Introduction](#introduction)__ · [Quick Usage](#quick-usage) · [Help](#help) · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
 
 
 ## Introduction
@@ -55,6 +54,9 @@ __custom argparse _Actions_ to help you write command line interfaces.__
 > I put a lot of effort into this and each lil' star brightens my day
 
 
+>  Jump to — [Introduction](#introduction) · __[Quick Usage](#quick-usage)__ · [Help](#help) · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
+
+
 ## Quick Usage
 
 - Use `pip` to install `action_heroes` 
@@ -64,7 +66,24 @@ __custom argparse _Actions_ to help you write command line interfaces.__
 pip install action_heroes
 ```
 
+>  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · __[Help](#help)__ · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
+
+
 ## Help and Usage
+
+
+>  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help](#help) · __[FAQ](#faq)__ · [Catalog](#catalog) · [Development](#development)
+
+
+## FAQ
+
+>  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help](#help) · [FAQ](#faq) · __[Catalog](#catalog)__ · [Development](#development)
+
 ## Catalopg
-## Screencast
+
+
+>  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help](#help) · [FAQ](#faq) · [Catalog](#catalog) · __[Development](#development)__
+
+
+## Development
 
