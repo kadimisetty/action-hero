@@ -1,7 +1,6 @@
 import unittest
 import tempfile
 import shutil
-import stat
 import os
 
 from action_heroes.path_utils import (
@@ -56,22 +55,22 @@ class TestExistenceUtils(unittest.TestCase):
 
         self.assertFalse(is_existing_file(file1))
 
-    def test_on_exisiting_file(self):
+    def test_on_exisiting_path_as_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_existing_path(file1.name))
 
-    def test_on_nonexisting_file(self):
+    def test_on_nonexisting_path_as_file(self):
         # Create and Remove a file to confirm it doesnt exist
         file1 = tempfile.mkstemp()[1]
         os.remove(file1)
 
         self.assertFalse(is_existing_path(file1))
 
-    def test_on_exisiting_directory(self):
+    def test_on_exisiting_path_as_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_existing_path(dir1))
 
-    def test_on_nonexisting_directory(self):
+    def test_on_nonexisting_path_as_directory(self):
         # Create and Remove a directory to confirm it doesnt exist
         dir1 = tempfile.mkdtemp()
         os.rmdir(dir1)
@@ -98,20 +97,20 @@ class TestWritableUtils(unittest.TestCase):
             remove_write_permission(file1.name)
             self.assertFalse(is_writable_file(file1.name))
 
-    def test_on_writable_directory(self):
+    def test_on_writable_pasth_as_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_writable_path(dir1))
 
-    def test_on_unwritable_directory(self):
+    def test_on_unwritable_path_as_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             remove_write_permission(dir1)
             self.assertFalse(is_writable_path(dir1))
 
-    def test_on_writable_file(self):
+    def test_on_writable_path_as_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_writable_path(file1.name))
 
-    def test_on_unwritable_file(self):
+    def test_on_unwritable_path_as_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             remove_write_permission(file1.name)
             self.assertFalse(is_writable_path(file1.name))
@@ -138,21 +137,21 @@ class TestReadableUtils(unittest.TestCase):
             remove_read_permission(file1.name)
             self.assertFalse(is_readable_file(file1.name))
 
-    def test_on_readable_directory(self):
+    def test_on_readable_path_as_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_readable_path(dir1))
 
-    def test_on_unreadable_directory(self):
+    def test_on_unreadable_path_as_directory(self):
         dir1 = tempfile.mkdtemp()
         remove_read_permission(dir1)
         self.assertFalse(is_readable_directory(dir1))
         os.rmdir(dir1)
 
-    def test_on_readable_file(self):
+    def test_on_readable_path_as_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_readable_path(file1.name))
 
-    def test_on_unreadable_file(self):
+    def test_on_unreadable_path_as_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             remove_read_permission(file1.name)
             self.assertFalse(is_readable_path(file1.name))
@@ -178,21 +177,21 @@ class TestExecutableUtils(unittest.TestCase):
             remove_execute_permission(file1.name)
             self.assertFalse(is_executable_file(file1.name))
 
-    def test_on_executable_directory(self):
+    def test_on_executable_path_as_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_executable_path(dir1))
 
-    def test_on_unexecutable_directory(self):
+    def test_on_unexecutable_path_as_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             remove_execute_permission(dir1)
             self.assertFalse(is_executable_path(dir1))
 
-    def test_on_executable_file(self):
+    def test_on_executable_path_as_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             add_execute_permission(file1.name)
             self.assertTrue(is_executable_path(file1.name))
 
-    def test_on_unexecutable_file(self):
+    def test_on_unexecutable_path_as_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertFalse(is_executable_path(file1.name))
 
@@ -208,9 +207,7 @@ class TestSymbolicLinkUtils(unittest.TestCase):
             self.parent_directory, os.path.basename(self.dir1)
         )
         os.symlink(
-            src=self.dir1,
-            dst=self.link_to_dir1,
-            target_is_directory=True,
+            src=self.dir1, dst=self.link_to_dir1, target_is_directory=True
         )
 
         # Create temporary file and a symbolic link pointing to it
@@ -426,6 +423,6 @@ class TestFileIsEmpty(unittest.TestCase):
 
     def test_on_nonempty_file(self):
         with tempfile.NamedTemporaryFile() as file1:
-            with open(file1.name, 'a') as file_for_writing:
-                file_for_writing.write('SOME TEXT')
+            with open(file1.name, "a") as file_for_writing:
+                file_for_writing.write("SOME TEXT")
             self.assertFalse(is_empty_file(file1.name))
