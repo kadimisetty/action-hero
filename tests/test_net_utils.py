@@ -2,6 +2,7 @@ import unittest
 
 import requests
 
+from action_heroes.utils import run_only_when_when_internet_is_up
 from action_heroes.net_utils import (
     is_valid_ip_address,
     is_valid_ipv4_address,
@@ -63,15 +64,10 @@ class TestIsValidIPAddress(unittest.TestCase):
 
 
 class TestIsURLReachable(unittest.TestCase):
+    @run_only_when_when_internet_is_up
     def test_on_reachable_url(self):
-        try:
-            url1 = "http://www.google.com"
-            requests.get(url1)
-            self.assertTrue(is_reachable_url(url1))
-
-        # Do nothing on response error
-        except requests.exceptions.RequestException:
-            pass
+        url1 = "http://www.google.com"
+        self.assertTrue(is_reachable_url(url1))
 
     def test_on_unreachable_url(self):
         url1 = "madeupurl.example.xyz"
@@ -79,6 +75,7 @@ class TestIsURLReachable(unittest.TestCase):
 
 
 class TestStatusCodeFromResponseToRequestURL(unittest.TestCase):
+    @run_only_when_when_internet_is_up
     def test_on_reachable_url(self):
         try:
             url1 = "http://www.google.com"
