@@ -1,4 +1,5 @@
 from argparse import Action
+from action_heroes.utils import CheckAction, MapAction, MapAndReplaceAction
 
 from action_heroes.path_utils import (
     create_directory,
@@ -60,22 +61,13 @@ __all__ = [
 ]
 
 
-class ResolvePathAction(Action):
+class ResolvePathAction(MapAndReplaceAction):
     """Resolves path to canonical path removing symbolic links if present"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Resolve list of paths
-            values = [resolve_path(path) for path in values]
-        else:
-            # Resolve single path
-            path = values
-            values = resolve_path(path)
-
-        setattr(namespace, self.dest, values)
+    func = resolve_path
 
 
-class EnsureDirectoryAction(Action):
+class EnsureDirectoryAction(MapAction):
     """Ensure directory exists and create it if it doesnt"""
 
     @staticmethod
@@ -83,19 +75,10 @@ class EnsureDirectoryAction(Action):
         if not is_existing_directory(directory):
             create_directory(directory)
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Ensure list of directories
-            [self._ensure_directory(path) for path in values]
-        else:
-            # Ensure single directory
-            path = values
-            self._ensure_directory(path)
-
-        setattr(namespace, self.dest, values)
+    func = _ensure_directory
 
 
-class EnsureFileAction(Action):
+class EnsureFileAction(MapAction):
     """Ensure file exists and create it if it doesnt"""
 
     @staticmethod
@@ -103,567 +86,265 @@ class EnsureFileAction(Action):
         if not is_existing_directory(filename):
             create_file(filename)
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Ensure list of files
-            [self._ensure_file(path) for path in values]
-        else:
-            # Ensure single files
-            path = values
-            self._ensure_file(path)
-
-        setattr(namespace, self.dest, values)
+    func = _ensure_file
 
 
-class PathIsValidAction(Action):
+class PathIsValidAction(CheckAction):
     """Check if path is valid"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if all paths in list are valid
-            if False in [is_valid_path(path) for path in values]:
-                raise ValueError(
-                    "supplied paths has one or more invalid paths"
-                )
-        else:
-            # Check if path is valid
-            path = values
-            if not is_valid_path(path):
-                raise ValueError("supplied path is invalid")
-
-        setattr(namespace, self.dest, values)
+    func = is_valid_path
+    err_msg_singular = "Atleast one path is invalid"
+    err_msg_plural = "Path is invalid"
 
 
-class PathExistsAction(Action):
+class PathExistsAction(CheckAction):
     """Check if Path exists"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check validity of list of paths
-            if False in [is_existing_path(path) for path in values]:
-                raise ValueError(
-                    "supplied paths have one or more paths that doen't exist"
-                )
-        else:
-            # Check validity of single path
-            path = values
-            if not is_existing_path(path):
-                raise ValueError("supplied path doesn't exist")
-
-        setattr(namespace, self.dest, values)
+    func = is_existing_path
+    err_msg_singular = "Atleast one path does not exist"
+    err_msg_plural = "Path does not exist"
 
 
-class PathDoesNotExistsAction(Action):
+class PathDoesNotExistsAction(CheckAction):
     """Check if Path does not exist"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check validity of list of paths
-            if True in [is_existing_path(path) for path in values]:
-                raise ValueError(
-                    "supplied paths have one or more paths that exist"
-                )
-        else:
-            # Check validity of single path
-            path = values
-            if is_existing_path(path):
-                raise ValueError("supplied path exists")
+    def func(value):
+        return not is_existing_path(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one path exists"
+    err_msg_plural = "Path exists"
 
 
-class PathIsWritableAction(Action):
+class PathIsWritableAction(CheckAction):
     """Check if path is writable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of paths are all writable
-            if False in [is_writable_path(path) for path in values]:
-                raise ValueError(
-                    "supplied paths contain atleast one unwritable path"
-                )
-        else:
-            # Check if path is writable
-            path = values
-            if not is_writable_path(path):
-                raise ValueError("supplied path is unwritable")
-
-        setattr(namespace, self.dest, values)
+    func = is_writable_path
+    err_msg_singular = "Atleast one path is not writable"
+    err_msg_plural = "Path is not writable"
 
 
-class PathIsNotWritableAction(Action):
+class PathIsNotWritableAction(CheckAction):
     """Check if path is not writable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of paths are all not  writable
-            if True in [is_writable_path(path) for path in values]:
-                raise ValueError(
-                    "supplied paths contain atleast one writable path"
-                )
-        else:
-            # Check if path is not writable
-            path = values
-            if is_writable_path(path):
-                raise ValueError("supplied path is writable")
+    def func(value):
+        return not is_writable_path(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one path is writable"
+    err_msg_plural = "Path is writable"
 
 
-class PathIsReadableAction(Action):
+class PathIsReadableAction(CheckAction):
     """Check if path is readable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of paths are all readable
-            if False in [is_readable_path(path) for path in values]:
-                raise ValueError(
-                    "supplied paths contain atleast one unreadable path"
-                )
-        else:
-            # Check if path is readable
-            path = values
-            if not is_readable_path(path):
-                raise ValueError("supplied path is unreadable")
-
-        setattr(namespace, self.dest, values)
+    func = is_readable_path
+    err_msg_singular = "Atleast on path is not readable"
+    err_msg_plural = "Path is not readable"
 
 
-class PathIsNotReadableAction(Action):
+class PathIsNotReadableAction(CheckAction):
     """Check if path is not writable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of paths are all not readable
-            if True in [is_readable_path(path) for path in values]:
-                raise ValueError(
-                    "supplied paths contain atleast one readable path"
-                )
-        else:
-            # Check if path is not readable
-            path = values
-            if is_readable_path(path):
-                raise ValueError("supplied path is readable")
+    def func(value):
+        return not is_readable_path(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast on path is readable"
+    err_msg_plural = "Path is readable"
 
 
-class PathIsExecutableAction(Action):
+class PathIsExecutableAction(CheckAction):
     """Check if path is executable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of paths are all executable
-            if False in [is_executable_path(path) for path in values]:
-                raise ValueError(
-                    "supplied path contain atleast one unexecutable path"
-                )
-        else:
-            # Check if path is executable
-            path = values
-            if not is_executable_path(path):
-                raise ValueError("supplied path is unexecutable")
-
-        setattr(namespace, self.dest, values)
+    func = is_executable_path
+    err_msg_singular = "Atleast one path is not executable"
+    err_msg_plural = "Path is not executable"
 
 
-class PathIsNotExecutableAction(Action):
+class PathIsNotExecutableAction(CheckAction):
     """Check if path is not executable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of paths are all not  executable
-            if True in [is_executable_path(path) for path in values]:
-                raise ValueError(
-                    "supplied paths contain atleast one executable path"
-                )
-        else:
-            # Check if path is not executable
-            path = values
-            if is_executable_path(path):
-                raise ValueError("supplied path is executable")
+    def func(value):
+        return not is_executable_path(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one path is executable"
+    err_msg_plural = "Path is executable"
 
 
-class DirectoryExistsAction(Action):
+class DirectoryExistsAction(CheckAction):
     """Check if Directory exists"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check existence of list of paths
-            if False in [is_existing_directory(path) for path in values]:
-                raise ValueError(
-                    "supplied dirs contain atleast one dir that doesn't exist"
-                )
-        else:
-            # Check existence of single path
-            path = values
-            if not is_existing_directory(path):
-                raise ValueError("supplied dir doesn't exist")
-
-        setattr(namespace, self.dest, values)
+    func = is_existing_directory
+    err_msg_singular = "Atleast one directory does not exist"
+    err_msg_plural = "Directory does not exist"
 
 
-class DirectoryDoesNotExistAction(Action):
+class DirectoryDoesNotExistAction(CheckAction):
     """Check if Directory does not exist"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check existence of list of paths
-            if True in [is_existing_directory(path) for path in values]:
-                raise ValueError(
-                    "supplied dirs contain atleast one dir that exists"
-                )
-        else:
-            # Check existence of single path
-            path = values
-            if is_existing_directory(path):
-                raise ValueError("supplied path exists")
+    def func(value):
+        return not is_existing_directory(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one directory exists"
+    err_msg_plural = "Directory exists"
 
 
-class DirectoryIsWritableAction(Action):
+class DirectoryIsWritableAction(CheckAction):
     """Check if directory is writable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of directories are all writable
-            if False in [is_writable_directory(path) for path in values]:
-                raise ValueError(
-                    "supplied dirs contain atleast one unwritable dir"
-                )
-        else:
-            # Check if file is writable
-            path = values
-            if not is_writable_directory(path):
-                raise ValueError("supplied dir is unwritable")
-
-        setattr(namespace, self.dest, values)
+    func = is_writable_directory
+    err_msg_singular = "Atleast one directory is not writable"
+    err_msg_plural = "Directory is not writable"
 
 
-class DirectoryIsNotWritableAction(Action):
+class DirectoryIsNotWritableAction(CheckAction):
     """Check if directory is not writable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of directories are all not writable
-            if True in [is_writable_directory(path) for path in values]:
-                raise ValueError(
-                    "supplied dirs contain atleast one writable dir"
-                )
-        else:
-            # Check if file is not writable
-            path = values
-            if is_writable_directory(path):
-                raise ValueError("supplied dir is writable")
+    def func(value):
+        return not is_writable_directory(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one directory is not writable"
+    err_msg_plural = "Directory is not writable"
 
 
-class DirectoryIsReadableAction(Action):
+class DirectoryIsReadableAction(CheckAction):
     """Check if directory is readable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of directories are all readable
-            if False in [is_readable_directory(path) for path in values]:
-                raise ValueError(
-                    "supplied dirs contain atleast one unreadable dir"
-                )
-        else:
-            # Check if directory is readable
-            path = values
-            if not is_readable_directory(path):
-                raise ValueError("supplied dir is unreadable")
-
-        setattr(namespace, self.dest, values)
+    func = is_readable_directory
+    err_msg_singular = "Atleast one directory is not readable"
+    err_msg_plural = "Directory is not readable"
 
 
-class DirectoryIsNotReadableAction(Action):
+class DirectoryIsNotReadableAction(CheckAction):
     """Check if directory is not readable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of directories are all not readable
-            if True in [is_readable_directory(path) for path in values]:
-                raise ValueError(
-                    "supplied dirs contain atleast one readable dir"
-                )
-        else:
-            # Check if directory is not readable
-            path = values
-            if is_readable_directory(path):
-                raise ValueError("supplied dir is readable")
+    def func(value):
+        return not is_readable_directory(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one directory is readable"
+    err_msg_plural = "Directory is readable"
 
 
-class DirectoryIsExecutableAction(Action):
+class DirectoryIsExecutableAction(CheckAction):
     """Check if directory is executable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of directories are all executable
-            if False in [is_executable_directory(path) for path in values]:
-                raise ValueError(
-                    "supplied dirs contain atleast one executable dir"
-                )
-        else:
-            # Check if directory is executable
-            path = values
-            if not is_executable_directory(path):
-                raise ValueError("supplied dir is executable")
-
-        setattr(namespace, self.dest, values)
+    func = is_executable_directory
+    err_msg_singular = "Atleast one directory is not executable"
+    err_msg_plural = "Directory is not executable"
 
 
-class DirectoryIsNotExecutableAction(Action):
+class DirectoryIsNotExecutableAction(CheckAction):
     """Check if directory is not executable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of directories are all not executable
-            if True in [is_executable_directory(path) for path in values]:
-                raise ValueError(
-                    "supplied dirs contain atleast one unexecutable dir"
-                )
-        else:
-            # Check if directory is not executable
-            path = values
-            if is_executable_directory(path):
-                raise ValueError("supplied dir is unexecutable")
+    def func(value):
+        return not is_executable_directory(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one directory is executable"
+    err_msg_plural = "Directory is executable"
 
 
-class DirectoryIsValidAction(Action):
-    """Check validity of supplied dir path(s)"""
+class DirectoryIsValidAction(CheckAction):
+    """Check directory is valid"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check validity of list of directory paths
-            if False in [is_valid_directory(path) for path in values]:
-                raise ValueError(
-                    "supplied paths contain atleast one invalid path"
-                )
-        else:
-            # Check validity of single directory path
-            path = values
-            if not is_valid_directory(path):
-                raise ValueError("supplied path is invalid")
-
-        setattr(namespace, self.dest, values)
+    func = is_valid_directory
+    err_msg_singular = "Atleast one directory is not valid"
+    err_msg_plural = "Directory is not valid"
 
 
-class FileIsWritableAction(Action):
+class FileIsWritableAction(CheckAction):
     """Check if file is writable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of files are all writable
-            if False in [is_writable_file(path) for path in values]:
-                raise ValueError(
-                    "supplied files contain atleast one unwritable file"
-                )
-        else:
-            # Check if file is writable
-            path = values
-            if not is_writable_file(path):
-                raise ValueError("supplied file is unwritable")
-
-        setattr(namespace, self.dest, values)
+    func = is_writable_file
+    err_msg_singular = "Atleast one file is not writable"
+    err_msg_plural = "File is not writable"
 
 
-class FileIsNotWritableAction(Action):
+class FileIsNotWritableAction(CheckAction):
     """Check if file is not writable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of files are all not writable
-            if True in [is_writable_file(path) for path in values]:
-                raise ValueError(
-                    "supplied files contain atleast one writable file"
-                )
-        else:
-            # Check if file is not writable
-            path = values
-            if is_writable_file(path):
-                raise ValueError("supplied file is writable")
+    def func(value):
+        return not is_writable_file(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one file is writable"
+    err_msg_plural = "File is writable"
 
 
-class FileIsReadableAction(Action):
+class FileIsReadableAction(CheckAction):
     """Check if file is readable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of files are all readable
-            if False in [is_readable_file(path) for path in values]:
-                raise ValueError(
-                    "supplied files contain atleast one unreadable file"
-                )
-        else:
-            # Check if file is readable
-            path = values
-            if not is_readable_file(path):
-                raise ValueError("supplied file is unreadable")
-
-        setattr(namespace, self.dest, values)
+    func = is_readable_file
+    err_msg_singular = "Atleast one file is not readable"
+    err_msg_plural = "File is not readable"
 
 
-class FileIsNotReadableAction(Action):
-    """Check if file is not writable"""
+class FileIsNotReadableAction(CheckAction):
+    """Check if file is not readable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of files are all not readable
-            if True in [is_readable_file(path) for path in values]:
-                raise ValueError(
-                    "supplied files contain atleast one readable file"
-                )
-        else:
-            # Check if file is not readable
-            path = values
-            if is_readable_file(path):
-                raise ValueError("supplied file is readable")
+    def func(value):
+        return not is_readable_file(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one file is readable"
+    err_msg_plural = "File is readable"
 
 
-class FileIsExecutableAction(Action):
+class FileIsExecutableAction(CheckAction):
     """Check if file is executable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of files are all executable
-            if False in [is_executable_file(path) for path in values]:
-                raise ValueError(
-                    "supplied files contain atleast one unexecutable file"
-                )
-        else:
-            # Check if file is executable
-            path = values
-            if not is_executable_file(path):
-                raise ValueError("supplied file is unexecutable")
-
-        setattr(namespace, self.dest, values)
+    func = is_executable_file
+    err_msg_singular = "Atleast one file is not executable"
+    err_msg_plural = "File is not executable"
 
 
-class FileIsNotExecutableAction(Action):
-    """Check if file is not writable"""
+class FileIsNotExecutableAction(CheckAction):
+    """Check if file is not executable"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of files are all not executable
-            if True in [is_executable_file(path) for path in values]:
-                raise ValueError(
-                    "supplied files contain atleast one executable file"
-                )
-        else:
-            # Check if file is not executable
-            path = values
-            if is_executable_file(path):
-                raise ValueError("supplied file is executable")
+    def func(value):
+        return not is_executable_file(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one file is executable"
+    err_msg_plural = "File is executable"
 
 
-class FileIsValidAction(Action):
-    """Check validity of supplied file path(s)"""
+class FileIsValidAction(CheckAction):
+    """Check file is valid"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check validity of list of file paths
-            if False in [is_valid_file(path) for path in values]:
-                raise ValueError(
-                    "supplied file paths contain atleast one invalid file path"
-                )
-        else:
-            # Check validity of single path
-            path = values
-            if not is_valid_file(path):
-                raise ValueError("supplied file path is invalid")
-
-        setattr(namespace, self.dest, values)
+    func = is_valid_file
+    err_msg_singular = "Atleast one file is not valid"
+    err_msg_plural = "File is not valid"
 
 
-class FileExistsAction(Action):
-    """Check if File exists"""
+class FileExistsAction(CheckAction):
+    """Check if file exists"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check existence of list of paths
-            if False in [is_existing_file(path) for path in values]:
-                raise ValueError(
-                    "supplied paths has atleast one path that doesn't exist"
-                )
-        else:
-            # Check existence of single path
-            path = values
-            if not is_existing_file(path):
-                raise ValueError("supplied path exists")
-
-        setattr(namespace, self.dest, values)
+    func = is_existing_file
+    err_msg_singular = "Atleast one file does not exist"
+    err_msg_plural = "File does not exist"
 
 
-class FileDoesNotExistAction(Action):
-    """Check if File exists"""
+class FileDoesNotExistAction(CheckAction):
+    """Check if file exists"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check existence of list of paths
-            if True in [is_existing_file(path) for path in values]:
-                raise ValueError(
-                    "supplied paths has atleast one path that exists"
-                )
-        else:
-            # Check existence of single path
-            path = values
-            if is_existing_file(path):
-                raise ValueError("supplied path is exists")
+    def func(value):
+        return not is_existing_file(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one file exists"
+    err_msg_plural = "File exists"
 
 
-class FileIsEmptyAction(Action):
+class FileIsEmptyAction(CheckAction):
     """Check if file is empty"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of files are all empty
-            if False in [is_empty_file(path) for path in values]:
-                raise ValueError(
-                    "supplied files contain atleast one file that is not empty"
-                )
-        else:
-            # Check if file is empty
-            path = values
-            if not is_empty_file(path):
-                raise ValueError("supplied file is not empty")
-
-        setattr(namespace, self.dest, values)
+    func = is_empty_file
+    err_msg_singular = "Atleast one file is not empty"
+    err_msg_plural = "File is not empty"
 
 
-class FileIsNotEmptyAction(Action):
+class FileIsNotEmptyAction(CheckAction):
     """Check if file is not empty"""
 
-    def __call__(self, parser, namespace, values, option_string=None):
-        if isinstance(values, list):
-            # Check if list of files are not all empty
-            if True in [is_empty_file(path) for path in values]:
-                raise ValueError(
-                    "supplied files contain atleast one file that is empty"
-                )
-        else:
-            # Check if file is not empty
-            path = values
-            if is_empty_file(path):
-                raise ValueError("supplied file is empty")
+    def func(value):
+        return not is_empty_file(value)
 
-        setattr(namespace, self.dest, values)
+    err_msg_singular = "Atleast one file is empty"
+    err_msg_plural = "File is empty"
 
 
 class FileHasExtension(Action):

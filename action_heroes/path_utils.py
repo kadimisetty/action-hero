@@ -122,6 +122,7 @@ def is_executable_path(path):
 def resolve_path(path):
     """Returns resolved canonical path removing symbolic links if present"""
     return os.path.realpath(path)
+    # return str(pathlib.Path(path).resolve())
 
 
 def is_existing_or_creatable_path(path):
