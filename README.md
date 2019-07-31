@@ -12,7 +12,7 @@
 ####
 
 `action_heroes` is a python package that provides  
-__custom argparse _Actions_ to help you write command line interfaces.__
+__custom argparse _Actions_ to help you manage user arguments in command line interfaces.__
 
 
 ## Introduction
