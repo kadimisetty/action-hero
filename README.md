@@ -16,7 +16,7 @@ __custom argparse _Actions_ to help you write command line interfaces.__
 
 
 ## Introduction
-> __[Introduction](#introduction)__ · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
+> __[Introduction](#introduction)__ · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
 ##### 🤷‍♂️ Argparse, Parsers, Actions ? What now ??
 
@@ -51,7 +51,7 @@ __custom argparse _Actions_ to help you write command line interfaces.__
 
 
 ## Quick Usage
-> [Introduction](#introduction) · __[Quick Usage](#quick-usage)__ · [Help & FAQ](#help-and-faq) · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
+> [Introduction](#introduction) · __[Quick Usage](#quick-usage)__ · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
 - Use `pip` to install `action_heroes` 
 
@@ -62,7 +62,7 @@ pip install action_heroes
 
 
 ## Help and FAQ
-> [Introduction](#introduction) · [Quick Usage](#quick-usage) · __[Help & FAQ](#help-and-faq)__ · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
+> [Introduction](#introduction) · [Quick Usage](#quick-usage) · __[Help & FAQ](#help-and-faq)__ · [Catalog](#catalog) · [Development](#development)
 
 ### FAQ
 <dl>
@@ -84,8 +84,8 @@ pip install action_heroes
 
 
 ## Catalog
-> [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [FAQ](#faq) · __[Catalog](#catalog)__ · [Development](#development)
+> [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __[Catalog](#catalog)__ · [Development](#development)
 
 
 ## Development
-> [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [FAQ](#faq) · [Catalog](#catalog) · __[Development](#development)__
+> [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · __[Development](#development)__
