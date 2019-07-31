@@ -9,18 +9,14 @@
 ![Build Status](https://camo.githubusercontent.com/2dcdb388c206e4e3776ba9c61bbb1086160c3413/68747470733a2f2f7472617669732d63692e6f72672f736561746765656b2f66757a7a7977757a7a792e7376673f6272616e63683d6d6173746572)
 
 
-
-
 ####
 
 `action_heroes` is a python package that provides a bunch of   
 __custom argparse _Actions_ to help you write command line interfaces.__
 
 
->  Jump to — __[Introduction](#introduction)__ · [Quick Usage](#quick-usage) · [Help](#help) · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
-
-
 ## Introduction
+>  Jump to — __[Introduction](#introduction)__ · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
 
 ##### 🤷‍♂️ Argparse, Parsers, Actions ? What now ??
 
@@ -53,12 +49,9 @@ __custom argparse _Actions_ to help you write command line interfaces.__
 > Hey! If you like action heroes could you give it a quick __star__ ⭐️   
 > I put a lot of effort into this and each lil' star brightens my day
 
----
-
->  Jump to — [Introduction](#introduction) · __[Quick Usage](#quick-usage)__ · [Help](#help) · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
-
 
 ## Quick Usage
+>  Jump to — [Introduction](#introduction) · __[Quick Usage](#quick-usage)__ · [Help & FAQ](#help-and-faq) · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
 
 - Use `pip` to install `action_heroes` 
 
@@ -67,29 +60,18 @@ __custom argparse _Actions_ to help you write command line interfaces.__
 pip install action_heroes
 ```
 
---- 
-
->  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · __[Help](#help)__ · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
-
 
 ## Help
-
----
-
->  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help](#help) · __[FAQ](#faq)__ · [Catalog](#catalog) · [Development](#development)
+>  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · __[Help & FAQ](#help-and-faq)__ · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
 
 
 ## FAQ
+>  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __[FAQ](#faq)__ · [Catalog](#catalog) · [Development](#development)
 
----
 
->  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help](#help) · [FAQ](#faq) · __[Catalog](#catalog)__ · [Development](#development)
-
-## Catalopg
-
----
->  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help](#help) · [FAQ](#faq) · [Catalog](#catalog) · __[Development](#development)__
+## Catalog
+>  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [FAQ](#faq) · __[Catalog](#catalog)__ · [Development](#development)
 
 
 ## Development
-
+>  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [FAQ](#faq) · [Catalog](#catalog) · __[Development](#development)__
