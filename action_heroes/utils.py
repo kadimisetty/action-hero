@@ -65,6 +65,46 @@ class BaseAction(argparse.Action):
         """
         return cls.func(value)
 
+
+class CheckAction(BaseAction):
+    """Checks all values return True with func"""
+
+    def __init__(
+        self, option_strings, dest, nargs=None, help=None, metavar=None
+    ):
+        for attr in ["func", "err_msg_singular", "err_msg_plural"]:
+            # Use getattr. hasattr returns True as they're initialized to None.
+            if not getattr(self, attr):
+                raise ValueError(
+                    "Please supply required attribute: {}".format(attr)
+                )
+
+        super(BaseAction, self).__init__(
+            option_strings=option_strings,
+            dest=dest,
+            nargs=nargs,
+            help=help,
+            metavar=metavar,
+        )
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        # When values are a list of strings
+        if isinstance(values, list):
+            if not all([self.run_user_func(value) for value in values]):
+                raise ValueError(self.err_msg_plural)
+
+        # When values is one string
+        else:
+            value = values
+            if not self.run_user_func(value):
+                raise ValueError(self.err_msg_singular)
+
+        setattr(namespace, self.dest, values)
+
+
+class MapAction(BaseAction):
+    """Maps func on values"""
+
     def __init__(
         self, option_strings, dest, nargs=None, help=None, metavar=None
     ):
@@ -83,26 +123,6 @@ class BaseAction(argparse.Action):
             metavar=metavar,
         )
 
-
-class CheckAction(BaseAction):
-    """Checks all values return True with func"""
-    def __call__(self, parser, namespace, values, option_string=None):
-        # When values are a list of strings
-        if isinstance(values, list):
-            if not all([self.run_user_func(value) for value in values]):
-                raise ValueError(self.err_msg_plural)
-
-        # When values is one string
-        else:
-            value = values
-            if not self.run_user_func(value):
-                raise ValueError(self.err_msg_singular)
-
-        setattr(namespace, self.dest, values)
-
-
-class MapAction(BaseAction):
-    """Maps func on values"""
     def __call__(self, parser, namespace, values, option_string=None):
         # When values are a list of strings
         if isinstance(values, list):
@@ -118,6 +138,25 @@ class MapAction(BaseAction):
 
 class MapAndReplaceAction(BaseAction):
     """Maps func on values and replaces values with the result"""
+
+    def __init__(
+        self, option_strings, dest, nargs=None, help=None, metavar=None
+    ):
+        for attr in ["func"]:
+            # Use getattr. hasattr returns True as they're initialized to None.
+            if not getattr(self, attr):
+                raise ValueError(
+                    "Please supply required attribute: {}".format(attr)
+                )
+
+        super(BaseAction, self).__init__(
+            option_strings=option_strings,
+            dest=dest,
+            nargs=nargs,
+            help=help,
+            metavar=metavar,
+        )
+
     def __call__(self, parser, namespace, values, option_string=None):
         # When values are a list of strings
         if isinstance(values, list):
