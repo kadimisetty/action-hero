@@ -53,6 +53,7 @@ __custom argparse _Actions_ to help you write command line interfaces.__
 > Hey! If you like action heroes could you give it a quick __star__ ⭐️   
 > I put a lot of effort into this and each lil' star brightens my day
 
+---
 
 >  Jump to — [Introduction](#introduction) · __[Quick Usage](#quick-usage)__ · [Help](#help) · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
 
@@ -66,22 +67,27 @@ __custom argparse _Actions_ to help you write command line interfaces.__
 pip install action_heroes
 ```
 
+--- 
+
 >  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · __[Help](#help)__ · [FAQ](#faq) · [Catalog](#catalog) · [Development](#development)
 
 
-## Help and Usage
+## Help
 
+---
 
 >  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help](#help) · __[FAQ](#faq)__ · [Catalog](#catalog) · [Development](#development)
 
 
 ## FAQ
 
+---
+
 >  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help](#help) · [FAQ](#faq) · __[Catalog](#catalog)__ · [Development](#development)
 
 ## Catalopg
 
-
+---
 >  Jump to — [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help](#help) · [FAQ](#faq) · [Catalog](#catalog) · __[Development](#development)__
 
 
