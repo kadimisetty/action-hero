@@ -52,7 +52,7 @@ __custom argparse _Actions_ to help you write command line interfaces.__
 </dl>
 
 > Hey! If you like action heroes could you give it a quick __star__ ⭐️   
-> I put a lot of effort into this and each lil' star makes my day — @kadimisetty
+> I put a lot of effort into this and each lil' star brightens my day
 
 
 ## Quick Usage
