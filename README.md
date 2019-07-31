@@ -66,23 +66,20 @@ pip install action_heroes
 
 ### FAQ
 <dl>
-<dt>There was no mention of humans! Is this work for humans?</dt>
-<dd>Yes, yes it does work for humans trademark.</dd>
+<dt>There was no mention of humans! Does this work for humans trademark etc.?</dt>
+<dd>Yes, yes it does work for humans :)</dd>
 
 <dt>What do I need to know to use `action_heroes` in my command line application?</dt>
-<dd>Vanilla `argparse` knowledge is all you should need.</dd>
+<dd>Vanilla `argparse` knowledge should do it.</dd>
 
-<dt>What form do user argument exceptions show themeselves as?</dt>
+<dt>What type are user argument exceptions going to bubble up as?</dt>
 <dd>`argparse.ArgumentError{"helpful error message"}`</dd>
 
 <dt>Is `action_heroes` tied to the `argparse` module?</dt>
-<dd>Technically no. Any project that has a can use `argpoarse.Action` should be able to use it. Do watch for the exception type `argparse.ArgumentError`.</dd>
+<dd>Technically no. Any project that can use an `argpoarse.Action` should work.Do have a way to hadle the exception type `argparse.ArgumentError` though.</dd>
 
 <dt>I don't want to learn another library. I already know `argparse.ArgumentParser`!</dt>
-<dd>Great! You know all the concepts then. `action_heroes` can pretty much just be used like any other `argparse.Action`.</dd>
-
-<dt>Who are you?</dt>
-<dd>Hi! Nice to meet you, my name is Sri Kadimisetty.</dd>
+<dd>Great! You know the concepts then. `action_heroes` can pretty much just be used like any other `argparse.Action`.</dd>
 </dl>
 
 
