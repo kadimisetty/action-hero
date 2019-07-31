@@ -58,20 +58,20 @@ from action_heroes.path_utils import (
 
 
 class TestResolvePathAction(ParserEnclosedTestCase):
-    def test_resolve_path_action_processes_path(self):
+    def test_processes_path(self):
         self.parser.add_argument("--path", action=ResolvePathAction)
         with tempfile.TemporaryDirectory() as dir1:
             args = self.parser.parse_args(["--path", dir1])
             self.assertIn("path", args)
 
-    def test_resolve_path_action_resolves_single_path(self):
+    def test_on_single_path(self):
         self.parser.add_argument("--path", action=ResolvePathAction)
         with tempfile.TemporaryDirectory() as dir1:
             args = self.parser.parse_args(["--path", dir1])
             expected = resolve_path(dir1)
             self.assertEqual(args.path, expected)
 
-    def test_resolve_path_action_resolves_list_of_paths(self):
+    def test_on_list_of_paths(self):
         self.parser.add_argument("--path", nargs="+", action=ResolvePathAction)
 
         # Create few temporary paths
@@ -90,7 +90,7 @@ class TestResolvePathAction(ParserEnclosedTestCase):
 
 
 class TestEnsureDirectoryAction(ParserEnclosedTestCase):
-    def test_ensure_directory_on_nonexisting_directory(self):
+    def test_on_nonexisting_directory(self):
         self.parser.add_argument("--path", action=EnsureDirectoryAction)
         with tempfile.TemporaryDirectory() as parent_directory:
             # Specify unique directory name
@@ -102,7 +102,7 @@ class TestEnsureDirectoryAction(ParserEnclosedTestCase):
             # Assert specified directory does exist
             self.assertTrue(os.path.isdir(dir1))
 
-    def test_ensure_directory_on_existing_directory(self):
+    def test_on_existing_directory(self):
         self.parser.add_argument("--path", action=EnsureDirectoryAction)
         # Specify directory to check
         with tempfile.TemporaryDirectory() as dir1:
@@ -113,7 +113,7 @@ class TestEnsureDirectoryAction(ParserEnclosedTestCase):
             # Assert specified directory still exist
             self.assertTrue(os.path.isdir(dir1))
 
-    def test_ensure_directory_on_multiple_mixed_existing_directories(self):
+    def test_on_multiple_mixed_existing_directories(self):
         self.parser.add_argument(
             "--path", nargs="+", action=EnsureDirectoryAction
         )
@@ -145,7 +145,7 @@ class TestEnsureDirectoryAction(ParserEnclosedTestCase):
 
 
 class TestEnsureFileAction(ParserEnclosedTestCase):
-    def test_ensure_file_on_nonexisting_file(self):
+    def test_on_nonexisting_file(self):
         self.parser.add_argument("--path", action=EnsureFileAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -162,7 +162,7 @@ class TestEnsureFileAction(ParserEnclosedTestCase):
             # Assert specified file now exists
             self.assertTrue(os.path.isfile(file1))
 
-    def test_ensure_file_on_existing_file(self):
+    def test_on_existing_file(self):
         self.parser.add_argument("--path", action=EnsureFileAction)
         # Specify file to check
         with tempfile.NamedTemporaryFile() as file1:
@@ -173,7 +173,7 @@ class TestEnsureFileAction(ParserEnclosedTestCase):
             # Assert specified file still exists
             self.assertTrue(os.path.isfile(file1.name))
 
-    def test_ensure_file_on_multiple_mixed_existing_files(self):
+    def test_on_multiple_mixed_existing_files(self):
         self.parser.add_argument("--path", nargs="+", action=EnsureFileAction)
         with tempfile.TemporaryDirectory() as parent_directory:
             # Specify few new temporary files
@@ -203,7 +203,7 @@ class TestEnsureFileAction(ParserEnclosedTestCase):
 
 
 class TestPathIsValidAction(ParserEnclosedTestCase):
-    def test_valid_path_on_valid_path(self):
+    def test_on_valid_path(self):
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.TemporaryDirectory() as path1:
             # Assert path is valid path
@@ -213,7 +213,7 @@ class TestPathIsValidAction(ParserEnclosedTestCase):
             # Assert path from args is valid path
             self.assertTrue(is_valid_path(args.path))
 
-    def test_valid_path_on_multiple_valid_paths(self):
+    def test_on_multiple_valid_paths(self):
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
         # Create few temporary paths
@@ -229,7 +229,7 @@ class TestPathIsValidAction(ParserEnclosedTestCase):
         # Delete all temporary paths
         [os.rmdir(path) for path in paths]
 
-    def test_valid_path_on_invalid_path(self):
+    def test_on_invalid_path(self):
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.TemporaryDirectory() as parent_directory:
             # Create a file name with a char forbidden in POSIX and WIN*
@@ -244,7 +244,7 @@ class TestPathIsValidAction(ParserEnclosedTestCase):
                 # Parse args with prohibited filename
                 self.parser.parse_args(["--path", file_path])
 
-    def test_valid_path_on_mixed_valid_and_invalid_path(self):
+    def test_on_mixed_valid_and_invalid_path(self):
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
         with tempfile.TemporaryDirectory() as parent_directory:
@@ -268,7 +268,7 @@ class TestPathIsValidAction(ParserEnclosedTestCase):
 
 
 class TestFileIsValidAction(ParserEnclosedTestCase):
-    def test_valid_file_on_valid_file_path(self):
+    def test_on_valid_file_path(self):
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.NamedTemporaryFile() as file_path:
             # Assert file path is valid file path
@@ -278,7 +278,7 @@ class TestFileIsValidAction(ParserEnclosedTestCase):
             # Assert path from args is valid path
             self.assertTrue(is_valid_file(args.path))
 
-    def test_valid_file_on_multiple_valid_file_paths(self):
+    def test_on_multiple_valid_file_paths(self):
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
         # Create few temporary paths
@@ -294,7 +294,7 @@ class TestFileIsValidAction(ParserEnclosedTestCase):
         # Delete all temporary file paths
         [os.remove(path) for path in file_paths]
 
-    def test_valid_file_on_invalid_file_path(self):
+    def test_on_invalid_file_path(self):
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.TemporaryDirectory() as parent_directory:
             # Create a file name with a char forbidden in POSIX and WIN*
@@ -309,7 +309,7 @@ class TestFileIsValidAction(ParserEnclosedTestCase):
                 # Parse args with prohibited filename
                 self.parser.parse_args(["--path", file_path])
 
-    def test_valid_file_on_mixed_valid_and_invalid_file_path(self):
+    def test_on_mixed_valid_and_invalid_file_path(self):
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
         with tempfile.TemporaryDirectory() as parent_directory:
@@ -335,7 +335,7 @@ class TestFileIsValidAction(ParserEnclosedTestCase):
 
 
 class TestDirectoryIsValidAction(ParserEnclosedTestCase):
-    def test_valid_directory_on_valid_directory_path(self):
+    def test_on_valid_directory_path(self):
         self.parser.add_argument("--path", action=DirectoryIsValidAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Assert path is valid path
@@ -345,7 +345,7 @@ class TestDirectoryIsValidAction(ParserEnclosedTestCase):
             # Assert path from args is valid path
             self.assertTrue(is_valid_directory(args.path))
 
-    def test_valid_directory_on_multiple_valid_directory_paths(self):
+    def test_on_multiple_valid_directory_paths(self):
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsValidAction
         )
@@ -363,7 +363,7 @@ class TestDirectoryIsValidAction(ParserEnclosedTestCase):
         # Delete all temporary file paths
         [os.rmdir(d) for d in dirs]
 
-    def test_valid_directory_on_invalid_directory_path(self):
+    def test_on_invalid_directory_path(self):
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.TemporaryDirectory() as parent_directory:
             # Create a file name with a char forbidden in POSIX and WIN*
@@ -378,7 +378,7 @@ class TestDirectoryIsValidAction(ParserEnclosedTestCase):
                 # Parse args with prohibited filename
                 self.parser.parse_args(["--path", dir_path])
 
-    def test_valid_file_on_mixed_valid_and_invalid_file_path(self):
+    def test_on_mixed_valid_and_invalid_file_path(self):
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
         with tempfile.TemporaryDirectory() as parent_directory:
@@ -402,7 +402,7 @@ class TestDirectoryIsValidAction(ParserEnclosedTestCase):
 
 
 class TestPathExistsAction(ParserEnclosedTestCase):
-    def test_path_exists_on_existing_path(self):
+    def test_on_existing_path(self):
         self.parser.add_argument("--path", action=PathExistsAction)
         # Specify file to check
         with tempfile.NamedTemporaryFile() as file1:
@@ -413,7 +413,7 @@ class TestPathExistsAction(ParserEnclosedTestCase):
             # Assert specified file still exists
             self.assertTrue(is_existing_path(file1.name))
 
-    def test_path_exists_on_nonexisting_path(self):
+    def test_on_nonexisting_path(self):
         self.parser.add_argument("--path", action=PathExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -429,7 +429,7 @@ class TestPathExistsAction(ParserEnclosedTestCase):
                 # Parse args with --path as specified file that does not exist
                 self.parser.parse_args(["--path", file1])
 
-    def test_path_exists_on_mixed_existing_and_nonexisting_path(self):
+    def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument("--path", nargs="+", action=PathExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -448,7 +448,7 @@ class TestPathExistsAction(ParserEnclosedTestCase):
 
 
 class TestPathDoesNotExistsAction(ParserEnclosedTestCase):
-    def test_path_does_not_exist_on_existing_path(self):
+    def test_on_existing_path(self):
         self.parser.add_argument("--path", action=PathDoesNotExistsAction)
         # Specify file to check
         with tempfile.NamedTemporaryFile() as file1:
@@ -456,7 +456,7 @@ class TestPathDoesNotExistsAction(ParserEnclosedTestCase):
                 # Parse args with --path as specified file that does not exist
                 self.parser.parse_args(["--path", file1.name])
 
-    def test_path_does_not_exists_on_nonexisting_path(self):
+    def test_on_nonexisting_path(self):
         self.parser.add_argument("--path", action=PathDoesNotExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -472,7 +472,7 @@ class TestPathDoesNotExistsAction(ParserEnclosedTestCase):
             # Assert specified file no longer exists
             self.assertFalse(is_existing_path(file1))
 
-    def test_path_does_not_exist_on_mixed_existing_and_nonexisting_path(self):
+    def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathDoesNotExistsAction
         )
@@ -493,7 +493,7 @@ class TestPathDoesNotExistsAction(ParserEnclosedTestCase):
 
 
 class TestFileExistsAction(ParserEnclosedTestCase):
-    def test_file_exists_on_existing_path(self):
+    def test_on_existing_path(self):
         self.parser.add_argument("--path", action=FileExistsAction)
         # Specify file to check
         with tempfile.NamedTemporaryFile() as file1:
@@ -504,7 +504,7 @@ class TestFileExistsAction(ParserEnclosedTestCase):
             # Assert specified file still exists
             self.assertTrue(is_existing_file(file1.name))
 
-    def test_file_exists_on_nonexisting_file(self):
+    def test_on_nonexisting_file(self):
         self.parser.add_argument("--path", action=FileExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -520,7 +520,7 @@ class TestFileExistsAction(ParserEnclosedTestCase):
                 # Parse args with --path as specified file that does not exist
                 self.parser.parse_args(["--path", file1])
 
-    def test_file_exists_on_mixed_existing_and_nonexisting_path(self):
+    def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument("--path", nargs="+", action=FileExistsAction)
         with tempfile.TemporaryDirectory() as directory:
             # Specify file to check
@@ -543,7 +543,7 @@ class TestFileExistsAction(ParserEnclosedTestCase):
 
 
 class TestFileDoesNotExistsAction(ParserEnclosedTestCase):
-    def test_file_does_not_exist_on_existing_path(self):
+    def test_on_existing_path(self):
         self.parser.add_argument("--path", action=FileDoesNotExistAction)
         # Specify file to check
         with tempfile.NamedTemporaryFile() as file1:
@@ -551,7 +551,7 @@ class TestFileDoesNotExistsAction(ParserEnclosedTestCase):
                 # Parse args with --path as specified file that does not exist
                 self.parser.parse_args(["--path", file1.name])
 
-    def test_file_does_not_exists_on_nonexisting_path(self):
+    def test_on_nonexisting_path(self):
         self.parser.add_argument("--path", action=FileDoesNotExistAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -567,7 +567,7 @@ class TestFileDoesNotExistsAction(ParserEnclosedTestCase):
             # Assert specified file no longer exists
             self.assertFalse(is_existing_file(file1))
 
-    def test_file_does_not_exist_on_mixed_existing_and_nonexisting_path(self):
+    def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument(
             "--path", nargs="+", action=FileDoesNotExistAction
         )
@@ -591,7 +591,7 @@ class TestFileDoesNotExistsAction(ParserEnclosedTestCase):
 
 
 class TestDirectoryExistsAction(ParserEnclosedTestCase):
-    def test_directory_exists_on_existing_path(self):
+    def test_on_existing_path(self):
         self.parser.add_argument("--path", action=DirectoryExistsAction)
         # Specify directory to check
         with tempfile.TemporaryDirectory() as dir1:
@@ -603,7 +603,7 @@ class TestDirectoryExistsAction(ParserEnclosedTestCase):
             self.assertTrue(is_existing_path(dir1))
             self.assertTrue(is_existing_path(args.path))
 
-    def test_directory_exists_on_nonexisting_path(self):
+    def test_on_nonexisting_path(self):
         self.parser.add_argument("--path", action=DirectoryExistsAction)
         # Specifiy directory
         dir1 = tempfile.mkdtemp()
@@ -618,7 +618,7 @@ class TestDirectoryExistsAction(ParserEnclosedTestCase):
             # Parse args with list of paths
             self.parser.parse_args(["--path", dir1])
 
-    def test_path_exists_on_mixed_existing_and_nonexisting_path(self):
+    def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument("--path", action=DirectoryExistsAction)
         # Specifiy directores
         dir1 = tempfile.mkdtemp()
@@ -637,13 +637,13 @@ class TestDirectoryExistsAction(ParserEnclosedTestCase):
 
 
 class TestDirectoryDoesNotExistsAction(ParserEnclosedTestCase):
-    def test_directory_does_not_exist_on_existing_path(self):
+    def test_on_existing_path(self):
         self.parser.add_argument("--path", action=DirectoryDoesNotExistAction)
         with tempfile.TemporaryDirectory() as dir1:
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
-    def test_directory_does_not_exists_on_nonexisting_path(self):
+    def test_on_nonexisting_path(self):
         self.parser.add_argument("--path", action=DirectoryDoesNotExistAction)
         # Specify directory
         dir1 = tempfile.mkdtemp()
@@ -654,7 +654,7 @@ class TestDirectoryDoesNotExistsAction(ParserEnclosedTestCase):
         # Pargs args with removed specified directory
         self.parser.parse_args(["--path", dir1])
 
-    def test_path_does_not_exist_on_mixed_existing_and_nonexisting_path(self):
+    def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryDoesNotExistAction
         )
@@ -674,7 +674,7 @@ class TestDirectoryDoesNotExistsAction(ParserEnclosedTestCase):
 
 
 class TestFileIsWritableAction(ParserEnclosedTestCase):
-    def test_file_writable_on_writable_file(self):
+    def test_on_writable_file(self):
         self.parser.add_argument("--path", action=FileIsWritableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -685,7 +685,7 @@ class TestFileIsWritableAction(ParserEnclosedTestCase):
             # Assert file is still writable
             self.assertTrue(is_writable_file(file1.name))
 
-    def test_file_writable_on_unwritable_file(self):
+    def test_on_unwritable_file(self):
         self.parser.add_argument("--path", action=FileIsWritableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -694,7 +694,7 @@ class TestFileIsWritableAction(ParserEnclosedTestCase):
             # No errors when parsing args
             self.parser.parse_args(["--path", file1.name])
 
-    def test_file_writable_on_mixed_writable_and_unwritable_file(self):
+    def test_on_mixed_writable_and_unwritable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsWritableAction
         )
@@ -786,7 +786,7 @@ class TestDirectoryIsNotWritableAction(ParserEnclosedTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
-    def test_on_wunwritable_directory(self):
+    def test_on_unwritable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsNotWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify unwritable directory and remove write permissions
@@ -816,7 +816,7 @@ class TestPathIsWritableAction(ParserEnclosedTestCase):
             # Parse with readable directory
             self.parser.parse_args(["--path", dir1])
 
-    def test_on_wunwritable_directory(self):
+    def test_on_unwritable_directory(self):
         self.parser.add_argument("--path", action=PathIsWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify unwritable directory and remove write permissions
@@ -848,7 +848,7 @@ class TestPathIsNotWritableAction(ParserEnclosedTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
-    def test_on_wunwritable_directory(self):
+    def test_on_unwritable_directory(self):
         self.parser.add_argument("--path", action=PathIsNotWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify unwritable directory and remove write permissions
