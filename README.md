@@ -96,26 +96,23 @@ line_counter.py mary.md
 $ python line_counter.py --file mary.md
 mary.md has 39 lines
 
-$ python line_counter.py --file fakefile.md
-...
-ArgumentError: File does not exist
+$ python line_counter.py
+usage: line_counter.py [-h] [--file FILE]
 
+$ python line_counter.py --file nofile.md
+usage: line_counter.py [-h] [--file FILE]
+line_counter.py: error: argument --file: File is not readable
 ```
 
-**Note**: _Supported Python version 3.4 upwards._
+**Note**: _Supported Python versions 3.4 upwards._
 
 ## Help and FAQ
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · __Help & FAQ__ · [Catalog](#catalog) · [Development](#development)
 
-### Handling User Argument Exceptions
-Errors detected by `action_hero` action raise `argparse.ArgumentError` exceptions in order to maintain consistency with the rest of your `argparse` related code.
+### On not capturing user argument exceptions
+`ArgumentParser` has a slightly unconventional approach to handling `ArgumentError`s. Upon encountering one, it prints argument usage information, error and exits. 
 
-In the earlier example, were the file unreadable, an exception would be triggered when `parser.parse_args()` runs.
-
-```python
-ArgumentError("File is unreadable")
-```
-
+I mention this, so you don't setup a `try/except` around `parser.parse_args()` to capture the exception. In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_heroes` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit.
 
 ### FAQ
 <dl>
@@ -244,4 +241,4 @@ Contains Actions related to emails
 6. Proper repo things.
 
 > Thank you for using `action_heroes`.  
-> Let me know if you have any feedback! I'm [@sri](https://twitter.com/sri) on twitter💥
+> If you have any ideas for more actions, please leave a github issue. 💥
