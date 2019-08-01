@@ -18,12 +18,12 @@ __custom argparse _Actions_ to help you manage user arguments in command line in
 ## Introduction
 > __[Introduction](#introduction)__ · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
-##### 🤷‍♂️ Argparse, Parsers, Actions ? What now ??
+##### _Argparse, Parsers, Actions? What now??_ 🤷‍♂️
 
 <dl>
 
 <dt>1. argparse</dt>
-<dd><code>argparse</code> is a python standard library module used to build command line interfaces that accept user arguments.
+<dd><code>argparse</code> is a python standard library module used to build command line interfaces.
 <a href="https://docs.python.org/3/library/argparse.html">⚓︎</a>
 </dd>
 
@@ -53,33 +53,64 @@ __custom argparse _Actions_ to help you manage user arguments in command line in
 ## Quick Usage
 > [Introduction](#introduction) · __[Quick Usage](#quick-usage)__ · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
-- Use `pip` to install `action_heroes` 
+**Installation**: Use `pip` for installation
 
-
-```python
+```python 
 pip install action_heroes
 ```
 
+**Quick Usage**
+
+```python
+import argparse
+
+from action_heroes.path import FileIsReadableAction
+
+
+if __name__ == "__main__":
+    # Create parser
+    parser = argparse.ArgumentParser()
+
+    # Add user argument "file"
+    parser.add_argument("--file", action=FileIsReadableAction)
+
+    # Parse user arguments
+    args = parser.parse_args()
+
+    if args.file:
+        # Count lines in file
+        with open(args.file) as f:
+            print(f"{args.file} has {len(f.readlines())} lines")
+    else:
+        # Print usage when no arguments were supplied
+        parser.print_usage()
+```
+
+
+**Note**: _Supported Python version 3.4 upwards._
 
 ## Help and FAQ
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · __[Help & FAQ](#help-and-faq)__ · [Catalog](#catalog) · [Development](#development)
 
 ### FAQ
 <dl>
-<dt>There was no mention of humans! Does this work for humans™?</dt>
-<dd>Yeah, yeah it works for humans :)</dd>
-
 <dt>What do I need to know to use <code>action_heroes</code> in my command line application?</dt>
 <dd>Vanilla <code>argparse</code> knowledge should do it.</dd>
 
-<dt>What type are user argument exceptions going to bubble up as?</dt>
-<dd><code>argparse.ArgumentError{"helpful error message"}</code></dd>
+<dt>Where can I find information about <code>argparse</code>?</dt>
+<dd><code>argparse</code> is part of the <a href="https://docs.python.org/3.7/library/argparse.html#module-argparse">Python standard library</a>.</dd>
+
+<dt>What type are the user argument exceptions?</dt>
+<dd><code>argparse.ArgumentError{"helpful error message"}</code>, just like any other <code>argparse.Action</code></code></dd>
 
 <dt>Is <code>action_heroes</code> tied to the <code>argparse</code> module?</dt>
-<dd>Technically no. Any project that can use an <code>argpoarse.Action</code> should work.Do have a way to hadle the exception type <code>argparse.ArgumentError</code> though.</dd>
+<dd>Yes <em>(but technically no — any project that can use an <code>argpoarse.Action</code> should work as long as it handles the <code>argparse.ArgumentError</code> exception)</em></dd>
 
-<dt>I don't want to learn another library. I already know <code>argparse.ArgumentParser</code>!</dt>
-<dd>Great! You know the concepts then. <code>action_heroes</code> can pretty much just be used like any other `argparse.Action`.</dd>
+<dt>I don't want to learn another library. I already know <code>argparse</code>!</dt>
+<dd><code>action_heroes</code> can be used just like any other <code>argparse.Action</code>, so feel free to take advantage.</dd>
+
+<dt>There was no mention of humans! Does this work for humans?</dt>
+<dd>Yes, yes it works for humans :)</dd>
 </dl>
 
 
@@ -89,3 +120,10 @@ pip install action_heroes
 
 ## Development
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · __[Development](#development)__
+
+- __Formatting__-: _PEP8 only. Please format with  black using `black_linelength=79`_
+- __License__: _The MIT License_
+- __Image Attributions__: _Karate by Alex Auda Samora from the Noun Project_
+
+> Thank you for using `action_heroes`.  
+> Let me know if you have any feedback! I'm [@sri](https://twitter.com/sri) on twitter💥
