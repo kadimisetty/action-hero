@@ -142,11 +142,12 @@ ArgumentError("File is unreadable")
 ## Catalog
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __Catalog__ · [Development](#development)
 
+Example of importing an action  
+`from action_heroes import FileIsReadableAction `
+
 
 ### Path
-
-- Contains Actions related to _paths, directories and files_
-- Example: `from action_heroes.path import FileIsReadableAction `
+Contains Actions related to _paths, directories and files_
 
 | Action | Description | Arguments |
 | --- | --- | --- |
@@ -186,9 +187,7 @@ ArgumentError("File is unreadable")
 
 
 ### Net
-
-- Contains Actions related to networks
-- Example: `from action_heroes.net import URLIsReachableAction`
+Contains Actions related to networks
 
 | Action | Description | Arguments |
 | --- | --- | --- |
@@ -202,9 +201,7 @@ ArgumentError("File is unreadable")
 
 
 ### Types
-
-- Contains Actions related to types
-- Example: `from action_heroes.path import FileIsReadableAction`
+Contains Actions related to types
 
 | Action | Description | Arguments |
 | --- | --- | --- |
@@ -216,16 +213,14 @@ ArgumentError("File is unreadable")
 
 
 ### Range
-- Contains Actions related to ranges
-- Example: `from action_heroes.path import`
+Contains Actions related to ranges
 
 | Action | Description | Arguments |
 | --- | --- | --- |
 
 
 ### Email
-- Contains Actions related to emails
-- Example: `from action_heroes.path import EmailIsValidAction`
+Contains Actions related to emails
 
 | Action | Description | Arguments |
 | --- | --- | --- |
