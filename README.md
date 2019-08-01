@@ -243,3 +243,4 @@ Contains Actions related to emails
 
 > Thank you for using `action_heroes`.  
 > If you have any ideas for more actions, please leave a github issue. 💥
+> And if you like what you see, a ⭐️ would be much appreciated!
