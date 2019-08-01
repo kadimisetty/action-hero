@@ -104,13 +104,13 @@ class CheckAction(BaseAction):
         # When values are a list of strings
         if isinstance(values, list):
             if not all([self.run_user_func(value) for value in values]):
-                raise ValueError(self.err_msg_plural)
+                raise argparse.ArgumentError(self.err_msg_plural)
 
         # When values is one string
         else:
             value = values
             if not self.run_user_func(value):
-                raise ValueError(self.err_msg_singular)
+                raise argparse.ArgumentError(self.err_msg_singular)
 
         setattr(namespace, self.dest, values)
 
