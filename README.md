@@ -16,7 +16,7 @@ __custom argparse _Actions_ to help you manage user arguments in command line in
 
 
 ## Introduction
-> __[Introduction](#introduction)__ · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
+> __Introduction__ · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
 ##### _Argparse, Parsers, Actions? What now??_ 🤷‍♂️
 
@@ -51,17 +51,18 @@ __custom argparse _Actions_ to help you manage user arguments in command line in
 
 
 ## Quick Usage
-> [Introduction](#introduction) · __[Quick Usage](#quick-usage)__ · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
+> [Introduction](#introduction) · __Quick Usage__ · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
-**Installation**: Use `pip` for installation
+**1. Installation**: Use `pip` for installation
 
 ```python 
 pip install action_heroes
 ```
 
-**Quick Usage**
+**2. Quick Usage**: Count number of lines in a file. 
 
 ```python
+#line_counter.py
 import argparse
 
 from action_heroes.path import FileIsReadableAction
@@ -86,11 +87,35 @@ if __name__ == "__main__":
         parser.print_usage()
 ```
 
+Run `line_counter.py` on the command line
+
+```bash
+$ ls
+line_counter.py mary.md
+
+$ python line_counter.py --file mary.md
+mary.md has 39 lines
+
+$ python line_counter.py --file fakefile.md
+...
+ArgumentError: File does not exist
+
+```
 
 **Note**: _Supported Python version 3.4 upwards._
 
 ## Help and FAQ
-> [Introduction](#introduction) · [Quick Usage](#quick-usage) · __[Help & FAQ](#help-and-faq)__ · [Catalog](#catalog) · [Development](#development)
+> [Introduction](#introduction) · [Quick Usage](#quick-usage) · __Help & FAQ__ · [Catalog](#catalog) · [Development](#development)
+
+### Handling User Argument Exceptions
+Errors detected by `action_hero` action raise `argparse.ArgumentError` exceptions in order to maintain consistency with the rest of your `argparse` related code.
+
+In the earlier example, were the file unreadable, an exception would be triggered when `parser.parse_args()` runs.
+
+```python
+ArgumentError("File is unreadable")
+```
+
 
 ### FAQ
 <dl>
@@ -115,15 +140,45 @@ if __name__ == "__main__":
 
 
 ## Catalog
-> [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __[Catalog](#catalog)__ · [Development](#development)
+> [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __Catalog__ · [Development](#development)
+
+### Path
+
+| Action | Description | Arguments |
+| --- | --- | --- |
+
+
+### Net
+| Action | Description | Arguments |
+| --- | --- | --- |
+
+
+### Type
+| Action | Description | Arguments |
+| --- | --- | --- |
+
+### Range
+| Action | Description | Arguments |
+| --- | --- | --- |
+
+### Email
+| Action | Description | Arguments |
+| --- | --- | --- |
+
 
 
 ## Development
-> [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · __[Development](#development)__
+> [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · __Development__
 
+### Notes
 - __Formatting__-: _PEP8 only. Please format with  black using `black_linelength=79`_
 - __License__: _The MIT License_
 - __Image Attributions__: _Karate by Alex Auda Samora from the Noun Project_
+
+### Roadmap
+1. Better exception messages eg. Including filename etc.
+2. Configurable exception type. eg. ValueError/ArgumentError etc.
+3. More Actions
 
 > Thank you for using `action_heroes`.  
 > Let me know if you have any feedback! I'm [@sri](https://twitter.com/sri) on twitter💥
