@@ -59,7 +59,7 @@ __custom argparse _Actions_ to help you manage user arguments in command line in
 pip install action_heroes
 ```
 
-**2. Quick Usage**: Count number of lines in a file. 
+**2. Quick Usage**: CLI program that counts number of lines of a file. 
 
 ```python
 #line_counter.py
@@ -142,29 +142,94 @@ ArgumentError("File is unreadable")
 ## Catalog
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __Catalog__ · [Development](#development)
 
+
 ### Path
+
+- Contains Actions related to _paths, directories and files_
+- Example: `from action_heroes.path import FileIsReadableAction `
 
 | Action | Description | Arguments |
 | --- | --- | --- |
+| DirectoryDoesNotExistAction | | |
+| DirectoryExistsAction | | |
+| DirectoryIsExecutableAction | | |
+| DirectoryIsNotExecutableAction | | |
+| DirectoryIsNotReadableAction | | |
+| DirectoryIsNotWritableAction | | |
+| DirectoryIsReadableAction | | |
+| DirectoryIsValidAction | | |
+| DirectoryIsWritableAction | | |
+| EnsureDirectoryAction | | |
+| EnsureFileAction | | |
+| FileDoesNotExistAction | | |
+| FileExistsAction | | |
+| FileHasExtension | | |
+| FileIsEmptyAction | | |
+| FileIsExecutableAction | | |
+| FileIsNotEmptyAction | | |
+| FileIsNotExecutableAction | | |
+| FileIsNotReadableAction | | |
+| FileIsNotWritableAction | | |
+| FileIsReadableAction | | |
+| FileIsValidAction | | |
+| FileIsWritableAction | | |
+| PathDoesNotExistsAction | | |
+| PathExistsAction | | |
+| PathIsExecutableAction | | |
+| PathIsNotExecutableAction | | |
+| PathIsNotReadableAction | | |
+| PathIsNotWritableAction | | |
+| PathIsReadableAction | | |
+| PathIsValidAction | | |
+| PathIsWritableAction | | |
+| ResolvePathAction | | |
 
 
 ### Net
+
+- Contains Actions related to networks
+- Example: `from action_heroes.net import URLIsReachableAction`
+
 | Action | Description | Arguments |
 | --- | --- | --- |
+| IPIsValidIPAddressAction | | |
+| IPIsValidIPAddressAction | | |
+| IPIsValidIPv4AddressAction | | |
+| IPIsValidIPv6AddressAction | | |
+| URLIsNotReachableAction | | |
+| URLIsReachableAction | | |
+| URLWithHTTPResponseStatusCodeAction | | |
 
 
-### Type
+### Types
+
+- Contains Actions related to types
+- Example: `from action_heroes.path import FileIsReadableAction`
+
 | Action | Description | Arguments |
 | --- | --- | --- |
+| IsConvertibleToFloatAction | | |
+| IsConvertibleToIntAction | | |
+| IsConvertibleToUUIDAction | | |
+| IsFalsyAction | | |
+| IsTruthyAction | | |
+
 
 ### Range
+- Contains Actions related to ranges
+- Example: `from action_heroes.path import`
+
 | Action | Description | Arguments |
 | --- | --- | --- |
+
 
 ### Email
+- Contains Actions related to emails
+- Example: `from action_heroes.path import EmailIsValidAction`
+
 | Action | Description | Arguments |
 | --- | --- | --- |
-
+| EmailIsValidAction | | |
 
 
 ## Development
@@ -178,7 +243,10 @@ ArgumentError("File is unreadable")
 ### Roadmap
 1. Better exception messages eg. Including filename etc.
 2. Configurable exception type. eg. ValueError/ArgumentError etc.
-3. More Actions
+3. More Actions.
+4. Reference with Sphinx docs + github pages on a seperate branch.
+5. More examples.
+6. Proper repo things.
 
 > Thank you for using `action_heroes`.  
 > Let me know if you have any feedback! I'm [@sri](https://twitter.com/sri) on twitter💥
