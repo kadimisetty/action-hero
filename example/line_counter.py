@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import argparse
 
 from action_heroes.path import FileIsReadableAction
