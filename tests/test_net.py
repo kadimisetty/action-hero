@@ -5,13 +5,14 @@ from action_heroes.net import (
     URLIsNotReachableAction,
     URLIsReachableAction,
 )
+
 from action_heroes.utils import (
-    ParserEnclosedTestCase,
+    ActionHeroesTestCase,
     run_only_when_when_internet_is_up,
 )
 
 
-class TestIPIsValidIPv4AddressAction(ParserEnclosedTestCase):
+class TestIPIsValidIPv4AddressAction(ActionHeroesTestCase):
     def test_on_valid_ipv4_address(self):
         self.parser.add_argument("--ip", action=IPIsValidIPv4AddressAction)
         # Parse without raising any errors
@@ -48,7 +49,7 @@ class TestIPIsValidIPv4AddressAction(ParserEnclosedTestCase):
             self.parser.parse_args(["--ip", *valid, *invalid])
 
 
-class TestIPIsValidIPV6Action(ParserEnclosedTestCase):
+class TestIPIsValidIPV6Action(ActionHeroesTestCase):
     def test_on_valid_ipv6_address(self):
         self.parser.add_argument("--ip", action=IPIsValidIPv6AddressAction)
         # Parse without raising any errors
@@ -85,7 +86,7 @@ class TestIPIsValidIPV6Action(ParserEnclosedTestCase):
             self.parser.parse_args(["--ip", *valid, *invalid])
 
 
-class TestIPIsValidIPAddressAction(ParserEnclosedTestCase):
+class TestIPIsValidIPAddressAction(ActionHeroesTestCase):
     def test_on_valid_ipv4_address(self):
         self.parser.add_argument("--ip", action=IPIsValidIPAddressAction)
         # Parse without raising any errors
@@ -183,7 +184,7 @@ class TestIPIsValidIPAddressAction(ParserEnclosedTestCase):
             self.parser.parse_args(["--ip", *invalid])
 
 
-class TestURLIsReachableAction(ParserEnclosedTestCase):
+class TestURLIsReachableAction(ActionHeroesTestCase):
     @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
     def test_on_reachable_url(self):
         self.parser.add_argument("--url", action=URLIsReachableAction)
@@ -217,7 +218,7 @@ class TestURLIsReachableAction(ParserEnclosedTestCase):
             self.parser.parse_args(["--url", *unreachable])
 
 
-class TestURLIsNotReachableAction(ParserEnclosedTestCase):
+class TestURLIsNotReachableAction(ActionHeroesTestCase):
     @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
     def test_on_reachable_url(self):
         self.parser.add_argument("--url", action=URLIsNotReachableAction)

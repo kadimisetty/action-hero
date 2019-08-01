@@ -1,7 +1,7 @@
 import os
 import tempfile
 
-from action_heroes.utils import ParserEnclosedTestCase
+from action_heroes.utils import ActionHeroesTestCase
 from action_heroes.path import (
     DirectoryDoesNotExistAction,
     DirectoryExistsAction,
@@ -57,7 +57,7 @@ from action_heroes.path_utils import (
 )
 
 
-class TestResolvePathAction(ParserEnclosedTestCase):
+class TestResolvePathAction(ActionHeroesTestCase):
     def test_processes_path(self):
         self.parser.add_argument("--path", action=ResolvePathAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -89,7 +89,7 @@ class TestResolvePathAction(ParserEnclosedTestCase):
         [os.rmdir(path) for path in temp_paths]
 
 
-class TestEnsureDirectoryAction(ParserEnclosedTestCase):
+class TestEnsureDirectoryAction(ActionHeroesTestCase):
     def test_on_nonexisting_directory(self):
         self.parser.add_argument("--path", action=EnsureDirectoryAction)
         with tempfile.TemporaryDirectory() as parent_directory:
@@ -144,7 +144,7 @@ class TestEnsureDirectoryAction(ParserEnclosedTestCase):
         [os.rmdir(d) for d in mixed_dirs]
 
 
-class TestEnsureFileAction(ParserEnclosedTestCase):
+class TestEnsureFileAction(ActionHeroesTestCase):
     def test_on_nonexisting_file(self):
         self.parser.add_argument("--path", action=EnsureFileAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -202,7 +202,7 @@ class TestEnsureFileAction(ParserEnclosedTestCase):
             [os.remove(f) for f in mixed_files]
 
 
-class TestPathIsValidAction(ParserEnclosedTestCase):
+class TestPathIsValidAction(ActionHeroesTestCase):
     def test_on_valid_path(self):
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.TemporaryDirectory() as path1:
@@ -267,7 +267,7 @@ class TestPathIsValidAction(ParserEnclosedTestCase):
                     self.parser.parse_args(["--path", *paths])
 
 
-class TestFileIsValidAction(ParserEnclosedTestCase):
+class TestFileIsValidAction(ActionHeroesTestCase):
     def test_on_valid_file_path(self):
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.NamedTemporaryFile() as file_path:
@@ -334,7 +334,7 @@ class TestFileIsValidAction(ParserEnclosedTestCase):
                     self.parser.parse_args(["--path", *paths])
 
 
-class TestDirectoryIsValidAction(ParserEnclosedTestCase):
+class TestDirectoryIsValidAction(ActionHeroesTestCase):
     def test_on_valid_directory_path(self):
         self.parser.add_argument("--path", action=DirectoryIsValidAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -401,7 +401,7 @@ class TestDirectoryIsValidAction(ParserEnclosedTestCase):
                     self.parser.parse_args(["--path", *paths])
 
 
-class TestPathExistsAction(ParserEnclosedTestCase):
+class TestPathExistsAction(ActionHeroesTestCase):
     def test_on_existing_path(self):
         self.parser.add_argument("--path", action=PathExistsAction)
         # Specify file to check
@@ -447,7 +447,7 @@ class TestPathExistsAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", *paths])
 
 
-class TestPathDoesNotExistsAction(ParserEnclosedTestCase):
+class TestPathDoesNotExistsAction(ActionHeroesTestCase):
     def test_on_existing_path(self):
         self.parser.add_argument("--path", action=PathDoesNotExistsAction)
         # Specify file to check
@@ -492,7 +492,7 @@ class TestPathDoesNotExistsAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", *paths])
 
 
-class TestFileExistsAction(ParserEnclosedTestCase):
+class TestFileExistsAction(ActionHeroesTestCase):
     def test_on_existing_path(self):
         self.parser.add_argument("--path", action=FileExistsAction)
         # Specify file to check
@@ -542,7 +542,7 @@ class TestFileExistsAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", *paths])
 
 
-class TestFileDoesNotExistsAction(ParserEnclosedTestCase):
+class TestFileDoesNotExistsAction(ActionHeroesTestCase):
     def test_on_existing_path(self):
         self.parser.add_argument("--path", action=FileDoesNotExistAction)
         # Specify file to check
@@ -590,7 +590,7 @@ class TestFileDoesNotExistsAction(ParserEnclosedTestCase):
         os.remove(file2)
 
 
-class TestDirectoryExistsAction(ParserEnclosedTestCase):
+class TestDirectoryExistsAction(ActionHeroesTestCase):
     def test_on_existing_path(self):
         self.parser.add_argument("--path", action=DirectoryExistsAction)
         # Specify directory to check
@@ -636,7 +636,7 @@ class TestDirectoryExistsAction(ParserEnclosedTestCase):
             self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestDirectoryDoesNotExistsAction(ParserEnclosedTestCase):
+class TestDirectoryDoesNotExistsAction(ActionHeroesTestCase):
     def test_on_existing_path(self):
         self.parser.add_argument("--path", action=DirectoryDoesNotExistAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -673,7 +673,7 @@ class TestDirectoryDoesNotExistsAction(ParserEnclosedTestCase):
         os.rmdir(dir2)
 
 
-class TestFileIsWritableAction(ParserEnclosedTestCase):
+class TestFileIsWritableAction(ActionHeroesTestCase):
     def test_on_writable_file(self):
         self.parser.add_argument("--path", action=FileIsWritableAction)
         # Specify file
@@ -708,7 +708,7 @@ class TestFileIsWritableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", file1, file2])
 
 
-class TestFileIsNotWritableAction(ParserEnclosedTestCase):
+class TestFileIsNotWritableAction(ActionHeroesTestCase):
     def test_on_writable_file(self):
         self.parser.add_argument("--path", action=FileIsNotWritableAction)
         # Specify file
@@ -746,7 +746,7 @@ class TestFileIsNotWritableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", file1, file2])
 
 
-class TestDirectoryIsWritableAction(ParserEnclosedTestCase):
+class TestDirectoryIsWritableAction(ActionHeroesTestCase):
     def test_on_writable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsWritableAction)
         # Specify writable directory
@@ -777,7 +777,7 @@ class TestDirectoryIsWritableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestDirectoryIsNotWritableAction(ParserEnclosedTestCase):
+class TestDirectoryIsNotWritableAction(ActionHeroesTestCase):
     def test_on_writable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsNotWritableAction)
         # Specify writable directory
@@ -808,7 +808,7 @@ class TestDirectoryIsNotWritableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestPathIsWritableAction(ParserEnclosedTestCase):
+class TestPathIsWritableAction(ActionHeroesTestCase):
     def test_on_writable_directory(self):
         self.parser.add_argument("--path", action=PathIsWritableAction)
         # Specify writable directory
@@ -839,7 +839,7 @@ class TestPathIsWritableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestPathIsNotWritableAction(ParserEnclosedTestCase):
+class TestPathIsNotWritableAction(ActionHeroesTestCase):
     def test_on_writable_directory(self):
         self.parser.add_argument("--path", action=PathIsNotWritableAction)
         # Specify writable directory
@@ -870,7 +870,7 @@ class TestPathIsNotWritableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestFileIsReadableAction(ParserEnclosedTestCase):
+class TestFileIsReadableAction(ActionHeroesTestCase):
     def test_on_readable_file(self):
         self.parser.add_argument("--path", action=FileIsReadableAction)
         # Specify file
@@ -905,7 +905,7 @@ class TestFileIsReadableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", file1, file2])
 
 
-class TestFileIsNotReadableAction(ParserEnclosedTestCase):
+class TestFileIsNotReadableAction(ActionHeroesTestCase):
     def test_on_readable_file(self):
         self.parser.add_argument("--path", action=FileIsNotReadableAction)
         # Specify file
@@ -943,7 +943,7 @@ class TestFileIsNotReadableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", file1, file2])
 
 
-class TestDirectoryIsReadableAction(ParserEnclosedTestCase):
+class TestDirectoryIsReadableAction(ActionHeroesTestCase):
     def test_on_readable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsReadableAction)
         # Specify directory
@@ -979,7 +979,7 @@ class TestDirectoryIsReadableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestDirectoryIsNotReadableAction(ParserEnclosedTestCase):
+class TestDirectoryIsNotReadableAction(ActionHeroesTestCase):
     def test_on_readable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsNotReadableAction)
         # Specify directory
@@ -1015,7 +1015,7 @@ class TestDirectoryIsNotReadableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestPathIsReadableAction(ParserEnclosedTestCase):
+class TestPathIsReadableAction(ActionHeroesTestCase):
     def test_on_readable_file(self):
         self.parser.add_argument("--path", action=PathIsReadableAction)
         # Specify file
@@ -1084,7 +1084,7 @@ class TestPathIsReadableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestPathIsNotReadableAction(ParserEnclosedTestCase):
+class TestPathIsNotReadableAction(ActionHeroesTestCase):
     def test_on_readable_file(self):
         self.parser.add_argument("--path", action=PathIsNotReadableAction)
         # Specify file
@@ -1156,7 +1156,7 @@ class TestPathIsNotReadableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestFileIsExecutableAction(ParserEnclosedTestCase):
+class TestFileIsExecutableAction(ActionHeroesTestCase):
     def test_on_executable_file(self):
         self.parser.add_argument("--path", action=FileIsExecutableAction)
         # Specify file and make executable
@@ -1189,7 +1189,7 @@ class TestFileIsExecutableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", file1, file2])
 
 
-class TestFileIsNotExecutableAction(ParserEnclosedTestCase):
+class TestFileIsNotExecutableAction(ActionHeroesTestCase):
     def test_on_executable_file(self):
         self.parser.add_argument("--path", action=FileIsNotExecutableAction)
         # Specify file and make executable
@@ -1226,7 +1226,7 @@ class TestFileIsNotExecutableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", file1, file2])
 
 
-class TestDirectoryIsExecutableAction(ParserEnclosedTestCase):
+class TestDirectoryIsExecutableAction(ActionHeroesTestCase):
     def test_on_executable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsExecutableAction)
         # Specify directory and make executable
@@ -1257,7 +1257,7 @@ class TestDirectoryIsExecutableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestDirectoryIsNotExecutableAction(ParserEnclosedTestCase):
+class TestDirectoryIsNotExecutableAction(ActionHeroesTestCase):
     def test_on_executable_directory(self):
         self.parser.add_argument(
             "--path", action=DirectoryIsNotExecutableAction
@@ -1296,7 +1296,7 @@ class TestDirectoryIsNotExecutableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestPathIsExecutableAction(ParserEnclosedTestCase):
+class TestPathIsExecutableAction(ActionHeroesTestCase):
     def test_on_executable_file(self):
         self.parser.add_argument("--path", action=PathIsExecutableAction)
         # Specify file and make executable
@@ -1358,7 +1358,7 @@ class TestPathIsExecutableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestPathIsNotExecutableAction(ParserEnclosedTestCase):
+class TestPathIsNotExecutableAction(ActionHeroesTestCase):
     def test_on_executable_file(self):
         self.parser.add_argument("--path", action=PathIsNotExecutableAction)
         # Specify file and make executable
@@ -1428,7 +1428,7 @@ class TestPathIsNotExecutableAction(ParserEnclosedTestCase):
                 self.parser.parse_args(["--path", dir1, dir2])
 
 
-class TestFileIsEmptyAction(ParserEnclosedTestCase):
+class TestFileIsEmptyAction(ActionHeroesTestCase):
     def test_on_empty_file(self):
         self.parser.add_argument("--path", action=FileIsEmptyAction)
         with tempfile.NamedTemporaryFile() as file1:
@@ -1456,7 +1456,7 @@ class TestFileIsEmptyAction(ParserEnclosedTestCase):
                     self.parser.parse_args(["--path", file1.name, file2.name])
 
 
-class TestFileIsNotEmptyAction(ParserEnclosedTestCase):
+class TestFileIsNotEmptyAction(ActionHeroesTestCase):
     def test_on_empty_file(self):
         self.parser.add_argument("--path", action=FileIsNotEmptyAction)
         with tempfile.NamedTemporaryFile() as file1:

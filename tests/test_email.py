@@ -1,8 +1,8 @@
 from action_heroes.email import EmailIsValidAction
-from action_heroes.utils import ParserEnclosedTestCase
+from action_heroes.utils import ActionHeroesTestCase
 
 
-class TestEmailIsValidAction(ParserEnclosedTestCase):
+class TestEmailIsValidAction(ActionHeroesTestCase):
     def test_on_valid_email(self):
         self.parser.add_argument("--email", action=EmailIsValidAction)
         email = "hello@service.com"

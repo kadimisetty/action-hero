@@ -2,7 +2,10 @@ import unittest
 import argparse
 
 
-from action_heroes.utils import ParserEnclosedTestCase
+from action_heroes.utils import (
+    ActionHeroesTestCase,
+    ExitCapturedArgumentParser,
+)
 from action_heroes.utils import (
     BaseAction,
     CheckAction,
@@ -12,36 +15,41 @@ from action_heroes.utils import (
 
 
 @unittest.skip("TODO")
-class TestRunOnlyWhenWhenInternetIsUp(unittest.TestCase):
+class TestRunOnlyWhenWhenInternetIsUp(ActionHeroesTestCase):
     pass
 
 
-class TestParserEnclosedTestCase(ParserEnclosedTestCase):
+class TestActionHeroesTestCase(ActionHeroesTestCase):
     def test_argparse_argument_parser_is_present(self):
         self.assertTrue(hasattr(self, "parser"))
 
-    def test_argparse_argument_parser_is_of_correct_type(self):
+    def test_argparse_argument_parser_is_subclass_of_argument_parser(self):
         self.assertIsInstance(self.parser, argparse.ArgumentParser)
 
-    def test_is_subclassed_from_unittest_testcase(self):
-        self.assertTrue(issubclass(ParserEnclosedTestCase, unittest.TestCase))
+    def test_argparse_argument_parser_is_subclass_of_custom_parser(self):
+        self.assertIsInstance(self.parser, ExitCapturedArgumentParser)
+
+    def test_is_subclassed_of_unittest_testcase(self):
+        import unittest
+
+        self.assertTrue(issubclass(ActionHeroesTestCase, unittest.TestCase))
 
 
 @unittest.skip("TODO")
-class TestBaseAction(ParserEnclosedTestCase):
+class TestBaseAction(ActionHeroesTestCase):
     pass
 
 
 @unittest.skip("TODO")
-class TestCheckAction(ParserEnclosedTestCase):
+class TestCheckAction(ActionHeroesTestCase):
     pass
 
 
 @unittest.skip("TODO")
-class TestMapAction(ParserEnclosedTestCase):
+class TestMapAction(ActionHeroesTestCase):
     pass
 
 
 @unittest.skip("TODO")
-class TestMapAndReplaceAction(ParserEnclosedTestCase):
+class TestMapAndReplaceAction(ActionHeroesTestCase):
     pass

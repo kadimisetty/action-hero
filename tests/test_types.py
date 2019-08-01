@@ -1,4 +1,4 @@
-from action_heroes.utils import ParserEnclosedTestCase
+from action_heroes.utils import ActionHeroesTestCase
 from action_heroes.types import (
     IsConvertibleToFloatAction,
     IsConvertibleToIntAction,
@@ -8,7 +8,7 @@ from action_heroes.types import (
 )
 
 
-class TestIsConvertibleToIntAction(ParserEnclosedTestCase):
+class TestIsConvertibleToIntAction(ActionHeroesTestCase):
     def test_on_valid_value(self):
         self.parser.add_argument("--value", action=IsConvertibleToIntAction)
         value = "5"
@@ -44,7 +44,7 @@ class TestIsConvertibleToIntAction(ParserEnclosedTestCase):
             self.parser.parse_args(["--value", *values])
 
 
-class TestIsConvertibleToFloatAction(ParserEnclosedTestCase):
+class TestIsConvertibleToFloatAction(ActionHeroesTestCase):
     def test_on_valid_value(self):
         self.parser.add_argument("--value", action=IsConvertibleToFloatAction)
         value = "5.3"
@@ -80,7 +80,7 @@ class TestIsConvertibleToFloatAction(ParserEnclosedTestCase):
             self.parser.parse_args(["--value", *values])
 
 
-class TestIsTruthyAction(ParserEnclosedTestCase):
+class TestIsTruthyAction(ActionHeroesTestCase):
     def test_on_truthy_value(self):
         self.parser.add_argument("--value", action=IsTruthyAction)
         value = "true"
@@ -110,7 +110,7 @@ class TestIsTruthyAction(ParserEnclosedTestCase):
             self.parser.parse_args(["--value", *values])
 
 
-class TestIsFalsyAction(ParserEnclosedTestCase):
+class TestIsFalsyAction(ActionHeroesTestCase):
     def test_on_truthy_value(self):
         self.parser.add_argument("--value", action=IsFalsyAction)
         value = "true"
@@ -140,7 +140,7 @@ class TestIsFalsyAction(ParserEnclosedTestCase):
             self.parser.parse_args(["--value", *values])
 
 
-class TestIsConvertibleToUUIDAction(ParserEnclosedTestCase):
+class TestIsConvertibleToUUIDAction(ActionHeroesTestCase):
     def test_on_valid_uuid_value(self):
         self.parser.add_argument("--value", action=IsConvertibleToUUIDAction)
         value = "cc3c3eb9-48a1-4307-8e92-700d9a25fffe"
