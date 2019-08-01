@@ -46,6 +46,8 @@ __custom argparse _Actions_ to help you manage user arguments in command line in
 
 </dl>
 
+Therefore __`argparse`__ + __`action_heroes`__ = 🧨
+
 > Hey! If you like action heroes could you give it a quick __star__ ⭐️   
 > I put a lot of effort into this and each lil' star brightens my day
 
@@ -233,12 +235,11 @@ Contains Actions related to emails
 - __Image Attributions__: _Karate by Alex Auda Samora from the Noun Project_
 
 ### Roadmap
-1. Better exception messages eg. Including filename etc.
-2. Configurable exception type. eg. ValueError/ArgumentError etc.
-3. More Actions.
-4. Reference with Sphinx docs + github pages on a seperate branch.
-5. More examples.
-6. Proper repo things.
+1. Configurable exception type. eg. ValueError/ArgumentError etc.
+- More Actions.
+- Reference with Sphinx docs + github pages on a seperate branch.
+- More examples.
+- Proper repo things.
 
 > Thank you for using `action_heroes`.  
 > If you have any ideas for more actions, please leave a github issue. 💥
