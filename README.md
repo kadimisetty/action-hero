@@ -65,7 +65,7 @@ pip install action_heroes
 #line_counter.py
 import argparse
 
-from action_heroes.path import FileIsReadableAction
+from action_heroes import FileIsReadableAction
 
 
 if __name__ == "__main__":
