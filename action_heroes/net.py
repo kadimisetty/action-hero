@@ -24,32 +24,32 @@ class IPIsValidIPv4AddressAction(CheckAction):
     """Check if ip address is valid ipv4 address"""
 
     func = is_valid_ipv4_address
-    err_msg_singular = "Atleast one ip address is an invalid ipv4 address"
-    err_msg_plural = "ip address is invalid ipv4 address"
+    err_msg_singular = "ip address is invalid ipv4 address"
+    err_msg_plural = "Atleast one ip address is an invalid ipv4 address"
 
 
 class IPIsValidIPv6AddressAction(CheckAction):
     """Check if ip address is valid ipv6 address"""
 
     func = is_valid_ipv6_address
-    err_msg_singular = "Atleast one ip address is an invalid ipv6 address"
-    err_msg_plural = "ip address is invalid ipv6 address"
+    err_msg_singular = "ip address is invalid ipv6 address"
+    err_msg_plural = "Atleast one ip address is an invalid ipv6 address"
 
 
 class IPIsValidIPAddressAction(CheckAction):
     """Check if ip is valid ipv4 or ipv6 address"""
 
     func = is_valid_ip_address
-    err_msg_singular = "Atleast one ip address is an invalid ipv(4/6) address"
-    err_msg_plural = "ip address is invalid ip address"
+    err_msg_singular = "ip address is invalid ip address"
+    err_msg_plural = "Atleast one ip address is an invalid ipv(4/6) address"
 
 
 class URLIsReachableAction(CheckAction):
     """Check if URL is reachable"""
 
     func = is_reachable_url
-    err_msg_singular = "Atleast one URL is not reachable"
-    err_msg_plural = "URL is not reachable"
+    err_msg_singular = "URL is not reachable"
+    err_msg_plural = "Atleast one URL is not reachable"
 
 
 class URLIsNotReachableAction(CheckAction):
@@ -58,8 +58,8 @@ class URLIsNotReachableAction(CheckAction):
     def func(value):
         return not is_reachable_url(value)
 
-    err_msg_singular = "Atleast one URL is not reachable"
-    err_msg_plural = "URL is not reachable"
+    err_msg_singular = "URL is not reachable"
+    err_msg_plural = "Atleast one URL is not reachable"
 
 
 class URLWithHTTPResponseStatusCodeAction(Action):

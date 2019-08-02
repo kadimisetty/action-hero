@@ -93,16 +93,16 @@ class PathIsValidAction(CheckAction):
     """Check if path is valid"""
 
     func = is_valid_path
-    err_msg_singular = "Atleast one path is invalid"
-    err_msg_plural = "Path is invalid"
+    err_msg_singular = "Path is invalid"
+    err_msg_plural = "Atleast one path is invalid"
 
 
 class PathExistsAction(CheckAction):
     """Check if Path exists"""
 
     func = is_existing_path
-    err_msg_singular = "Atleast one path does not exist"
-    err_msg_plural = "Path does not exist"
+    err_msg_singular = "Path does not exist"
+    err_msg_plural = "Atleast one path does not exist"
 
 
 class PathDoesNotExistsAction(CheckAction):
@@ -111,16 +111,16 @@ class PathDoesNotExistsAction(CheckAction):
     def func(value):
         return not is_existing_path(value)
 
-    err_msg_singular = "Atleast one path exists"
-    err_msg_plural = "Path exists"
+    err_msg_singular = "Path exists"
+    err_msg_plural = "Atleast one path exists"
 
 
 class PathIsWritableAction(CheckAction):
     """Check if path is writable"""
 
     func = is_writable_path
-    err_msg_singular = "Atleast one path is not writable"
-    err_msg_plural = "Path is not writable"
+    err_msg_singular = "Path is not writable"
+    err_msg_plural = "Atleast one path is not writable"
 
 
 class PathIsNotWritableAction(CheckAction):
@@ -129,16 +129,16 @@ class PathIsNotWritableAction(CheckAction):
     def func(value):
         return not is_writable_path(value)
 
-    err_msg_singular = "Atleast one path is writable"
-    err_msg_plural = "Path is writable"
+    err_msg_singular = "Path is writable"
+    err_msg_plural = "Atleast one path is writable"
 
 
 class PathIsReadableAction(CheckAction):
     """Check if path is readable"""
 
     func = is_readable_path
-    err_msg_singular = "Atleast on path is not readable"
-    err_msg_plural = "Path is not readable"
+    err_msg_singular = "Path is not readable"
+    err_msg_plural = "Atleast on path is not readable"
 
 
 class PathIsNotReadableAction(CheckAction):
@@ -147,16 +147,16 @@ class PathIsNotReadableAction(CheckAction):
     def func(value):
         return not is_readable_path(value)
 
-    err_msg_singular = "Atleast on path is readable"
-    err_msg_plural = "Path is readable"
+    err_msg_singular = "Path is readable"
+    err_msg_plural = "Atleast on path is readable"
 
 
 class PathIsExecutableAction(CheckAction):
     """Check if path is executable"""
 
     func = is_executable_path
-    err_msg_singular = "Atleast one path is not executable"
-    err_msg_plural = "Path is not executable"
+    err_msg_singular = "Path is not executable"
+    err_msg_plural = "Atleast one path is not executable"
 
 
 class PathIsNotExecutableAction(CheckAction):
@@ -165,16 +165,16 @@ class PathIsNotExecutableAction(CheckAction):
     def func(value):
         return not is_executable_path(value)
 
-    err_msg_singular = "Atleast one path is executable"
-    err_msg_plural = "Path is executable"
+    err_msg_singular = "Path is executable"
+    err_msg_plural = "Atleast one path is executable"
 
 
 class DirectoryExistsAction(CheckAction):
     """Check if Directory exists"""
 
     func = is_existing_directory
-    err_msg_singular = "Atleast one directory does not exist"
-    err_msg_plural = "Directory does not exist"
+    err_msg_singular = "Directory does not exist"
+    err_msg_plural = "Atleast one directory does not exist"
 
 
 class DirectoryDoesNotExistAction(CheckAction):
@@ -183,16 +183,16 @@ class DirectoryDoesNotExistAction(CheckAction):
     def func(value):
         return not is_existing_directory(value)
 
-    err_msg_singular = "Atleast one directory exists"
-    err_msg_plural = "Directory exists"
+    err_msg_singular = "Directory exists"
+    err_msg_plural = "Atleast one directory exists"
 
 
 class DirectoryIsWritableAction(CheckAction):
     """Check if directory is writable"""
 
     func = is_writable_directory
-    err_msg_singular = "Atleast one directory is not writable"
-    err_msg_plural = "Directory is not writable"
+    err_msg_singular = "Directory is not writable"
+    err_msg_plural = "Atleast one directory is not writable"
 
 
 class DirectoryIsNotWritableAction(CheckAction):
@@ -201,16 +201,16 @@ class DirectoryIsNotWritableAction(CheckAction):
     def func(value):
         return not is_writable_directory(value)
 
-    err_msg_singular = "Atleast one directory is not writable"
-    err_msg_plural = "Directory is not writable"
+    err_msg_singular = "Directory is not writable"
+    err_msg_plural = "Atleast one directory is not writable"
 
 
 class DirectoryIsReadableAction(CheckAction):
     """Check if directory is readable"""
 
     func = is_readable_directory
-    err_msg_singular = "Atleast one directory is not readable"
-    err_msg_plural = "Directory is not readable"
+    err_msg_singular = "Directory is not readable"
+    err_msg_plural = "Atleast one directory is not readable"
 
 
 class DirectoryIsNotReadableAction(CheckAction):
@@ -219,16 +219,16 @@ class DirectoryIsNotReadableAction(CheckAction):
     def func(value):
         return not is_readable_directory(value)
 
-    err_msg_singular = "Atleast one directory is readable"
-    err_msg_plural = "Directory is readable"
+    err_msg_singular = "Directory is readable"
+    err_msg_plural = "Atleast one directory is readable"
 
 
 class DirectoryIsExecutableAction(CheckAction):
     """Check if directory is executable"""
 
     func = is_executable_directory
-    err_msg_singular = "Atleast one directory is not executable"
-    err_msg_plural = "Directory is not executable"
+    err_msg_singular = "Directory is not executable"
+    err_msg_plural = "Atleast one directory is not executable"
 
 
 class DirectoryIsNotExecutableAction(CheckAction):
@@ -237,24 +237,24 @@ class DirectoryIsNotExecutableAction(CheckAction):
     def func(value):
         return not is_executable_directory(value)
 
-    err_msg_singular = "Atleast one directory is executable"
-    err_msg_plural = "Directory is executable"
+    err_msg_singular = "Directory is executable"
+    err_msg_plural = "Atleast one directory is executable"
 
 
 class DirectoryIsValidAction(CheckAction):
     """Check directory is valid"""
 
     func = is_valid_directory
-    err_msg_singular = "Atleast one directory is not valid"
-    err_msg_plural = "Directory is not valid"
+    err_msg_singular = "Directory is not valid"
+    err_msg_plural = "Atleast one directory is not valid"
 
 
 class FileIsWritableAction(CheckAction):
     """Check if file is writable"""
 
     func = is_writable_file
-    err_msg_singular = "Atleast one file is not writable"
-    err_msg_plural = "File is not writable"
+    err_msg_singular = "File is not writable"
+    err_msg_plural = "Atleast one file is not writable"
 
 
 class FileIsNotWritableAction(CheckAction):
@@ -263,16 +263,16 @@ class FileIsNotWritableAction(CheckAction):
     def func(value):
         return not is_writable_file(value)
 
-    err_msg_singular = "Atleast one file is writable"
-    err_msg_plural = "File is writable"
+    err_msg_singular = "File is writable"
+    err_msg_plural = "Atleast one file is writable"
 
 
 class FileIsReadableAction(CheckAction):
     """Check if file is readable"""
 
     func = is_readable_file
-    err_msg_singular = "Atleast one file is not readable"
-    err_msg_plural = "File is not readable"
+    err_msg_singular = "File is not readable"
+    err_msg_plural = "Atleast one file is not readable"
 
 
 class FileIsNotReadableAction(CheckAction):
@@ -281,16 +281,16 @@ class FileIsNotReadableAction(CheckAction):
     def func(value):
         return not is_readable_file(value)
 
-    err_msg_singular = "Atleast one file is readable"
-    err_msg_plural = "File is readable"
+    err_msg_singular = "File is readable"
+    err_msg_plural = "Atleast one file is readable"
 
 
 class FileIsExecutableAction(CheckAction):
     """Check if file is executable"""
 
     func = is_executable_file
-    err_msg_singular = "Atleast one file is not executable"
-    err_msg_plural = "File is not executable"
+    err_msg_singular = "File is not executable"
+    err_msg_plural = "Atleast one file is not executable"
 
 
 class FileIsNotExecutableAction(CheckAction):
@@ -299,24 +299,24 @@ class FileIsNotExecutableAction(CheckAction):
     def func(value):
         return not is_executable_file(value)
 
-    err_msg_singular = "Atleast one file is executable"
-    err_msg_plural = "File is executable"
+    err_msg_singular = "File is executable"
+    err_msg_plural = "Atleast one file is executable"
 
 
 class FileIsValidAction(CheckAction):
     """Check file is valid"""
 
     func = is_valid_file
-    err_msg_singular = "Atleast one file is not valid"
-    err_msg_plural = "File is not valid"
+    err_msg_singular = "File is not valid"
+    err_msg_plural = "Atleast one file is not valid"
 
 
 class FileExistsAction(CheckAction):
     """Check if file exists"""
 
     func = is_existing_file
-    err_msg_singular = "Atleast one file does not exist"
-    err_msg_plural = "File does not exist"
+    err_msg_singular = "File does not exist"
+    err_msg_plural = "Atleast one file does not exist"
 
 
 class FileDoesNotExistAction(CheckAction):
@@ -325,16 +325,16 @@ class FileDoesNotExistAction(CheckAction):
     def func(value):
         return not is_existing_file(value)
 
-    err_msg_singular = "Atleast one file exists"
-    err_msg_plural = "File exists"
+    err_msg_singular = "File exists"
+    err_msg_plural = "Atleast one file exists"
 
 
 class FileIsEmptyAction(CheckAction):
     """Check if file is empty"""
 
     func = is_empty_file
-    err_msg_singular = "Atleast one file is not empty"
-    err_msg_plural = "File is not empty"
+    err_msg_singular = "File is not empty"
+    err_msg_plural = "Atleast one file is not empty"
 
 
 class FileIsNotEmptyAction(CheckAction):
@@ -343,8 +343,8 @@ class FileIsNotEmptyAction(CheckAction):
     def func(value):
         return not is_empty_file(value)
 
-    err_msg_singular = "Atleast one file is empty"
-    err_msg_plural = "File is empty"
+    err_msg_singular = "File is empty"
+    err_msg_plural = "Atleast one file is empty"
 
 
 class FileHasExtension(Action):

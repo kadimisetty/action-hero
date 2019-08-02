@@ -9,5 +9,5 @@ class EmailIsValidAction(CheckAction):
     """Checks if email address is valid"""
 
     func = is_valid_email
-    err_msg_singular = "Atleast one supplied email address is invalid"
-    err_msg_plural = "Email address is invalid"
+    err_msg_singular = "Email address is invalid"
+    err_msg_plural = "Atleast one supplied email address is invalid"
