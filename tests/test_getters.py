@@ -51,4 +51,4 @@ class TestGetReadme(unittest.TestCase):
         )
 
     def test_readme_is_nonempty(self):
-        self.assertTrue(get_readme_contents(), "")
+        self.assertNotEqual(get_readme_contents(), "")
