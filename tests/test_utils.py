@@ -35,21 +35,81 @@ class TestActionHeroesTestCase(ActionHeroesTestCase):
         self.assertTrue(issubclass(ActionHeroesTestCase, unittest.TestCase))
 
 
-@unittest.skip("TODO")
 class TestBaseAction(ActionHeroesTestCase):
-    pass
+    def test_if_is_subclass_of_argparse_action(self):
+        self.assertIsInstance(
+            BaseAction(option_strings=[], dest=""), argparse.Action
+        )
 
 
-@unittest.skip("TODO")
 class TestCheckAction(ActionHeroesTestCase):
-    pass
+    def test_if_is_subclass_of_argparse_action(self):
+        class CheckActionSubClass(CheckAction):
+            func = print
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        self.assertIsInstance(
+            CheckActionSubClass(option_strings=[], dest=""), argparse.Action
+        )
+
+    def test_if_checks_for_required_func(self):
+        class CheckActionWithotFunc(CheckAction):
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        with self.assertRaises(ValueError):
+            CheckActionWithotFunc(option_strings=[], dest="")
+
+    def test_if_checks_for_required_err_msg_singular(self):
+        class CheckActionWithotErrMsgSingular(CheckAction):
+            func = print
+            err_msg_plural = "P"
+
+        with self.assertRaises(ValueError):
+            CheckActionWithotErrMsgSingular(option_strings=[], dest="")
+
+    def test_if_checks_for_required_err_msg_plural(self):
+        class CheckActionWithotErrMsgSingular(CheckAction):
+            func = print
+            err_msg_singular = "S"
+
+        with self.assertRaises(ValueError):
+            CheckActionWithotErrMsgSingular(option_strings=[], dest="")
 
 
-@unittest.skip("TODO")
 class TestMapAction(ActionHeroesTestCase):
-    pass
+    def test_if_is_subclass_of_argparse_action(self):
+        class MapActionSubClass(MapAction):
+            func = print
+
+        self.assertIsInstance(
+            MapActionSubClass(option_strings=[], dest=""), argparse.Action
+        )
+
+    def test_if_checks_for_required_func(self):
+        class MapActionWithotFunc(MapAction):
+            pass
+
+        with self.assertRaises(ValueError):
+            MapActionWithotFunc(option_strings=[], dest="")
 
 
-@unittest.skip("TODO")
-class TestMapAndReplaceAction(ActionHeroesTestCase):
-    pass
+class TestMapAndReplaceAction(MapAndReplaceAction):
+    def test_if_is_subclass_of_argparse_action(self):
+        class MapAndReplaceActionSubClass(MapAndReplaceAction):
+            func = print
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        self.assertIsInstance(
+            MapAndReplaceActionSubClass(option_strings=[], dest=""),
+            argparse.Action
+        )
+
+    def test_if_checks_for_required_func(self):
+        class MapAndReplaceWithotFunc(MapAndReplaceAction):
+            pass
+
+        with self.assertRaises(ValueError):
+            MapAndReplaceWithotFunc(option_strings=[], dest="")

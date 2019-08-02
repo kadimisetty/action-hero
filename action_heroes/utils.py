@@ -58,18 +58,6 @@ class BaseAction(argparse.Action):
         """
         return cls.func(value)
 
-    def __init__(
-        self, option_strings, dest, nargs=None, help=None, metavar=None
-    ):
-
-        super(BaseAction, self).__init__(
-            option_strings=option_strings,
-            dest=dest,
-            nargs=nargs,
-            help=help,
-            metavar=metavar,
-        )
-
 
 class CheckAction(BaseAction):
     """Checks all values return True with func"""
@@ -84,7 +72,7 @@ class CheckAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        super(BaseAction, self).__init__(
+        super(CheckAction, self).__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -120,7 +108,7 @@ class MapAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        super(BaseAction, self).__init__(
+        super(MapAction, self).__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -154,7 +142,7 @@ class MapAndReplaceAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        super(BaseAction, self).__init__(
+        super(MapAndReplaceAction, self).__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,

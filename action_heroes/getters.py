@@ -1,5 +1,4 @@
 from configparser import ConfigParser, ExtendedInterpolation
-import itertools
 import pathlib
 
 try:
@@ -21,7 +20,7 @@ def get_readme_contents():
     """Return contents of file marked readme_filename in about.ini"""
     about = get_about()
     readme_filename = about["PROJECT"]["readme_filename"]
-    with open("README.md", "r", encoding="utf-8") as f:
+    with open(readme_filename, "r", encoding="utf-8") as f:
         readme_contents = f.read()
 
     return readme_contents
@@ -31,13 +30,8 @@ def get_readme_content_type():
     """Return content type of of file marked readme_filename in about.ini"""
     about = get_about()
     suffix = pathlib.Path(about["PROJECT"]["readme_filename"]).suffix
-
-    if suffix == "md":
-        return "text/markdown"
-    elif suffix == "rst":
-        return "text/x-rst"
-    else:
-        return "text/plain"
+    ext_and_content_types = {"md": "text/markdown", "rst": "text/x-rst"}
+    return ext_and_content_types.get(suffix, "text/plain")
 
 
 def get_config_as_dict(resource_path, config_filename):
