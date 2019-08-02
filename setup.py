@@ -39,5 +39,6 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Software Development :: Libraries",
         "Topic :: Terminals",
+        'Natural Language :: English',
     ],
 )
