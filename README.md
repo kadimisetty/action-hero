@@ -237,10 +237,10 @@ Contains Actions related to emails
 
 ### Roadmap
 1. Configurable exception type. eg. ValueError/ArgumentError etc.
-2 More Actions.
-3 Reference with Sphinx docs + github pages on a seperate branch.
-4 More examples.
-5 Proper repo things.
+2. More Actions.
+3. Reference with Sphinx docs + github pages on a seperate branch.
+4. More examples.
+5. Proper repo things.
 
 > Thank you for using `action_heroes`.  
 > If you have any ideas for more actions, please leave a github issue. 💥  
