@@ -48,9 +48,6 @@ __custom argparse _Actions_ to help you manage user arguments in command line in
 
 Therefore __`argparse`__ + __`action_heroes`__ = 🧨
 
-> Hey! If you like action heroes could you give it a quick __star__ ⭐️   
-> I put a lot of effort into this and each lil' star brightens my day
-
 
 ## Quick Usage
 > [Introduction](#introduction) · __Quick Usage__ · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
@@ -242,5 +239,4 @@ Contains Actions related to emails
 5. Proper repo things.
 
 > Thank you for using `action_heroes`.  
-> If you have any ideas for more actions, please leave a github issue. 💥  
-> And if you like what you see, a ⭐️ would be much appreciated!
+> If you like action heroes do give it a quick __star__ ⭐️ is much appreciated!
