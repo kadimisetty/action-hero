@@ -6,7 +6,7 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/action_heroes)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 ![PyPI - License](https://img.shields.io/pypi/l/action_heroes)
-<!-- ![Build Status](https://camo.githubusercontent.com/2dcdb388c206e4e3776ba9c61bbb1086160c3413/68747470733a2f2f7472617669732d63692e6f72672f736561746765656b2f66757a7a7977757a7a792e7376673f6272616e63683d6d6173746572) -->
+[![Build Status](https://travis-ci.org/kadimisetty/action-heroes.svg?branch=master)](https://travis-ci.org/kadimisetty/action-heroes)
 
 
 ####
