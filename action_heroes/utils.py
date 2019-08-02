@@ -58,18 +58,6 @@ class BaseAction(argparse.Action):
         """
         return cls.func(value)
 
-    def __init__(
-        self, option_strings, dest, nargs=None, help=None, metavar=None
-    ):
-
-        super(BaseAction, self).__init__(
-            option_strings=option_strings,
-            dest=dest,
-            nargs=nargs,
-            help=help,
-            metavar=metavar,
-        )
-
 
 class CheckAction(BaseAction):
     """Checks all values return True with func"""
