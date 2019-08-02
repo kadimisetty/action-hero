@@ -32,9 +32,9 @@ def get_readme_content_type():
     about = get_about()
     suffix = pathlib.Path(about["PROJECT"]["readme_filename"]).suffix
 
-    if suffix is "md":
+    if suffix == "md":
         return "text/markdown"
-    elif suffix is "rst":
+    elif suffix == "rst":
         return "text/x-rst"
     else:
         return "text/plain"
