@@ -42,7 +42,7 @@ __custom argparse _Actions_ to help you manage user arguments in command line in
 <dt>4. action_heroes 💥</dt>
 <dd><code>argparse.Action</code> objects are subclassable, to allow custom actions. This library, <code>action_heroes</code>, include many such custom actions that will prove their worth when dealing with accepting user arguments in your command line application.</dd>
 
-<dd>For example, the <strong><code>FileIsWritableAction</code> automatically verifies that all file paths accepted as arguments are indeed writable.</strong> This saves you the trouble of doing that check yourself. Nice, no? <a href="#catalog">Browse the catalog</a> for more custom actions.</dd>
+<dd>For example, the <strong><code>FileIsWritableAction</code> automatically verifies that all file paths accepted as arguments are indeed writable, informing the user if they aren't.</strong> This saves you the trouble of doing that check yourself. Nice, no? <a href="#catalog">Browse the catalog</a> for more custom actions.</dd>
 
 </dl>
 
