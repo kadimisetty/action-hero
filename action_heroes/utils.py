@@ -72,7 +72,7 @@ class CheckAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        super(BaseAction, self).__init__(
+        super(CheckAction, self).__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -108,7 +108,7 @@ class MapAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        super(BaseAction, self).__init__(
+        super(MapAction, self).__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -142,7 +142,7 @@ class MapAndReplaceAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        super(BaseAction, self).__init__(
+        super(MapAndReplaceAction, self).__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
