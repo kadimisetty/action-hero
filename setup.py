@@ -1,14 +1,23 @@
 from setuptools import find_packages, setup
 
-from action_heroes.getters import get_about
+from action_heroes.getters import (
+    get_about,
+    get_readme_contents,
+    get_readme_content_type,
+)
 
 
 about = get_about()
+long_description = get_readme_contents()
+long_description_content_type = get_readme_content_type()
+
 
 setup(
     name=about["PROJECT"]["program_name"],
     version=about["PROJECT"]["version"],
     description=about["PROJECT"]["description"],
+    long_description=long_description,
+    long_description_content_type=long_description_content_type,
     author=about["AUTHOR"]["name"],
     author_email=about["AUTHOR"]["email"],
     python_requires=">={}".format(about["PROJECT"]["requires_python"]),
