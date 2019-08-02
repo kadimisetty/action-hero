@@ -21,7 +21,7 @@ def get_readme_contents():
     """Return contents of file marked readme_filename in about.ini"""
     about = get_about()
     readme_filename = about["PROJECT"]["readme_filename"]
-    with open(readme_filename, "r") as f:
+    with open("README.md", "r", encoding="utf-8") as f:
         readme_contents = f.read()
 
     return readme_contents

@@ -1,4 +1,4 @@
-[action_heroes_logo]: ./logo.svg
+[action_heroes_logo]: ./art/logo.svg
 ![Action Heroes Logo][action_heroes_logo]
 
 
