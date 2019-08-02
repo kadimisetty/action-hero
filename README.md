@@ -2,7 +2,7 @@
 ![Action Heroes Logo][action_heroes_logo]
 
 
-<!-- ![Coverage](https://camo.githubusercontent.com/550782da80dba216452e4f747237c0fee66e8510/68747470733a2f2f696d672e736869656c64732e696f2f636f766572616c6c732f636f766572616c6c732d636c69656e74732f636f766572616c6c732d707974686f6e2f6d61737465722e7376673f7374796c653d666c61742d737175617265) -->
+[![codecov](https://codecov.io/gh/kadimisetty/action-heroes/branch/master/graph/badge.svg?token=7myLPPQe8k)](https://codecov.io/gh/kadimisetty/action-heroes)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/action_heroes)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 ![PyPI - License](https://img.shields.io/pypi/l/action_heroes)
