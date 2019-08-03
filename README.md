@@ -247,4 +247,4 @@ Contains Actions related to emails
 5. Proper repo things.
 
 > Thank you for using `action_heroes`.  
-> If you like action heroes do give it a quick __star__ ⭐️ is much appreciated!
+> If you like action heroes do give it a quick __star__ ⭐️ Will be much appreciated!
