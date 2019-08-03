@@ -155,9 +155,12 @@ parser.add_argument("--filename", action=FileHasExtension, action_values=["md", 
 ## Catalog
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __Catalog__ · [Development](#development)
 
+__Note__: `action_values` should be a non-empty list of strings. eg. `action_values = ["md", "markdown"]`
+
+
 1. __Path, Directory and File__ related actions:
 
-| Action | Description | Arguments |
+| Action | Description | `action_values` |
 | --- | --- | --- |
 | `DirectoryDoesNotExistAction` | Check if Directory does not exist | |
 | `DirectoryExistsAction` | Check if Directory exists | |
@@ -196,7 +199,7 @@ parser.add_argument("--filename", action=FileHasExtension, action_values=["md", 
 
 2. __Network__ related actions:
 
-| Action | Description | Arguments |
+| Action | Description | `action_values` |
 | --- | --- | --- |
 | `IPIsValidIPAddressAction` | Check if ip is valid ipv4 or ipv6 address | |
 | `IPIsValidIPv4AddressAction` | Check if ip address is valid ipv4 address | |
@@ -209,7 +212,7 @@ parser.add_argument("--filename", action=FileHasExtension, action_values=["md", 
 
 3. __Type__ related actions:
 
-| Action | Description | Arguments |
+| Action | Description | `action_values` |
 | --- | --- | --- |
 | `IsConvertibleToFloatAction` | Check if value is convertible to float | |
 | `IsConvertibleToIntAction` | Check if value is convertible to int | |
@@ -220,13 +223,13 @@ parser.add_argument("--filename", action=FileHasExtension, action_values=["md", 
 
 4. __Range__ related actions:
 
-| Action | Description | Arguments |
+| Action | Description | `action_values` |
 | --- | --- | --- |
 
 
 5. __Email__ related actions:
 
-| Action | Description | Arguments |
+| Action | Description | `action_values` |
 | --- | --- | --- |
 | `EmailIsValidAction` | Checks if email address is valid | |
 
