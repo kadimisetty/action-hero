@@ -12,12 +12,12 @@ import meta
 
 
 def get_about():
-    """Returns opened meta config file"""
+    """Returns contents of about.ini as a dict"""
     return get_config_as_dict(meta, "about.ini")
 
 
 def get_readme_contents():
-    """Return contents of file marked readme_filename in about.ini"""
+    """Returns contents of file marked readme_filename in about.ini"""
     about = get_about()
     readme_filename = about["PROJECT"]["readme_filename"]
     with open(readme_filename, "r", encoding="utf-8") as f:
@@ -27,7 +27,7 @@ def get_readme_contents():
 
 
 def get_readme_content_type():
-    """Return content type of of file marked readme_filename in about.ini"""
+    """Returns content type of file marked readme_filename in about.ini"""
     about = get_about()
     suffix = pathlib.Path(about["PROJECT"]["readme_filename"]).suffix
     ext_and_content_types = {"md": "text/markdown", "rst": "text/x-rst"}
@@ -35,6 +35,16 @@ def get_readme_content_type():
 
 
 def get_config_as_dict(resource_path, config_filename):
+    """Returns contents of a config file
+
+    Args:
+        resource_path (module): Represents location to fetch resource from.
+        config_filename (str): The ini file to fetch from resource_path
+
+    Returns:
+        str: contents of config file as a dict
+
+    """
     with resources.path(resource_path, config_filename) as config_path:
         config = ConfigParser(
             delimiters=("="),
