@@ -5,6 +5,7 @@ from action_heroes.net import (
     IPIsValidIPv6AddressAction,
     URLIsNotReachableAction,
     URLIsReachableAction,
+    URLWithHTTPResponseStatusCodeAction,
 )
 from action_heroes.path import (
     DirectoryDoesNotExistAction,
@@ -20,6 +21,7 @@ from action_heroes.path import (
     EnsureFileAction,
     FileDoesNotExistAction,
     FileExistsAction,
+    FileHasExtension,
     FileIsEmptyAction,
     FileIsExecutableAction,
     FileIsNotEmptyAction,
