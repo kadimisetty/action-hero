@@ -58,7 +58,7 @@ __1. Installation__: Use `pip` for installation
 pip install action_heroes
 ```
 
-__2. Quick Usage__: Import an action and specify it in your `argparse.ArgumentParser` instance.
+__2. Quick Usage__: Import an action and specify it when adding an argument to your parser.
 
 ```python 
 from action_heroes import FileIsReadableAction
