@@ -207,7 +207,7 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 | `IPIsValidIPv6AddressAction` | Check if ip address is valid ipv6 address | |
 | `URLIsNotReachableAction` | Check if URL is not reachable | |
 | `URLIsReachableAction` | Check if URL is reachable | |
-| `URLWithHTTPResponseStatusCodeAction` | Check if upplied URL responds with expected HTTP response status code | |
+| `URLWithHTTPResponseStatusCodeAction` | Check if upplied URL responds with expected HTTP response status code | Status codes to check against. e.g. `["200", "201", "202", "204"]`  |
 
 
 
