@@ -147,88 +147,80 @@ In order to maintain consistency with the rest of your `argparse` code, exceptio
 ## Catalog
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __Catalog__ · [Development](#development)
 
-Example of importing an action  
-`from action_heroes import FileIsReadableAction `
-
-
-### Path
-Contains Actions related to _paths, directories and files_
+1. __Path, Directory and File__ related actions:
 
 | Action | Description | Arguments |
 | --- | --- | --- |
-| DirectoryDoesNotExistAction | Check if Directory does not exist | |
-| DirectoryExistsAction | Check if Directory exists | |
-| DirectoryIsExecutableAction | Check if directory is executable | |
-| DirectoryIsNotExecutableAction | Check if directory is not executable | |
-| DirectoryIsNotReadableAction | Check if directory is not readable | |
-| DirectoryIsNotWritableAction | Check if directory is not writable | |
-| DirectoryIsReadableAction | Check if directory is readable | |
-| DirectoryIsValidAction | Check directory is valid | |
-| DirectoryIsWritableAction | Check if directory is writable | |
-| EnsureDirectoryAction | Ensure directory exists and create it if it doesnt | |
-| EnsureFileAction | Ensure file exists and create it if it doesnt | |
-| FileDoesNotExistAction | Check if file exists | |
-| FileExistsAction | Check if file exists | |
-| FileHasExtension | Check if file has specified extension | |
-| FileIsEmptyAction | Check if file is empty | |
-| FileIsExecutableAction | Check if file is executable | |
-| FileIsNotEmptyAction | Check if file is not empty | |
-| FileIsNotExecutableAction | Check if file is not executable | |
-| FileIsNotReadableAction | Check if file is not readable | |
-| FileIsNotWritableAction | Check if file is not writable | |
-| FileIsReadableAction | Check if file is readable | |
-| FileIsValidAction | Check file is valid | |
-| FileIsWritableAction | Check if file is writable | |
-| PathDoesNotExistsAction | Check if Path does not exist | |
-| PathExistsAction | Check if Path exists | |
-| PathIsExecutableAction | Check if path is executable | |
-| PathIsNotExecutableAction | Check if path is not executable | |
-| PathIsNotReadableAction | Check if path is not writable | |
-| PathIsNotWritableAction | Check if path is not writable | |
-| PathIsReadableAction | Check if path is readable | |
-| PathIsValidAction | Check if path is valid | |
-| PathIsWritableAction | Check if path is writable | |
-| ResolvePathAction | Resolves path to canonical path removing symbolic links if present | |
+| `DirectoryDoesNotExistAction` | Check if Directory does not exist | |
+| `DirectoryExistsAction` | Check if Directory exists | |
+| `DirectoryIsExecutableAction` | Check if directory is executable | |
+| `DirectoryIsNotExecutableAction` | Check if directory is not executable | |
+| `DirectoryIsNotReadableAction` | Check if directory is not readable | |
+| `DirectoryIsNotWritableAction` | Check if directory is not writable | |
+| `DirectoryIsReadableAction` | Check if directory is readable | |
+| `DirectoryIsValidAction` | Check directory is valid | |
+| `DirectoryIsWritableAction` | Check if directory is writable | |
+| `EnsureDirectoryAction` | Ensure directory exists and create it if it doesnt | |
+| `EnsureFileAction` | Ensure file exists and create it if it doesnt | |
+| `FileDoesNotExistAction` | Check if file exists | |
+| `FileExistsAction` | Check if file exists | |
+| `FileHasExtension` | Check if file has specified extension | `value`: Extension to check against |
+| `FileIsEmptyAction` | Check if file is empty | |
+| `FileIsExecutableAction` | Check if file is executable | |
+| `FileIsNotEmptyAction` | Check if file is not empty | |
+| `FileIsNotExecutableAction` | Check if file is not executable | |
+| `FileIsNotReadableAction` | Check if file is not readable | |
+| `FileIsNotWritableAction` | Check if file is not writable | |
+| `FileIsReadableAction` | Check if file is readable | |
+| `FileIsValidAction` | Check file is valid | |
+| `FileIsWritableAction` | Check if file is writable | |
+| `PathDoesNotExistsAction` | Check if Path does not exist | |
+| `PathExistsAction` | Check if Path exists | |
+| `PathIsExecutableAction` | Check if path is executable | |
+| `PathIsNotExecutableAction` | Check if path is not executable | |
+| `PathIsNotReadableAction` | Check if path is not writable | |
+| `PathIsNotWritableAction` | Check if path is not writable | |
+| `PathIsReadableAction` | Check if path is readable | |
+| `PathIsValidAction` | Check if path is valid | |
+| `PathIsWritableAction` | Check if path is writable | |
+| `ResolvePathAction` | Resolves path to canonical path removing symbolic links if present | |
 
 
-### Net
-Contains Actions related to networks
-
-| Action | Description | Arguments |
-| --- | --- | --- |
-| IPIsValidIPAddressAction | Check if ip is valid ipv4 or ipv6 address | |
-| IPIsValidIPv4AddressAction | Check if ip address is valid ipv4 address | |
-| IPIsValidIPv6AddressAction | Check if ip address is valid ipv6 address | |
-| URLIsNotReachableAction | Check if URL is not reachable | |
-| URLIsReachableAction | Check if URL is reachable | |
-| URLWithHTTPResponseStatusCodeAction | Check if upplied URL responds with expected HTTP response status code | |
-
-
-### Types
-Contains Actions related to types
+2. __Network__ related actions:
 
 | Action | Description | Arguments |
 | --- | --- | --- |
-| IsConvertibleToFloatAction | Check if value is convertible to float | |
-| IsConvertibleToIntAction | Check if value is convertible to int | |
-| IsConvertibleToUUIDAction | Checks if value is convertible to UUID | |
-| IsFalsyAction | Checks if value is falsy | |
-| IsTruthyAction | Checks if value is truthy | |
+| `IPIsValidIPAddressAction` | Check if ip is valid ipv4 or ipv6 address | |
+| `IPIsValidIPv4AddressAction` | Check if ip address is valid ipv4 address | |
+| `IPIsValidIPv6AddressAction` | Check if ip address is valid ipv6 address | |
+| `URLIsNotReachableAction` | Check if URL is not reachable | |
+| `URLIsReachableAction` | Check if URL is reachable | |
+| `URLWithHTTPResponseStatusCodeAction` | Check if upplied URL responds with expected HTTP response status code | |
 
 
-### Range
-Contains Actions related to ranges
+
+3. __Type__ related actions:
+
+| Action | Description | Arguments |
+| --- | --- | --- |
+| `IsConvertibleToFloatAction` | Check if value is convertible to float | |
+| `IsConvertibleToIntAction` | Check if value is convertible to int | |
+| `IsConvertibleToUUIDAction` | Checks if value is convertible to UUID | |
+| `IsFalsyAction` | Checks if value is falsy | |
+| `IsTruthyAction` | Checks if value is truthy | |
+
+
+4. __Range__ related actions:
 
 | Action | Description | Arguments |
 | --- | --- | --- |
 
 
-### Email
-Contains Actions related to emails
+5. __Email__ related actions:
 
 | Action | Description | Arguments |
 | --- | --- | --- |
-| EmailIsValidAction | Checks if email address is valid | |
+| `EmailIsValidAction` | Checks if email address is valid | |
 
 
 ## Development
