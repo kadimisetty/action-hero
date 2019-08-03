@@ -68,6 +68,7 @@ parser.add_argument("--file", action=FileIsReadableAction)
 ```
 
 __3. Full Example__: CLI program that counts number of lines of a file. 
+
 ```python
 # examples/line_counter.py
 import argparse
@@ -117,18 +118,21 @@ line_counter.py: error: argument --file: File is not readable
 ## Help and FAQ
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · __Help & FAQ__ · [Catalog](#catalog) · [Development](#development)
 
-### On not capturing user argument exceptions
-`argparse.ArgumentParser` has a slightly unconventional approach to handling `argparse.ArgumentError`s. Upon encountering one, it prints argument usage information, error and exits. I mention this, so you don't setup a `try/except` around `parser.parse_args()` to capture the exception. 
-
-In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_heroes` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit as well.
-
-### Accepting `action_values`
-There are times your action requires an additional value. For instance, when your argument accepts only filenames with `md` or `markdown` extensions. You can the `FileHasExtension` action for this scenario and pass in the extensions via `action_values`, like so — 
+### On accepting `action_values`
+There are times your action requires an additional value. For instance, when your argument accepts only filenames with `md` or `markdown` extensions. You can use the `FileHasExtension` action for this and pass in the extensions to check for via `action_values`, like so — 
 
 ```python
 parser.add_argument("--filename", action=FileHasExtension, action_values=["md", "markdown"])
 
 ```
+
+### On not capturing user argument exceptions
+`argparse.ArgumentParser` has a slightly unconventional approach to handling `argparse.ArgumentError`s. Upon encountering one, it prints argument usage information, error and exits. I mention this, so you don't setup a `try/except` around `parser.parse_args()` to capture the exception. 
+
+In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_heroes` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit as well.
+
+### On arguments accepting multiple values
+Just like any other `argparse.Action` each `action_hero.Action` handles both singular and plural values with error messages customized for that as well.
 
 ### FAQ
 <dl>
