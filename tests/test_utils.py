@@ -9,6 +9,7 @@ from action_heroes.utils import (
 from action_heroes.utils import (
     BaseAction,
     CheckAction,
+    CheckMatchesValueAction,
     MapAction,
     MapAndReplaceAction,
 )
@@ -95,7 +96,7 @@ class TestMapAction(ActionHeroesTestCase):
             MapActionWithotFunc(option_strings=[], dest="")
 
 
-class TestMapAndReplaceAction(MapAndReplaceAction):
+class TestMapAndReplaceAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
         class MapAndReplaceActionSubClass(MapAndReplaceAction):
             func = print
@@ -104,7 +105,7 @@ class TestMapAndReplaceAction(MapAndReplaceAction):
 
         self.assertIsInstance(
             MapAndReplaceActionSubClass(option_strings=[], dest=""),
-            argparse.Action
+            argparse.Action,
         )
 
     def test_if_checks_for_required_func(self):
@@ -113,3 +114,42 @@ class TestMapAndReplaceAction(MapAndReplaceAction):
 
         with self.assertRaises(ValueError):
             MapAndReplaceWithotFunc(option_strings=[], dest="")
+
+
+class TestCheckMatchesValueAction(ActionHeroesTestCase):
+    def test_if_is_subclass_of_argparse_action(self):
+        class CheckMatchesValueActionSubClass(CheckMatchesValueAction):
+            func = print
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        self.assertIsInstance(
+            CheckMatchesValueActionSubClass(
+                option_strings=[], dest="", value="V"
+            ),
+            argparse.Action,
+        )
+
+    def test_if_checks_for_required_func_and_err_msgs(self):
+        class CheckMatchesValueActionSubClassWithoutFuncAndErrMsgs(
+            CheckMatchesValueAction
+        ):
+            pass
+
+        with self.assertRaises(ValueError):
+            CheckMatchesValueActionSubClassWithoutFuncAndErrMsgs(
+                option_strings=[], dest="", value="V"
+            )
+
+    def test_if_checks_for_required_value(self):
+        class CheckMatchesValueActionSubClassWithoutValue(
+            CheckMatchesValueAction
+        ):
+            func = print
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        with self.assertRaises(ValueError):
+            CheckMatchesValueActionSubClassWithoutValue(
+                option_strings=[], dest=""
+            )

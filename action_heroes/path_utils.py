@@ -34,7 +34,7 @@ __all__ = [
 
 
 def get_extension(path):
-    """Fet file extension/prefix"""
+    """Get file extension/prefix"""
     suffix = pathlib.Path(path).suffix
     # Return suffix is nonempty without the starting dot
     # or blank string if theres none

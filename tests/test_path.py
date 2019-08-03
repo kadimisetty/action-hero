@@ -16,6 +16,7 @@ from action_heroes.path import (
     EnsureFileAction,
     FileDoesNotExistAction,
     FileExistsAction,
+    FileHasExtension,
     FileIsEmptyAction,
     FileIsExecutableAction,
     FileIsNotEmptyAction,
@@ -1484,3 +1485,59 @@ class TestFileIsNotEmptyAction(ActionHeroesTestCase):
                 self.assertFalse(is_empty_file(file2.name))
                 with self.assertRaises(ValueError):
                     self.parser.parse_args(["--path", file1.name, file2.name])
+
+
+class TestFileHasExtension(ActionHeroesTestCase):
+    def test_on_parser_with_extension(self):
+        self.parser.add_argument(
+            "--filename", action=FileHasExtension, value="txt"
+        )
+
+    def test_on_parser_without_extension(self):
+        with self.assertRaises(ValueError):
+            self.parser.add_argument("--filename", action=FileHasExtension)
+
+    def test_on_filename_with_matching_extension(self):
+        self.parser.add_argument(
+            "--filename", action=FileHasExtension, value="txt"
+        )
+        self.parser.parse_args(["--filename", "diary.txt"])
+
+    def test_on_filename_with_nonmatching_extension(self):
+        self.parser.add_argument(
+            "--filename", action=FileHasExtension, value="txt"
+        )
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--filename", "diary.md"])
+
+    def test_on_list_of_filenames_with_matching_extension(self):
+        self.parser.add_argument(
+            "--filename", nargs="+", action=FileHasExtension, value="txt"
+        )
+        self.parser.parse_args(
+            ["--filename", "diary.txt", "log.txt", "lyrics.txt"]
+        )
+
+    def test_on_list_of_filenames_with_nonmatching_extension(self):
+        self.parser.add_argument(
+            "--filename", nargs="+", action=FileHasExtension, value="txt"
+        )
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(
+                ["--filename", "diary.md", "README.rst", "history.sh"]
+            )
+
+    def test_on_list_of_filenames_with_mixed_matching_extensions(self):
+        self.parser.add_argument(
+            "--filename", nargs="+", action=FileHasExtension, value="txt"
+        )
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(
+                [
+                    "--filename",
+                    "notes.txt",
+                    "diary.md",
+                    "README.rst",
+                    "history.sh",
+                ]
+            )

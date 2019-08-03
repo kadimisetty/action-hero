@@ -1,9 +1,13 @@
-from argparse import Action
-from action_heroes.utils import CheckAction, MapAction, MapAndReplaceAction
-
+from action_heroes.utils import (
+    CheckAction,
+    CheckMatchesValueAction,
+    MapAction,
+    MapAndReplaceAction,
+)
 from action_heroes.path_utils import (
     create_directory,
     create_file,
+    get_extension,
     is_empty_file,
     is_executable_directory,
     is_executable_file,
@@ -347,12 +351,9 @@ class FileIsNotEmptyAction(CheckAction):
     err_msg_plural = "Atleast one file is empty"
 
 
-class FileHasExtension(Action):
-    """Check if file has specified extension
+class FileHasExtension(CheckMatchesValueAction):
+    """Check if file has specified extension"""
 
-    TODO: Accept extension as an argument
-
-    """
-
-    def __init__(self):
-        raise NotImplementedError
+    func = get_extension
+    err_msg_singular = "File does not have expected extension"
+    err_msg_plural = "Atleast one file does not have expected extension"

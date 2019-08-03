@@ -7,6 +7,7 @@ import requests
 
 __all__ = [
     "CheckAction",
+    "CheckMatchesValueAction",
     "MapAction",
     "MapAndReplaceAction",
     "run_only_when_when_internet_is_up",
@@ -42,6 +43,7 @@ def run_only_when_when_internet_is_up(urls=["http://www.google.com"]):
 class BaseAction(argparse.Action):
     """ArgumentParser Action subclass that runs user's func over values"""
 
+    user_value = None
     func = None
     err_msg_singular = None
     err_msg_plural = None
@@ -89,6 +91,59 @@ class CheckAction(BaseAction):
         else:
             value = values
             if not self.run_user_func(value):
+                raise argparse.ArgumentError(self, self.err_msg_singular)
+
+        setattr(namespace, self.dest, values)
+
+
+class CheckMatchesValueAction(BaseAction):
+    """Checks all values return True with func"""
+
+    def __init__(
+        self,
+        option_strings,
+        dest,
+        value=None,
+        nargs=None,
+        help=None,
+        metavar=None,
+    ):
+        for attr in ["func", "err_msg_singular", "err_msg_plural"]:
+            # Use getattr. hasattr returns True as they're initialized to None.
+            if not getattr(self, attr):
+                raise ValueError(
+                    "Please supply required attribute: {}".format(attr)
+                )
+
+        # Get user_value from init's argument value
+        if value:
+            self.user_value = value
+        else:
+            raise ValueError("Please supply required attribute: value")
+
+        super(CheckMatchesValueAction, self).__init__(
+            option_strings=option_strings,
+            dest=dest,
+            nargs=nargs,
+            help=help,
+            metavar=metavar,
+        )
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        # When values are a list of strings
+        if isinstance(values, list):
+            if not all(
+                [
+                    self.run_user_func(value) == self.user_value
+                    for value in values
+                ]
+            ):
+                raise argparse.ArgumentError(self, self.err_msg_plural)
+
+        # When values is one string
+        else:
+            value = values
+            if not self.run_user_func(value) == self.user_value:
                 raise argparse.ArgumentError(self, self.err_msg_singular)
 
         setattr(namespace, self.dest, values)
