@@ -122,6 +122,14 @@ line_counter.py: error: argument --file: File is not readable
 
 In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_heroes` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit as well.
 
+### Accepting argument values
+There are times you might need to specify an additional argument value. For instance, you might need to use an argument that only accepts filenames that have `md` or `markdown` extensions. You can use the `FileHasExtension` action for this scenario with `user_values` specified. 
+
+```python
+parser.add_argument("--filename", action=FileHasExtension, user_values=["md", "markdown"])
+
+```
+
 ### FAQ
 <dl>
 <dt>What do I need to know to use <code>action_heroes</code> in my command line application?</dt>
@@ -164,7 +172,7 @@ In order to maintain consistency with the rest of your `argparse` code, exceptio
 | `EnsureFileAction` | Ensure file exists and create it if it doesnt | |
 | `FileDoesNotExistAction` | Check if file exists | |
 | `FileExistsAction` | Check if file exists | |
-| `FileHasExtension` | Check if file has specified extension | `value`: Extension to check against |
+| `FileHasExtension` | Check if file has specified extension | __`user_values`__: List of extensions to check against. (Accepts a nonempty `list` of `str`) |
 | `FileIsEmptyAction` | Check if file is empty | |
 | `FileIsExecutableAction` | Check if file is executable | |
 | `FileIsNotEmptyAction` | Check if file is not empty | |
