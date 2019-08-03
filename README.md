@@ -207,7 +207,7 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 | __`IPIsValidIPv6AddressAction`__ | Check if ip address is valid ipv6 address | |
 | __`URLIsNotReachableAction`__ | Check if URL is not reachable | |
 | __`URLIsReachableAction`__ | Check if URL is reachable | |
-| __`URLWithHTTPResponseStatusCodeAction`__ | Check if upplied URL responds with expected HTTP response status code | Status codes to check against. e.g. `["200", "201", "202", "204"]`  |
+| __`URLWithHTTPResponseStatusCodeAction`__ | Check if upplied URL responds with expected HTTP response status code | [Status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) to check against. e.g. `["200", "201", "202", "204"]`  |
 
 
 
