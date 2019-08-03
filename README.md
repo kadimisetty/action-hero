@@ -163,8 +163,8 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
-| __`DirectoryDoesNotExistAction`__ | Check if Directory does not exist | |
-| __`DirectoryExistsAction`__ | Check if Directory exists | |
+| __`DirectoryDoesNotExistAction`__ | Check if directory does not exist | |
+| __`DirectoryExistsAction`__ | Check if directory exists | |
 | __`DirectoryIsExecutableAction`__ | Check if directory is executable | |
 | __`DirectoryIsNotExecutableAction`__ | Check if directory is not executable | |
 | __`DirectoryIsNotReadableAction`__ | Check if directory is not readable | |
@@ -174,7 +174,7 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 | __`DirectoryIsWritableAction`__ | Check if directory is writable | |
 | __`EnsureDirectoryAction`__ | Ensure directory exists and create it if it doesnt | |
 | __`EnsureFileAction`__ | Ensure file exists and create it if it doesnt | |
-| __`FileDoesNotExistAction`__ | Check if file exists | |
+| __`FileDoesNotExistAction`__ | Check if file doesnt exist | |
 | __`FileExistsAction`__ | Check if file exists | |
 | __`FileHasExtension`__ | Check if file has specified extension | Extensions to check against. e.g. `["md", "markdown"]` |
 | __`FileIsEmptyAction`__ | Check if file is empty | |
@@ -186,8 +186,8 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 | __`FileIsReadableAction`__ | Check if file is readable | |
 | __`FileIsValidAction`__ | Check file is valid | |
 | __`FileIsWritableAction`__ | Check if file is writable | |
-| __`PathDoesNotExistsAction`__ | Check if Path does not exist | |
-| __`PathExistsAction`__ | Check if Path exists | |
+| __`PathDoesNotExistsAction`__ | Check if path does not exist | |
+| __`PathExistsAction`__ | Check if path exists | |
 | __`PathIsExecutableAction`__ | Check if path is executable | |
 | __`PathIsNotExecutableAction`__ | Check if path is not executable | |
 | __`PathIsNotReadableAction`__ | Check if path is not writable | |
