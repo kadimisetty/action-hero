@@ -7,7 +7,7 @@ import requests
 
 __all__ = [
     "CheckAction",
-    "CheckPresentInUserValuesAction",
+    "CheckPresentInValuesAction",
     "MapAction",
     "MapAndReplaceAction",
     "run_only_when_when_internet_is_up",
@@ -95,16 +95,16 @@ class CheckAction(BaseAction):
         setattr(namespace, self.dest, values)
 
 
-class CheckPresentInUserValuesAction(BaseAction):
-    """Checks result func over each value in values is in user_values"""
+class CheckPresentInValuesAction(BaseAction):
+    """Checks result func over each value in values is in action_values"""
 
-    user_values = None
+    action_values = None
 
     def __init__(
         self,
         option_strings,
         dest,
-        user_values=None,
+        action_values=None,
         nargs=None,
         help=None,
         metavar=None,
@@ -116,25 +116,25 @@ class CheckPresentInUserValuesAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        if not user_values:
-            # Raise ValueError if user_values not specified
-            raise ValueError("Please supply required attribute: user_values")
+        if not action_values:
+            # Raise ValueError if action_values not specified
+            raise ValueError("Please supply required attribute: action_values")
         else:
-            # Raise ValueError if user_values is not of type list
-            if not isinstance(user_values, list):
+            # Raise ValueError if action_values is not of type list
+            if not isinstance(action_values, list):
                 raise ValueError(
-                    "Required attribute user_values has to be of type list"
+                    "Required attribute action_values has to be of type list"
                 )
-            # Raise ValueError if user_values list is empty
-            elif len(user_values) == 0:
+            # Raise ValueError if action_values list is empty
+            elif len(action_values) == 0:
                 raise ValueError(
-                    "Required attribute user_values cannot be empty list"
+                    "Required attribute action_values cannot be empty list"
                 )
             else:
-                # Accept init's user_values
-                self.user_values = user_values
+                # Accept init's action_values
+                self.action_values = action_values
 
-        super(CheckPresentInUserValuesAction, self).__init__(
+        super(CheckPresentInValuesAction, self).__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -147,7 +147,7 @@ class CheckPresentInUserValuesAction(BaseAction):
         if isinstance(values, list):
             if not all(
                 [
-                    self.run_user_func(value) in self.user_values
+                    self.run_user_func(value) in self.action_values
                     for value in values
                 ]
             ):
@@ -156,7 +156,7 @@ class CheckPresentInUserValuesAction(BaseAction):
         # When values is one string
         else:
             value = values
-            if not self.run_user_func(value) in self.user_values:
+            if not self.run_user_func(value) in self.action_values:
                 raise argparse.ArgumentError(self, self.err_msg_singular)
 
         setattr(namespace, self.dest, values)

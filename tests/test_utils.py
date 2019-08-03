@@ -9,7 +9,7 @@ from action_heroes.utils import (
 from action_heroes.utils import (
     BaseAction,
     CheckAction,
-    CheckPresentInUserValuesAction,
+    CheckPresentInValuesAction,
     MapAction,
     MapAndReplaceAction,
 )
@@ -116,42 +116,42 @@ class TestMapAndReplaceAction(ActionHeroesTestCase):
             MapAndReplaceWithotFunc(option_strings=[], dest="")
 
 
-class TestCheckPresentInUserValuesAction(ActionHeroesTestCase):
+class TestCheckPresentInValuesAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
-        class CheckPresentInUserValuesActionSubClass(
-            CheckPresentInUserValuesAction
+        class CheckPresentInValuesActionSubClass(
+            CheckPresentInValuesAction
         ):
             func = print
             err_msg_singular = "S"
             err_msg_plural = "P"
 
         self.assertIsInstance(
-            CheckPresentInUserValuesActionSubClass(
-                option_strings=[], dest="", user_values=["UV"]
+            CheckPresentInValuesActionSubClass(
+                option_strings=[], dest="", action_values=["UV"]
             ),
             argparse.Action,
         )
 
     def test_if_checks_for_required_func_and_err_msgs(self):
-        class CheckPresentInUserValuesActionSubClassWithoutFuncAndErrMsgs(
-            CheckPresentInUserValuesAction
+        class CheckPresentInValuesActionSubClassWithoutFuncAndErrMsgs(
+            CheckPresentInValuesAction
         ):
             pass
 
         with self.assertRaises(ValueError):
-            CheckPresentInUserValuesActionSubClassWithoutFuncAndErrMsgs(
-                option_strings=[], dest="", user_values=["UV"]
+            CheckPresentInValuesActionSubClassWithoutFuncAndErrMsgs(
+                option_strings=[], dest="", action_values=["UV"]
             )
 
     def test_if_checks_for_required_value(self):
-        class CheckPresentInUserValuesActionSubClassWithoutValue(
-            CheckPresentInUserValuesAction
+        class CheckPresentInValuesActionSubClassWithoutValue(
+            CheckPresentInValuesAction
         ):
             func = print
             err_msg_singular = "S"
             err_msg_plural = "P"
 
         with self.assertRaises(ValueError):
-            CheckPresentInUserValuesActionSubClassWithoutValue(
+            CheckPresentInValuesActionSubClassWithoutValue(
                 option_strings=[], dest=""
             )

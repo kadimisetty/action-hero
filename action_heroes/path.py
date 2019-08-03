@@ -1,6 +1,6 @@
 from action_heroes.utils import (
     CheckAction,
-    CheckPresentInUserValuesAction,
+    CheckPresentInValuesAction,
     MapAction,
     MapAndReplaceAction,
 )
@@ -351,7 +351,7 @@ class FileIsNotEmptyAction(CheckAction):
     err_msg_plural = "Atleast one file is empty"
 
 
-class FileHasExtension(CheckPresentInUserValuesAction):
+class FileHasExtension(CheckPresentInValuesAction):
     """Check if file has specified extension"""
 
     func = get_extension
