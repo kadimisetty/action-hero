@@ -17,8 +17,11 @@ __all__ = [
 def run_only_when_when_internet_is_up(urls=["http://www.google.com"]):
     """Decorator that runs wrapped function when the internet is up.
 
-    Note:
-        - Connection is checked by checking connection to values in urls
+    Connection is checked by checking connection to values in urls
+
+    Args:
+        urls (list[str]): List of urls to check for when checking for
+        connection
 
     """
 
@@ -41,7 +44,19 @@ def run_only_when_when_internet_is_up(urls=["http://www.google.com"]):
 
 
 class BaseAction(argparse.Action):
-    """ArgumentParser Action subclass that runs user's func over values"""
+    """ArgumentParser Action subclass that runs user's func over values
+
+    ActionHeroes' Baseclass for subclasses that need access to a func,
+        err_msg_singular and err_msg_plural
+
+    Attributes:
+        func (func): To be used to fill in subclasses preferred func.
+        err_msg_singular(str): To be used to fill error message for singular
+            failure.
+        err_msg_plural(str): To be used to fill error message for singular
+            failure.
+
+    """
 
     func = None
     err_msg_singular = None
@@ -49,18 +64,27 @@ class BaseAction(argparse.Action):
 
     @classmethod
     def run_user_func(cls, value):
-        """Runs cls.func. Used nside __call__
+        """Runs cls.func over value
 
-        Note:
-            Needs to be @classmethod to avoid
-            1. including self when being called in other methods
-            2. not including self when calling other funcs within
+        Used nside __call__
+
+        Needs to be @classmethod to avoid
+        1. including self when being called in other methods
+        2. not including self when calling other funcs within
+
+        Args:
+            cls (cls): classmethod argument
+            value (type): The value to run cls.func upon
+
         """
         return cls.func(value)
 
 
 class CheckAction(BaseAction):
-    """Checks all values return True with func"""
+    """Checks all values return True with func. Args from superclass
+    argparse.Action
+
+    """
 
     def __init__(
         self, option_strings, dest, nargs=None, help=None, metavar=None
@@ -96,7 +120,15 @@ class CheckAction(BaseAction):
 
 
 class CheckPresentInValuesAction(BaseAction):
-    """Checks result func over each value in values is in action_values"""
+    """Checks result func over each value in values is in action_values.
+
+    Args from main superclass argparse.Action
+
+    Attributes:
+        action_values (list[str]): List of strings to accept as values used to
+            check presence in with results of func attribute.
+
+    """
 
     action_values = None
 
@@ -163,7 +195,7 @@ class CheckPresentInValuesAction(BaseAction):
 
 
 class MapAction(BaseAction):
-    """Maps func on values"""
+    """Maps func on values. Args from main suoperclass argparse.Action."""
 
     def __init__(
         self, option_strings, dest, nargs=None, help=None, metavar=None
@@ -197,7 +229,8 @@ class MapAction(BaseAction):
 
 
 class MapAndReplaceAction(BaseAction):
-    """Maps func on values and replaces values with the result"""
+    """Maps func on values and replaces values with the result. Args from main
+    superclass argparse.Action"""
 
     def __init__(
         self, option_strings, dest, nargs=None, help=None, metavar=None
@@ -246,6 +279,12 @@ class ExitCapturedArgumentParser(argparse.ArgumentParser):
             convolutes testing.
             So instead of exiting, just constructing the message and passing it
             on as a ValueError that can be captured in testing.
+
+        Args:
+            message(str): Use to explain reason for error.
+
+        Raises:
+            ValueError: Raises valueerror with formatted message.
         """
         error_message = "{}s: error: {}s\n".format(self.prog, message)
         raise ValueError(error_message)
@@ -254,9 +293,9 @@ class ExitCapturedArgumentParser(argparse.ArgumentParser):
 class ActionHeroesTestCase(unittest.TestCase):
     """unitests.TestCase subclass that encloses a ExitCapturedArgumentParser
 
-        Reason for a special TestCase:
-            1. Enclose parser within setup
-            2. The enclosed parser should capture exits and raise ValueError
+    Reason for a special TestCase:
+        1. Enclose parser within setup
+        2. The enclosed parser should capture exits and raise ValueError
 
     """
 

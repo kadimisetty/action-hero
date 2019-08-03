@@ -34,7 +34,17 @@ __all__ = [
 
 
 def get_extension(path):
-    """Get file extension/prefix"""
+    """Get file extension/prefix
+
+    The dot is strippped if there is one.
+
+    Args:
+        path (str): Filename
+
+    Returns:
+        (str) File extension or blank string
+
+    """
     suffix = pathlib.Path(path).suffix
     # Return suffix is nonempty without the starting dot
     # or blank string if theres none
@@ -45,13 +55,31 @@ def get_extension(path):
 
 
 def create_file(path):
-    """Creates a file with name of path"""
-    pathlib.Path(path).touch()
+    """Creates a file with name of path
+
+    When exist_ok=True is set to True on touch(), the file's modification date
+    will be set yet a new file is not created over it. Else, when a file
+    already exists there, it might raise a FileExistsError. TODO: Visit this
+    behavior again.
+
+    Args:
+        path (str): Path to create file
+    """
+    pathlib.Path(path).touch(exist_ok=True)
 
 
 def create_directory(path):
-    """Creates a directory with name of path"""
-    os.mkdir(path)
+    """Creates a directory with name of path
+
+    When exist_ok=True is set to True on mkdir(), the file's modification date
+    will be set yet a new file is not created over it. Else, when a file
+    already exists there, it might raise a FileExistsError. TODO: Visit this
+    behavior again.
+
+    Args:
+        path (str): Path to create directory
+    """
+    os.mkdir(path, exist_ok=True)
 
 
 def is_symbolic_link(path):
@@ -128,13 +156,15 @@ def resolve_path(path):
 def is_existing_or_creatable_path(path):
     """Returns True if path already exists or is creatable by current User
 
-    IMPORTANT NOTE:
-        This solution is a work-around, in that, an ignorable tempfile with a
-        shortlife is created and removed.
-        Source: https://stackoverflow.com/a/48499049/225903
+    This solution is a work-around, in that, an ignorable tempfile with a
+    shortlife is created and removed.
+    Source: https://stackoverflow.com/a/48499049/225903
 
-        For a better, although far more complicated solution, read:
-        https://stackoverflow.com/a/34102855/225903
+    For a better, although far more complicated solution, read:
+    https://stackoverflow.com/a/34102855/225903
+
+    Args:
+        path (str): Path to check for existence or creatability
 
     """
     try:
@@ -161,17 +191,15 @@ def is_valid_path(path):
 
 
 def is_valid_directory(path):
-    """
-    Returns True if directoy as path already exists or is creatable by current
-    User
+    """ Returns True if directoy as path already exists or is creatable by
+    current User.
 
     """
     return is_valid_path(path)
 
 
 def is_valid_file(path):
-    """
-    Returns True if file as path already exists or is creatable by current
+    """Returns True if file as path already exists or is creatable by current
     User
 
     """
@@ -181,11 +209,11 @@ def is_valid_file(path):
 def remove_write_permission(path):
     """Remove write permissions and keep other permissions intact.
 
-    Params:
-        path:  The path whose permissions to alter.
-
     Source:
         https://stackoverflow.com/a/38511116/225903
+
+    Args:
+        path (str):  The path whose permissions to alter.
 
     """
     NO_USER_WRITING = ~stat.S_IWUSR
@@ -200,12 +228,11 @@ def remove_write_permission(path):
 def remove_read_permission(path):
     """Remove read permissions and keep other permissions intact.
 
-    Params:
-        path:  The path whose permissions to alter.
-
     Source:
         https://stackoverflow.com/a/38511116/225903
 
+    Args:
+        path (str):  The path whose permissions to alter.
     """
     NO_USER_READING = ~stat.S_IRUSR
     NO_GROUP_READING = ~stat.S_IRGRP
@@ -219,11 +246,11 @@ def remove_read_permission(path):
 def remove_execute_permission(path):
     """Remove execute permissions and keep other permissions intact.
 
-    Params:
-        path:  The path whose permissions to alter.
-
     Source:
         https://stackoverflow.com/a/38511116/225903
+
+    Args:
+        path (str):  The path whose permissions to alter.
 
     """
     NO_USER_EXECUTING = ~stat.S_IXUSR
@@ -240,11 +267,11 @@ def remove_execute_permission(path):
 def add_execute_permission(path):
     """Add execute permission and keep other permissions intact.
 
-    Params:
-        path:  The path whose permissions to alter.
-
     Source:
         https://stackoverflow.com/a/38511116/225903
+
+    Args:
+        path:  The path whose permissions to alter.
 
     """
     USER_EXECUTING = stat.S_IXUSR

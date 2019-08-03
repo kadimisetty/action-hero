@@ -10,15 +10,7 @@ __all__ = [
 
 
 def is_convertible_to_int(value):
-    """Returns True if value is convertible to int
-
-    Args:
-        value (str): Value to attempt to convert to int
-
-    Returns:
-        bool: True if convertible to int else False
-
-        """
+    """Returns True if value is convertible to int"""
     try:
         int(value)
     except ValueError:
@@ -28,15 +20,7 @@ def is_convertible_to_int(value):
 
 
 def is_convertible_to_float(value):
-    """Returns True if value is convertible to float
-
-    Args:
-        value (str): Value to attempt to convert to float
-
-    Returns:
-        bool: True if convertible to float else False
-
-    """
+    """Returns True if value is convertible to float"""
     try:
         float(value)
     except ValueError:
@@ -48,7 +32,7 @@ def is_convertible_to_float(value):
 def is_truthy(value):
     """Returns True if value is truthy
 
-    Only attempting truthy when is string of zeroes
+    Only attempting truthy when is string of zeroes 0/0.0
 
     Args:
         value (str): Value to check truthy for.

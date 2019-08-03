@@ -6,7 +6,7 @@ __all__ = ["EmailIsValidAction"]
 
 
 class EmailIsValidAction(CheckAction):
-    """Checks if email address is valid"""
+    """Check if email address is valid"""
 
     func = is_valid_email
     err_msg_singular = "Email address is invalid"

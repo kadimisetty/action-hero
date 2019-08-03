@@ -87,7 +87,7 @@ class EnsureFileAction(MapAction):
 
     @staticmethod
     def _ensure_file(filename):
-        if not is_existing_directory(filename):
+        if not is_existing_file(filename):
             create_file(filename)
 
     func = _ensure_file
@@ -102,7 +102,7 @@ class PathIsValidAction(CheckAction):
 
 
 class PathExistsAction(CheckAction):
-    """Check if Path exists"""
+    """Check if path exists"""
 
     func = is_existing_path
     err_msg_singular = "Path does not exist"
@@ -110,7 +110,7 @@ class PathExistsAction(CheckAction):
 
 
 class PathDoesNotExistsAction(CheckAction):
-    """Check if Path does not exist"""
+    """Check if path does not exist"""
 
     def func(value):
         return not is_existing_path(value)
@@ -174,7 +174,7 @@ class PathIsNotExecutableAction(CheckAction):
 
 
 class DirectoryExistsAction(CheckAction):
-    """Check if Directory exists"""
+    """Check if directory exists"""
 
     func = is_existing_directory
     err_msg_singular = "Directory does not exist"
@@ -182,7 +182,7 @@ class DirectoryExistsAction(CheckAction):
 
 
 class DirectoryDoesNotExistAction(CheckAction):
-    """Check if Directory does not exist"""
+    """Check if directory does not exist"""
 
     def func(value):
         return not is_existing_directory(value)
