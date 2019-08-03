@@ -1,7 +1,7 @@
-from argparse import Action
-from action_heroes.utils import CheckAction
+from action_heroes.utils import CheckAction, CheckPresentInValuesAction
 
 from action_heroes.net_utils import (
+    status_code_from_response_to_request_url,
     is_valid_ip_address,
     is_valid_ipv4_address,
     is_valid_ipv6_address,
@@ -62,13 +62,11 @@ class URLIsNotReachableAction(CheckAction):
     err_msg_plural = "Atleast one URL is not reachable"
 
 
-class URLWithHTTPResponseStatusCodeAction(Action):
-    """Check if upplied URL responds with expected HTTP response status code
+class URLWithHTTPResponseStatusCodeAction(CheckPresentInValuesAction):
+    """Check if supplied URL responds with status code in action_values"""
 
-    Params:
-        Expected HTTP Response Status Code
-
-    """
-
-    def __call__(self):
-        raise NotImplementedError
+    func = status_code_from_response_to_request_url
+    err_msg_singular = "Response from URL does not have expected status code."
+    err_msg_plural = (
+        "Response from at least one URL does not have expected status code."
+    )

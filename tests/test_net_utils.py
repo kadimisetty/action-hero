@@ -79,9 +79,9 @@ class TestStatusCodeFromResponseToRequestURL(unittest.TestCase):
     def test_on_reachable_url(self):
         try:
             url1 = "http://www.google.com"
-            response = requests.get(url1)
+            response = requests.get(url1)  # Raises RequestException on fail
             self.assertEqual(
-                status_code_from_response_to_request_url(url1),
+                status_code_from_response_to_request_url(url1),  # None on fail
                 response.status_code,
             )
 
@@ -92,12 +92,16 @@ class TestStatusCodeFromResponseToRequestURL(unittest.TestCase):
     def test_on_unreahable_url(self):
         try:
             url1 = "madeupurl.example.xyz"
-            response = requests.get(url1)
+            response = requests.get(url1)  # Raises RequestException on fail
             self.assertEqual(
-                status_code_from_response_to_request_url(url1),
+                status_code_from_response_to_request_url(url1),  # None on fail
                 response.status_code,
             )
 
         # Do nothing on response error
         except requests.exceptions.RequestException:
             pass
+
+    def test_on_malformed_url_returns_none_on_request_failure(self):
+        url1 = "AAA"
+        self.assertIsNone(status_code_from_response_to_request_url(url1))

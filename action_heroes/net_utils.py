@@ -51,4 +51,8 @@ def is_reachable_url(url):
 def status_code_from_response_to_request_url(url):
     """Returns status code from response to request url"""
 
-    return requests.get(url).status_code
+    try:
+        return str(requests.get(url).status_code)
+
+    except requests.exceptions.RequestException:
+        return None

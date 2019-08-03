@@ -2,6 +2,7 @@ from action_heroes.net import (
     IPIsValidIPAddressAction,
     IPIsValidIPv4AddressAction,
     IPIsValidIPv6AddressAction,
+    URLWithHTTPResponseStatusCodeAction,
     URLIsNotReachableAction,
     URLIsReachableAction,
 )
@@ -204,7 +205,7 @@ class TestURLIsReachableAction(ActionHeroesTestCase):
     @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
     def test_on_unreachable_url(self):
         self.parser.add_argument("--url", action=URLIsReachableAction)
-        unreachable = "XXX"
+        unreachable = "AAA"
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--url", unreachable])
 
@@ -213,7 +214,7 @@ class TestURLIsReachableAction(ActionHeroesTestCase):
         self.parser.add_argument(
             "--url", nargs="+", action=URLIsReachableAction
         )
-        unreachable = ["XXX", "httt://www.notreal.com"]
+        unreachable = ["AAA", "httt://www.notreal.com"]
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--url", *unreachable])
 
@@ -240,7 +241,7 @@ class TestURLIsNotReachableAction(ActionHeroesTestCase):
     @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
     def test_on_unreachable_url(self):
         self.parser.add_argument("--url", action=URLIsNotReachableAction)
-        unreachable = "XXX"
+        unreachable = "AAA"
         self.parser.parse_args(["--url", unreachable])
 
     @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
@@ -248,5 +249,39 @@ class TestURLIsNotReachableAction(ActionHeroesTestCase):
         self.parser.add_argument(
             "--url", nargs="+", action=URLIsNotReachableAction
         )
-        unreachable = ["XXX", "YYY"]
+        unreachable = ["AAA", "YYY"]
         self.parser.parse_args(["--url", *unreachable])
+
+
+class TestURLWithHTTPResponseStatusCodeAction(ActionHeroesTestCase):
+    @run_only_when_when_internet_is_up(urls=["http://www.google.com"])
+    def test_on_reachable_url(self):
+        self.parser.add_argument(
+            "--url",
+            action=URLWithHTTPResponseStatusCodeAction,
+            # Request success codes 2xx
+            action_values=["200", "201", "202", "203", "204"],
+        )
+        url = "http://google.com"
+        self.parser.parse_args(["--url", url])
+
+    def test_on_unreachable_url(self):
+        self.parser.add_argument(
+            "--url",
+            action=URLWithHTTPResponseStatusCodeAction,
+            # Request failure codes 4xx, 5xx
+            action_values=[
+                "400",
+                "401",
+                "402",
+                "403",
+                "404",
+                "500",
+                "501",
+                "502",
+                "503",
+            ],
+        )
+        unreachable = "AAA"
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--url", unreachable])
