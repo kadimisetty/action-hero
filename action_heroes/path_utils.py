@@ -71,15 +71,13 @@ def create_file(path):
 def create_directory(path):
     """Creates a directory with name of path
 
-    When exist_ok=True is set to True on mkdir(), the file's modification date
-    will be set yet a new file is not created over it. Else, when a file
-    already exists there, it might raise a FileExistsError. TODO: Visit this
-    behavior again.
-
     Args:
         path (str): Path to create directory
+
+    Raises:
+        FileExistsError: Raised if path is already present
     """
-    os.mkdir(path, exist_ok=True)
+    os.mkdir(path)
 
 
 def is_symbolic_link(path):

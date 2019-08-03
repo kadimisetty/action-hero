@@ -76,6 +76,7 @@ class EnsureDirectoryAction(MapAction):
 
     @staticmethod
     def _ensure_directory(directory):
+        # create_directory raises FileExistsError if dir exists so check first
         if not is_existing_directory(directory):
             create_directory(directory)
 
