@@ -163,51 +163,51 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
-| `DirectoryDoesNotExistAction` | Check if Directory does not exist | |
-| `DirectoryExistsAction` | Check if Directory exists | |
-| `DirectoryIsExecutableAction` | Check if directory is executable | |
-| `DirectoryIsNotExecutableAction` | Check if directory is not executable | |
-| `DirectoryIsNotReadableAction` | Check if directory is not readable | |
-| `DirectoryIsNotWritableAction` | Check if directory is not writable | |
-| `DirectoryIsReadableAction` | Check if directory is readable | |
-| `DirectoryIsValidAction` | Check directory is valid | |
-| `DirectoryIsWritableAction` | Check if directory is writable | |
-| `EnsureDirectoryAction` | Ensure directory exists and create it if it doesnt | |
-| `EnsureFileAction` | Ensure file exists and create it if it doesnt | |
-| `FileDoesNotExistAction` | Check if file exists | |
-| `FileExistsAction` | Check if file exists | |
-| `FileHasExtension` | Check if file has specified extension | Extensions to check against. e.g. `["md", "markdown"]` |
-| `FileIsEmptyAction` | Check if file is empty | |
-| `FileIsExecutableAction` | Check if file is executable | |
-| `FileIsNotEmptyAction` | Check if file is not empty | |
-| `FileIsNotExecutableAction` | Check if file is not executable | |
-| `FileIsNotReadableAction` | Check if file is not readable | |
-| `FileIsNotWritableAction` | Check if file is not writable | |
-| `FileIsReadableAction` | Check if file is readable | |
-| `FileIsValidAction` | Check file is valid | |
-| `FileIsWritableAction` | Check if file is writable | |
-| `PathDoesNotExistsAction` | Check if Path does not exist | |
-| `PathExistsAction` | Check if Path exists | |
-| `PathIsExecutableAction` | Check if path is executable | |
-| `PathIsNotExecutableAction` | Check if path is not executable | |
-| `PathIsNotReadableAction` | Check if path is not writable | |
-| `PathIsNotWritableAction` | Check if path is not writable | |
-| `PathIsReadableAction` | Check if path is readable | |
-| `PathIsValidAction` | Check if path is valid | |
-| `PathIsWritableAction` | Check if path is writable | |
-| `ResolvePathAction` | Resolves path to canonical path removing symbolic links if present | |
+| __`DirectoryDoesNotExistAction`__ | Check if Directory does not exist | |
+| __`DirectoryExistsAction`__ | Check if Directory exists | |
+| __`DirectoryIsExecutableAction`__ | Check if directory is executable | |
+| __`DirectoryIsNotExecutableAction`__ | Check if directory is not executable | |
+| __`DirectoryIsNotReadableAction`__ | Check if directory is not readable | |
+| __`DirectoryIsNotWritableAction`__ | Check if directory is not writable | |
+| __`DirectoryIsReadableAction`__ | Check if directory is readable | |
+| __`DirectoryIsValidAction`__ | Check directory is valid | |
+| __`DirectoryIsWritableAction`__ | Check if directory is writable | |
+| __`EnsureDirectoryAction`__ | Ensure directory exists and create it if it doesnt | |
+| __`EnsureFileAction`__ | Ensure file exists and create it if it doesnt | |
+| __`FileDoesNotExistAction`__ | Check if file exists | |
+| __`FileExistsAction`__ | Check if file exists | |
+| __`FileHasExtension`__ | Check if file has specified extension | Extensions to check against. e.g. `["md", "markdown"]` |
+| __`FileIsEmptyAction`__ | Check if file is empty | |
+| __`FileIsExecutableAction`__ | Check if file is executable | |
+| __`FileIsNotEmptyAction`__ | Check if file is not empty | |
+| __`FileIsNotExecutableAction`__ | Check if file is not executable | |
+| __`FileIsNotReadableAction`__ | Check if file is not readable | |
+| __`FileIsNotWritableAction`__ | Check if file is not writable | |
+| __`FileIsReadableAction`__ | Check if file is readable | |
+| __`FileIsValidAction`__ | Check file is valid | |
+| __`FileIsWritableAction`__ | Check if file is writable | |
+| __`PathDoesNotExistsAction`__ | Check if Path does not exist | |
+| __`PathExistsAction`__ | Check if Path exists | |
+| __`PathIsExecutableAction`__ | Check if path is executable | |
+| __`PathIsNotExecutableAction`__ | Check if path is not executable | |
+| __`PathIsNotReadableAction`__ | Check if path is not writable | |
+| __`PathIsNotWritableAction`__ | Check if path is not writable | |
+| __`PathIsReadableAction`__ | Check if path is readable | |
+| __`PathIsValidAction`__ | Check if path is valid | |
+| __`PathIsWritableAction`__ | Check if path is writable | |
+| __`ResolvePathAction`__ | Resolves path to canonical path removing symbolic links if present | |
 
 
 2. __Network__ related actions:
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
-| `IPIsValidIPAddressAction` | Check if ip is valid ipv4 or ipv6 address | |
-| `IPIsValidIPv4AddressAction` | Check if ip address is valid ipv4 address | |
-| `IPIsValidIPv6AddressAction` | Check if ip address is valid ipv6 address | |
-| `URLIsNotReachableAction` | Check if URL is not reachable | |
-| `URLIsReachableAction` | Check if URL is reachable | |
-| `URLWithHTTPResponseStatusCodeAction` | Check if upplied URL responds with expected HTTP response status code | Status codes to check against. e.g. `["200", "201", "202", "204"]`  |
+| __`IPIsValidIPAddressAction`__ | Check if ip is valid ipv4 or ipv6 address | |
+| __`IPIsValidIPv4AddressAction`__ | Check if ip address is valid ipv4 address | |
+| __`IPIsValidIPv6AddressAction`__ | Check if ip address is valid ipv6 address | |
+| __`URLIsNotReachableAction`__ | Check if URL is not reachable | |
+| __`URLIsReachableAction`__ | Check if URL is reachable | |
+| __`URLWithHTTPResponseStatusCodeAction`__ | Check if upplied URL responds with expected HTTP response status code | Status codes to check against. e.g. `["200", "201", "202", "204"]`  |
 
 
 
@@ -215,11 +215,11 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
-| `IsConvertibleToFloatAction` | Check if value is convertible to float | |
-| `IsConvertibleToIntAction` | Check if value is convertible to int | |
-| `IsConvertibleToUUIDAction` | Checks if value is convertible to UUID | |
-| `IsFalsyAction` | Checks if value is falsy | |
-| `IsTruthyAction` | Checks if value is truthy | |
+| __`IsConvertibleToFloatAction`__ | Check if value is convertible to float | |
+| __`IsConvertibleToIntAction`__ | Check if value is convertible to int | |
+| __`IsConvertibleToUUIDAction`__ | Checks if value is convertible to UUID | |
+| __`IsFalsyAction`__ | Checks if value is falsy | |
+| __`IsTruthyAction`__ | Checks if value is truthy | |
 
 
 4. __Range__ related actions:
@@ -232,7 +232,7 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
-| `EmailIsValidAction` | Checks if email address is valid | |
+| __`EmailIsValidAction`__ | Checks if email address is valid | |
 
 
 ## Development
