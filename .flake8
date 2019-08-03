@@ -1,0 +1,10 @@
+[flake8]
+per-file-ignores =
+    action_heroes/__init__.py:F401
+    tests/test_init.py:F401
+
+exclude =
+    .ropeproject,
+    .dist,
+    build,
+    venv
