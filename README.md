@@ -156,7 +156,7 @@ parser.add_argument("--filename", action=FileHasExtension, action_values=["md", 
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __Catalog__ · [Development](#development)
 
 __Note__: `action_values` should be provided as a non-empty list of strings. e.g.
-`action_values = ["md", "markdown"]`. See [help section on action_values](#accepting-action-values) for more
+`action_values = ["md", "markdown"]`. See [help section on action_values](#accepting-action_values) for more
 
 
 1. __Path, Directory and File__ related actions:
