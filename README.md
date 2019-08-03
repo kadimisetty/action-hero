@@ -119,10 +119,10 @@ line_counter.py: error: argument --file: File is not readable
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · __Help & FAQ__ · [Catalog](#catalog) · [Development](#development)
 
 ### On accepting `action_values`
-There are times your action requires an additional value. For instance, when your argument accepts only filenames with `md` or `markdown` extensions. You can use the `FileHasExtension` action for this and pass in the extensions to check for via `action_values`, like so — 
+There are times your action requires an additional value. For instance, when your argument accepts only filenames with `md` or `markdown` extensions. You can use the `FilenameHasExtension` action for this and pass in the extensions to check for via `action_values`, like so — 
 
 ```python
-parser.add_argument("--filename", action=FileHasExtension, action_values=["md", "markdown"])
+parser.add_argument("--filename", action=FilenameHasExtension, action_values=["md", "markdown"])
 
 ```
 
@@ -180,7 +180,6 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 | __`EnsureFileAction`__ | Ensure file exists and create it if it doesnt | |
 | __`FileDoesNotExistAction`__ | Check if file doesnt exist | |
 | __`FileExistsAction`__ | Check if file exists | |
-| __`FileHasExtension`__ | Check if file has specified extension | Extensions to check against. e.g. `["md", "markdown"]` |
 | __`FileIsEmptyAction`__ | Check if file is empty | |
 | __`FileIsExecutableAction`__ | Check if file is executable | |
 | __`FileIsNotEmptyAction`__ | Check if file is not empty | |
@@ -190,6 +189,7 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 | __`FileIsReadableAction`__ | Check if file is readable | |
 | __`FileIsValidAction`__ | Check file is valid | |
 | __`FileIsWritableAction`__ | Check if file is writable | |
+| __`FilenameHasExtension`__ | Check if file has specified extension | Extensions to check against. e.g. `["md", "markdown"]` |
 | __`PathDoesNotExistsAction`__ | Check if path does not exist | |
 | __`PathExistsAction`__ | Check if path exists | |
 | __`PathIsExecutableAction`__ | Check if path is executable | |
