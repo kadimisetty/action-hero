@@ -1,3 +1,6 @@
+# Only checking for successful imports, so disable linters
+# flake8: noqa
+# pylint: skip-file
 import unittest
 
 

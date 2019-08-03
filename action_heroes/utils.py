@@ -9,7 +9,6 @@ __all__ = [
     "CheckAction",
     "MapAction",
     "MapAndReplaceAction",
-    "ParserEnclosedTestCase",
     "run_only_when_when_internet_is_up",
 ]
 
@@ -196,5 +195,3 @@ class ActionHeroesTestCase(unittest.TestCase):
     def setUp(self):
         """Enclose ExitCapturedArgumentParser as parser"""
         self.parser = ExitCapturedArgumentParser()
-
-

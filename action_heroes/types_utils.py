@@ -68,7 +68,7 @@ def is_convertible_to_UUID(value, version=4):
         # 1. Check if can be converted to a UUID
         uuid.UUID(value, version=version)
 
-    except (ValueError, AttributeError) :
+    except (ValueError, AttributeError):
         # 2. Return false if cannot be converted to UUID
         return False
 

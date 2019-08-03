@@ -1,3 +1,6 @@
+# Consolidating imports to be available from action_heroes, so disable linters
+# flake8: noqa
+# pylint: skip-file
 from action_heroes.email import EmailIsValidAction
 from action_heroes.net import (
     IPIsValidIPAddressAction,
