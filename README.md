@@ -52,14 +52,22 @@ Therefore __`argparse`__ + __`action_heroes`__ = 🧨
 ## Quick Usage
 > [Introduction](#introduction) · __Quick Usage__ · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
-**1. Installation**: Use `pip` for installation
+__1. Installation__: Use `pip` for installation
 
 ```python 
 pip install action_heroes
 ```
 
-**2. Quick Usage**: CLI program that counts number of lines of a file. 
+__2. Quick Usage__: Import an action and specify it in your `argparse.ArgumentParser` instance.
 
+```python 
+from action_heroes import FileIsReadableAction
+...
+parser.add_argument("--file", action=FileIsReadableAction)
+...
+```
+
+__3. Full Example__: CLI program that counts number of lines of a file. 
 ```python
 # examples/line_counter.py
 import argparse
@@ -110,9 +118,9 @@ line_counter.py: error: argument --file: File is not readable
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · __Help & FAQ__ · [Catalog](#catalog) · [Development](#development)
 
 ### On not capturing user argument exceptions
-`ArgumentParser` has a slightly unconventional approach to handling `ArgumentError`s. Upon encountering one, it prints argument usage information, error and exits. 
+`argparse.ArgumentParser` has a slightly unconventional approach to handling `argparse.ArgumentError`s. Upon encountering one, it prints argument usage information, error and exits. I mention this, so you don't setup a `try/except` around `parser.parse_args()` to capture the exception. 
 
-I mention this, so you don't setup a `try/except` around `parser.parse_args()` to capture the exception. In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_heroes` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit.
+In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_heroes` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit as well.
 
 ### FAQ
 <dl>
