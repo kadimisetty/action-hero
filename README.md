@@ -122,8 +122,8 @@ line_counter.py: error: argument --file: File is not readable
 
 In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_heroes` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit as well.
 
-### Accepting argument values
-There are times you might need to specify an additional argument value. For instance, you might need to use an argument that only accepts filenames that have `md` or `markdown` extensions. You can use the `FileHasExtension` action for this scenario with `action_values` specified. 
+### Accepting `action_values`
+There are times your action requires an additional value. For instance, when your argument accepts only filenames with `md` or `markdown` extensions. You can the `FileHasExtension` action for this scenario and pass in the extensions via `action_values`, like so — 
 
 ```python
 parser.add_argument("--filename", action=FileHasExtension, action_values=["md", "markdown"])
@@ -155,7 +155,8 @@ parser.add_argument("--filename", action=FileHasExtension, action_values=["md", 
 ## Catalog
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __Catalog__ · [Development](#development)
 
-__Note__: `action_values` should be a non-empty list of strings. eg. `action_values = ["md", "markdown"]`
+__Note__: `action_values` should be provided as a non-empty list of strings. e.g.
+`action_values = ["md", "markdown"]`. See [help section on action_values](#accepting-action-values) for more
 
 
 1. __Path, Directory and File__ related actions:
@@ -175,7 +176,7 @@ __Note__: `action_values` should be a non-empty list of strings. eg. `action_val
 | `EnsureFileAction` | Ensure file exists and create it if it doesnt | |
 | `FileDoesNotExistAction` | Check if file exists | |
 | `FileExistsAction` | Check if file exists | |
-| `FileHasExtension` | Check if file has specified extension | __`action_values`__: List of extensions to check against. (Accepts a nonempty `list` of `str`) |
+| `FileHasExtension` | Check if file has specified extension | Extensions to check against. e.g. `["md", "markdown"]` |
 | `FileIsEmptyAction` | Check if file is empty | |
 | `FileIsExecutableAction` | Check if file is executable | |
 | `FileIsNotEmptyAction` | Check if file is not empty | |
@@ -243,7 +244,7 @@ __Note__: `action_values` should be a non-empty list of strings. eg. `action_val
 - __Image Attributions__: _Karate by Alex Auda Samora from the Noun Project_
 
 ### Roadmap
-1. Configurable exception type. eg. ValueError/ArgumentError etc.
+1. Configurable exception type. e.g. ValueError/ArgumentError etc.
 2. More Actions.
 3. Reference with Sphinx docs + github pages on a seperate branch.
 4. More examples.
