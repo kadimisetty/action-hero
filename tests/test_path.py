@@ -1490,7 +1490,7 @@ class TestFileIsNotEmptyAction(ActionHeroesTestCase):
 class TestFileHasExtension(ActionHeroesTestCase):
     def test_on_parser_with_extension(self):
         self.parser.add_argument(
-            "--filename", action=FileHasExtension, value="txt"
+            "--filename", action=FileHasExtension, user_values=["txt"]
         )
 
     def test_on_parser_without_extension(self):
@@ -1499,20 +1499,23 @@ class TestFileHasExtension(ActionHeroesTestCase):
 
     def test_on_filename_with_matching_extension(self):
         self.parser.add_argument(
-            "--filename", action=FileHasExtension, value="txt"
+            "--filename", action=FileHasExtension, user_values=["txt"]
         )
         self.parser.parse_args(["--filename", "diary.txt"])
 
     def test_on_filename_with_nonmatching_extension(self):
         self.parser.add_argument(
-            "--filename", action=FileHasExtension, value="txt"
+            "--filename", action=FileHasExtension, user_values=["txt"]
         )
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--filename", "diary.md"])
 
     def test_on_list_of_filenames_with_matching_extension(self):
         self.parser.add_argument(
-            "--filename", nargs="+", action=FileHasExtension, value="txt"
+            "--filename",
+            nargs="+",
+            action=FileHasExtension,
+            user_values=["txt"],
         )
         self.parser.parse_args(
             ["--filename", "diary.txt", "log.txt", "lyrics.txt"]
@@ -1520,7 +1523,10 @@ class TestFileHasExtension(ActionHeroesTestCase):
 
     def test_on_list_of_filenames_with_nonmatching_extension(self):
         self.parser.add_argument(
-            "--filename", nargs="+", action=FileHasExtension, value="txt"
+            "--filename",
+            nargs="+",
+            action=FileHasExtension,
+            user_values=["txt"],
         )
         with self.assertRaises(ValueError):
             self.parser.parse_args(
@@ -1529,7 +1535,10 @@ class TestFileHasExtension(ActionHeroesTestCase):
 
     def test_on_list_of_filenames_with_mixed_matching_extensions(self):
         self.parser.add_argument(
-            "--filename", nargs="+", action=FileHasExtension, value="txt"
+            "--filename",
+            nargs="+",
+            action=FileHasExtension,
+            user_values=["txt"],
         )
         with self.assertRaises(ValueError):
             self.parser.parse_args(
@@ -1541,3 +1550,41 @@ class TestFileHasExtension(ActionHeroesTestCase):
                     "history.sh",
                 ]
             )
+
+    def test_on_multiple_user_values(self):
+        self.parser.add_argument(
+            "--filename",
+            action=FileHasExtension,
+            user_values=["md", "markdown"],
+        )
+        self.parser.parse_args(["--filename", "diary.md"])
+
+    def test_on_multiple_user_values_with_expected_filenames(self):
+        self.parser.add_argument(
+            "--filename",
+            action=FileHasExtension,
+            user_values=["md", "markdown"],
+        )
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(
+                ["--filename", "README.md", "blogentry.markdown"]
+            )
+
+    def test_on_multiple_user_values_with_unexpected_filenames(self):
+        self.parser.add_argument(
+            "--filename",
+            action=FileHasExtension,
+            user_values=["md", "markdown"],
+        )
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--filename", "config.yml"])
+
+    def test_on_multiple_user_values_with_mixed_expected_filenames(self):
+        self.parser.add_argument(
+            "--filename",
+            nargs="+",
+            action=FileHasExtension,
+            user_values=["md", "markdown"],
+        )
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--filename", "config.yml", "README.rst"])

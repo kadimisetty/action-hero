@@ -9,7 +9,7 @@ from action_heroes.utils import (
 from action_heroes.utils import (
     BaseAction,
     CheckAction,
-    CheckMatchesValueAction,
+    CheckPresentInUserValuesAction,
     MapAction,
     MapAndReplaceAction,
 )
@@ -116,40 +116,42 @@ class TestMapAndReplaceAction(ActionHeroesTestCase):
             MapAndReplaceWithotFunc(option_strings=[], dest="")
 
 
-class TestCheckMatchesValueAction(ActionHeroesTestCase):
+class TestCheckPresentInUserValuesAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
-        class CheckMatchesValueActionSubClass(CheckMatchesValueAction):
+        class CheckPresentInUserValuesActionSubClass(
+            CheckPresentInUserValuesAction
+        ):
             func = print
             err_msg_singular = "S"
             err_msg_plural = "P"
 
         self.assertIsInstance(
-            CheckMatchesValueActionSubClass(
-                option_strings=[], dest="", value="V"
+            CheckPresentInUserValuesActionSubClass(
+                option_strings=[], dest="", user_values=["UV"]
             ),
             argparse.Action,
         )
 
     def test_if_checks_for_required_func_and_err_msgs(self):
-        class CheckMatchesValueActionSubClassWithoutFuncAndErrMsgs(
-            CheckMatchesValueAction
+        class CheckPresentInUserValuesActionSubClassWithoutFuncAndErrMsgs(
+            CheckPresentInUserValuesAction
         ):
             pass
 
         with self.assertRaises(ValueError):
-            CheckMatchesValueActionSubClassWithoutFuncAndErrMsgs(
-                option_strings=[], dest="", value="V"
+            CheckPresentInUserValuesActionSubClassWithoutFuncAndErrMsgs(
+                option_strings=[], dest="", user_values=["UV"]
             )
 
     def test_if_checks_for_required_value(self):
-        class CheckMatchesValueActionSubClassWithoutValue(
-            CheckMatchesValueAction
+        class CheckPresentInUserValuesActionSubClassWithoutValue(
+            CheckPresentInUserValuesAction
         ):
             func = print
             err_msg_singular = "S"
             err_msg_plural = "P"
 
         with self.assertRaises(ValueError):
-            CheckMatchesValueActionSubClassWithoutValue(
+            CheckPresentInUserValuesActionSubClassWithoutValue(
                 option_strings=[], dest=""
             )

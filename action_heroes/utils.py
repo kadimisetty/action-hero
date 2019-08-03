@@ -7,7 +7,7 @@ import requests
 
 __all__ = [
     "CheckAction",
-    "CheckMatchesValueAction",
+    "CheckPresentInUserValuesAction",
     "MapAction",
     "MapAndReplaceAction",
     "run_only_when_when_internet_is_up",
@@ -43,7 +43,6 @@ def run_only_when_when_internet_is_up(urls=["http://www.google.com"]):
 class BaseAction(argparse.Action):
     """ArgumentParser Action subclass that runs user's func over values"""
 
-    user_value = None
     func = None
     err_msg_singular = None
     err_msg_plural = None
@@ -96,14 +95,16 @@ class CheckAction(BaseAction):
         setattr(namespace, self.dest, values)
 
 
-class CheckMatchesValueAction(BaseAction):
-    """Checks all values return True with func"""
+class CheckPresentInUserValuesAction(BaseAction):
+    """Checks result func over each value in values is in user_values"""
+
+    user_values = None
 
     def __init__(
         self,
         option_strings,
         dest,
-        value=None,
+        user_values=None,
         nargs=None,
         help=None,
         metavar=None,
@@ -115,13 +116,25 @@ class CheckMatchesValueAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        # Get user_value from init's argument value
-        if value:
-            self.user_value = value
+        if not user_values:
+            # Raise ValueError if user_values not specified
+            raise ValueError("Please supply required attribute: user_values")
         else:
-            raise ValueError("Please supply required attribute: value")
+            # Raise ValueError if user_values is not of type list
+            if not isinstance(user_values, list):
+                raise ValueError(
+                    "Required attribute user_values has to be of type list"
+                )
+            # Raise ValueError if user_values list is empty
+            elif len(user_values) == 0:
+                raise ValueError(
+                    "Required attribute user_values cannot be empty list"
+                )
+            else:
+                # Accept init's user_values
+                self.user_values = user_values
 
-        super(CheckMatchesValueAction, self).__init__(
+        super(CheckPresentInUserValuesAction, self).__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -134,7 +147,7 @@ class CheckMatchesValueAction(BaseAction):
         if isinstance(values, list):
             if not all(
                 [
-                    self.run_user_func(value) == self.user_value
+                    self.run_user_func(value) in self.user_values
                     for value in values
                 ]
             ):
@@ -143,7 +156,7 @@ class CheckMatchesValueAction(BaseAction):
         # When values is one string
         else:
             value = values
-            if not self.run_user_func(value) == self.user_value:
+            if not self.run_user_func(value) in self.user_values:
                 raise argparse.ArgumentError(self, self.err_msg_singular)
 
         setattr(namespace, self.dest, values)
