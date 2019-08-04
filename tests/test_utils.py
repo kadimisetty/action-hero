@@ -1,5 +1,7 @@
-import unittest
 import argparse
+import os
+import tempfile
+import unittest
 
 
 from action_heroes.utils import (
@@ -13,6 +15,12 @@ from action_heroes.utils import (
     MapAction,
     MapAndReplaceAction,
     PipelineAction,
+)
+from action_heroes import (
+    FileExistsAction,
+    FileIsEmptyAction,
+    FileIsReadableAction,
+    FilenameHasExtension,
 )
 
 
@@ -119,9 +127,7 @@ class TestMapAndReplaceAction(ActionHeroesTestCase):
 
 class TestCheckPresentInValuesAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
-        class CheckPresentInValuesActionSubClass(
-            CheckPresentInValuesAction
-        ):
+        class CheckPresentInValuesActionSubClass(CheckPresentInValuesAction):
             func = print
             err_msg_singular = "S"
             err_msg_plural = "P"
@@ -161,3 +167,17 @@ class TestCheckPresentInValuesAction(ActionHeroesTestCase):
 class TestPipelineAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
         self.assertTrue(issubclass(PipelineAction, argparse.Action))
+
+    def test_on_one_action(self):
+        self.parser.add_argument(
+            "--file",
+            action=PipelineAction,
+            action_values=[FileExistsAction],
+        )
+        file1 = tempfile.mkstemp()[1]
+        self.parser.parse_args(["--file", file1])
+        os.remove(file1)
+
+        # file1 now doesn't exist
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--file", file1])

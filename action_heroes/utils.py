@@ -401,7 +401,7 @@ class PipelineAction(argparse.Action):
             metavar=metavar,
         )
 
-    def __call__(self, parser, namespace, values, option_strings=None):
+    def __call__(self, parser, namespace, values, option_string=None):
         """Call each child action within PipelineAction's __call__
 
         All actions are called inside PipelineAction's namespace, thus end up
@@ -420,5 +420,5 @@ class PipelineAction(argparse.Action):
                 parser=parser,
                 namespace=namespace,
                 values=values,
-                option_strings=option_strings,
+                option_string=option_string,
             )
