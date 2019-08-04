@@ -359,6 +359,7 @@ class PipelineAction(argparse.Action):
                 # 1. Get action class and action_values
                 action = value[0]
                 action_values = value[1]
+
                 # 2. Verify the action is legit and raise ValueError if not
                 # 3. Add action to children
                 self.children.append(
@@ -412,7 +413,7 @@ class PipelineAction(argparse.Action):
 
         No need to call setattr(namespace, self.dest, values) here, because
         we'll be leaving the result of the last action in the pipeline as it
-        is.
+        is and PipeineAction doesnt make any namespace changes
 
         """
         for child in self.children:
