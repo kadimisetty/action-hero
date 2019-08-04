@@ -42,8 +42,6 @@ class TestActionHeroesTestCase(ActionHeroesTestCase):
         self.assertIsInstance(self.parser, ExitCapturedArgumentParser)
 
     def test_is_subclassed_of_unittest_testcase(self):
-        import unittest
-
         self.assertTrue(issubclass(ActionHeroesTestCase, unittest.TestCase))
 
 
