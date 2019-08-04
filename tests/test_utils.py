@@ -12,6 +12,7 @@ from action_heroes.utils import (
     CheckPresentInValuesAction,
     MapAction,
     MapAndReplaceAction,
+    PipelineAction,
 )
 
 
@@ -155,3 +156,8 @@ class TestCheckPresentInValuesAction(ActionHeroesTestCase):
             CheckPresentInValuesActionSubClassWithoutValue(
                 option_strings=[], dest=""
             )
+
+
+class TestPipelineAction(ActionHeroesTestCase):
+    def test_if_is_subclass_of_argparse_action(self):
+        self.assertTrue(issubclass(PipelineAction, argparse.Action))

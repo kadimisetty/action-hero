@@ -10,6 +10,7 @@ __all__ = [
     "CheckPresentInValuesAction",
     "MapAction",
     "MapAndReplaceAction",
+    "PipelineAction",
     "run_only_when_when_internet_is_up",
 ]
 
@@ -310,7 +311,7 @@ class PipelineAction(argparse.Action):
     Actions that are run through a pipeline need to satify two constraints:
         1. Technical: Type need to match betwen piping and pipee actions.
         2. Logical: Piping some actions might not make logical sense.
-            e.g. File...Actions to URL...Actions
+            e.g. FilexxxActions to URLxxxActions
 
     Attributes:
         children (list): Valid action_hero actions to pipeline through.
@@ -401,7 +402,19 @@ class PipelineAction(argparse.Action):
         )
 
     def __call__(self, parser, namespace, values, option_strings=None):
+        """Call each child action within PipelineAction's __call__
 
+        All actions are called inside PipelineAction's namespace, thus end up
+        using similar attributes such as namespace, parser etc. and as they
+        each get called one after the other, they replace dest with their
+        result. Thus they end up piping through results via `dest` in this
+        namespace.
+
+        No need to call setattr(namespace, self.dest, values) here, because
+        we'll be leaving the result of the last action in the pipeline as it
+        is.
+
+        """
         for child in self.children:
             child(
                 parser=parser,
