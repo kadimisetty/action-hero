@@ -302,3 +302,110 @@ class ActionHeroesTestCase(unittest.TestCase):
     def setUp(self):
         """Enclose ExitCapturedArgumentParser as parser"""
         self.parser = ExitCapturedArgumentParser()
+
+
+class PipelineAction(argparse.Action):
+    """Run ActionHero actions thrugh a pipeline.
+
+    Actions that are run through a pipeline need to satify two constraints:
+        1. Technical: Type need to match betwen piping and pipee actions.
+        2. Logical: Piping some actions might not make logical sense.
+            e.g. File...Actions to URL...Actions
+
+    Attributes:
+        children (list): Valid action_hero actions to pipeline through.
+            Order of children is to be preserved.
+        action_values (list[Action/(Action, [str])): Action values to this
+            class contains a list of one of two valid options:
+                1. [action_hero action]
+                2. Tuple of (action_hero action, action_values<list>)
+
+    """
+    children = []
+    action_values = None
+
+    def __init__(
+        self,
+        option_strings,
+        dest,
+        action_values=None,
+        nargs=None,
+        help=None,
+        metavar=None,
+    ):
+        if not action_values:
+            # Raise ValueError if action_values not specified
+            raise ValueError("Please supply required attribute: action_values")
+        else:
+            # Raise ValueError if action_values is not of type list
+            if not isinstance(action_values, list):
+                raise ValueError(
+                    "Required attribute action_values has to be of type list"
+                )
+            # Raise ValueError if action_values list is empty
+            elif len(action_values) == 0:
+                raise ValueError(
+                    "Required attribute action_values cannot be empty list"
+                )
+            else:
+                # Accept init's action_values
+                self.action_values = action_values
+
+        # Add actions as children
+        for value in self.action_values:
+            # Form 1 tuple of action class and it's action_values
+            if isinstance(value, tuple):
+                # 1. Get action class and action_values
+                action = value[0]
+                action_values = value[1]
+                # 2. Verify the action is legit and raise ValueError if not
+                # 3. Add action to children
+                self.children.append(
+                    action(
+                        option_strings=option_strings,
+                        dest=dest,
+                        nargs=nargs,
+                        action_values=action_values,
+                        help=help,
+                        metavar=metavar,
+                    )
+                )
+
+            # Form 2 is an action class
+            elif issubclass(value, argparse.Action):
+                # 1. Get action class
+                action = value
+                # 2. Verify the action is legit and raise ValueError if not
+                # 3. Add action to children
+                self.children.append(
+                    action(
+                        option_strings=option_strings,
+                        dest=dest,
+                        nargs=nargs,
+                        help=help,
+                        metavar=metavar,
+                    )
+                )
+
+            # Raise ValueError if unexpected value
+            else:
+                raise ValueError("action_values contains invalid values")
+
+        # REMAINDER PIPELINE INIT
+        super(PipelineAction, self).__init__(
+            option_strings=option_strings,
+            dest=dest,
+            nargs=nargs,
+            help=help,
+            metavar=metavar,
+        )
+
+    def __call__(self, parser, namespace, values, option_strings=None):
+
+        for child in self.children:
+            child(
+                parser=parser,
+                namespace=namespace,
+                values=values,
+                option_strings=option_strings,
+            )
