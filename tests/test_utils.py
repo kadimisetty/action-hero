@@ -49,9 +49,7 @@ class TestActionHeroesTestCase(ActionHeroesTestCase):
 
 class TestBaseAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
-        self.assertIsInstance(
-            BaseAction(option_strings=[], dest=""), argparse.Action
-        )
+        self.assertTrue(issubclass(BaseAction, argparse.Action)
 
 
 class TestCheckAction(ActionHeroesTestCase):
