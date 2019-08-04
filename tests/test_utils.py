@@ -1,5 +1,7 @@
-import unittest
 import argparse
+import os
+import tempfile
+import unittest
 
 
 from action_heroes.utils import (
@@ -12,6 +14,15 @@ from action_heroes.utils import (
     CheckPresentInValuesAction,
     MapAction,
     MapAndReplaceAction,
+    PipelineAction,
+)
+from action_heroes import (
+    FileDoesNotExistAction,
+    FileExistsAction,
+    FileIsEmptyAction,
+    FileIsReadableAction,
+    FileIsWritableAction,
+    FilenameHasExtension,
 )
 
 
@@ -123,3 +134,90 @@ class TestCheckPresentInValuesAction(ActionHeroesTestCase):
             CheckPresentInValuesActionSubClassWithoutValue(
                 option_strings=[], dest=""
             )
+
+
+@unittest.skip("Issues w/ pipeline's action value w/ multiple action_values")
+class TestPipelineActionSolo(unittest.TestCase):
+    def test_on_action_that_accepts_action_values(self):
+        p = ExitCapturedArgumentParser()
+        p.add_argument(
+            "--readme",
+            action=PipelineAction,
+            nargs="+",
+            action_values=[
+                (FilenameHasExtension, ["md2"]),
+                FileDoesNotExistAction,
+            ],
+        )
+        p.parse_args(["--readme", "DAILY.md2", "another.md2"])
+        del p
+
+
+class TestPipelineAction(ActionHeroesTestCase):
+    """Known issue with testing PipelineActions using actions w/ action_values
+    tends to cause errors where some test cases do not have any content for
+    values
+    """
+    def test_if_is_subclass_of_argparse_action(self):
+        self.assertTrue(issubclass(PipelineAction, argparse.Action))
+
+    def test_on_action(self):
+        self.parser.add_argument(
+            "--file", action=PipelineAction, action_values=[FileExistsAction]
+        )
+        file1 = tempfile.mkstemp()[1]
+        self.parser.parse_args(["--file", file1])
+        os.remove(file1)
+
+        # file1 now doesn't exist
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--file", file1])
+
+    def test_on_multiple_actions(self):
+        self.parser.add_argument(
+            "--file",
+            action=PipelineAction,
+            action_values=[
+                FileExistsAction,
+                FileIsEmptyAction,
+                FileIsWritableAction,
+            ],
+        )
+        file1 = tempfile.mkstemp()[1]
+        self.parser.parse_args(["--file", file1])
+        # Can now confidently know that
+        # 1. file1 exists
+        # 2. file1 is empty
+        # 3. file1 is writable
+        with open(file1, "w") as f:
+            f.write("write with no valuerrors")
+        os.remove(file1)
+
+    def test_on_multiple_actions_with_one_failure(self):
+        self.parser.add_argument(
+            "--file",
+            nargs="+",
+            action=PipelineAction,
+            action_values=[
+                FileExistsAction,
+                FileIsEmptyAction,
+                FileIsWritableAction,
+            ],
+        )
+        file1 = tempfile.mkstemp()[1]
+        self.parser.parse_args(["--file", file1])
+        # Can now confidently know that
+        # 1. file1 exists
+        # 2. file1 is empty
+        # 3. file1 is writable
+        with open(file1, "w") as f:
+            f.write("write with no valuerrors")
+
+        # file1 no longer empty. Assert ValueError raised
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--file", file1])
+
+        os.remove(file1)
+        # file1 no longer exists. assert ValueError raised
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--file", file1])
