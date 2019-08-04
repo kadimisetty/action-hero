@@ -313,6 +313,10 @@ class PipelineAction(argparse.Action):
         2. Logical: Piping some actions might not make logical sense.
             e.g. FilexxxActions to URLxxxActions
 
+    Known Issues with Testing
+        Cases when the parser has pipeline action with multiple action_values.
+
+
     Attributes:
         children (list): Valid action_hero actions to pipeline through.
             Order of children is to be preserved.
