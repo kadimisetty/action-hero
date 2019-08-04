@@ -24,10 +24,10 @@ class TestActionHeroesTestCase(ActionHeroesTestCase):
     def test_argparse_argument_parser_is_present(self):
         self.assertTrue(hasattr(self, "parser"))
 
-    def test_argparse_argument_parser_is_subclass_of_argument_parser(self):
+    def test_argparse_argument_parser_is_instance_of_argument_parser(self):
         self.assertIsInstance(self.parser, argparse.ArgumentParser)
 
-    def test_argparse_argument_parser_is_subclass_of_custom_parser(self):
+    def test_argparse_argument_parser_is_instance_of_custom_parser(self):
         self.assertIsInstance(self.parser, ExitCapturedArgumentParser)
 
     def test_is_subclassed_of_unittest_testcase(self):
@@ -38,21 +38,12 @@ class TestActionHeroesTestCase(ActionHeroesTestCase):
 
 class TestBaseAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
-        self.assertIsInstance(
-            BaseAction(option_strings=[], dest=""), argparse.Action
-        )
+        self.assertTrue(issubclass(BaseAction, argparse.Action))
 
 
 class TestCheckAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
-        class CheckActionSubClass(CheckAction):
-            func = print
-            err_msg_singular = "S"
-            err_msg_plural = "P"
-
-        self.assertIsInstance(
-            CheckActionSubClass(option_strings=[], dest=""), argparse.Action
-        )
+        self.assertTrue(issubclass(CheckAction, argparse.Action))
 
     def test_if_checks_for_required_func(self):
         class CheckActionWithotFunc(CheckAction):
@@ -81,12 +72,7 @@ class TestCheckAction(ActionHeroesTestCase):
 
 class TestMapAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
-        class MapActionSubClass(MapAction):
-            func = print
-
-        self.assertIsInstance(
-            MapActionSubClass(option_strings=[], dest=""), argparse.Action
-        )
+        self.assertTrue(issubclass(MapAction, argparse.Action))
 
     def test_if_checks_for_required_func(self):
         class MapActionWithotFunc(MapAction):
@@ -98,15 +84,7 @@ class TestMapAction(ActionHeroesTestCase):
 
 class TestMapAndReplaceAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
-        class MapAndReplaceActionSubClass(MapAndReplaceAction):
-            func = print
-            err_msg_singular = "S"
-            err_msg_plural = "P"
-
-        self.assertIsInstance(
-            MapAndReplaceActionSubClass(option_strings=[], dest=""),
-            argparse.Action,
-        )
+        self.assertTrue(issubclass(MapAndReplaceAction, argparse.Action))
 
     def test_if_checks_for_required_func(self):
         class MapAndReplaceWithotFunc(MapAndReplaceAction):
@@ -118,18 +96,8 @@ class TestMapAndReplaceAction(ActionHeroesTestCase):
 
 class TestCheckPresentInValuesAction(ActionHeroesTestCase):
     def test_if_is_subclass_of_argparse_action(self):
-        class CheckPresentInValuesActionSubClass(
-            CheckPresentInValuesAction
-        ):
-            func = print
-            err_msg_singular = "S"
-            err_msg_plural = "P"
-
-        self.assertIsInstance(
-            CheckPresentInValuesActionSubClass(
-                option_strings=[], dest="", action_values=["UV"]
-            ),
-            argparse.Action,
+        self.assertTrue(
+            issubclass(CheckPresentInValuesAction, argparse.Action)
         )
 
     def test_if_checks_for_required_func_and_err_msgs(self):
