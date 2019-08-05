@@ -1,6 +1,6 @@
 [flake8]
 per-file-ignores =
-    action_heroes/__init__.py:F401
+    action_hero/__init__.py:F401
     tests/test_init.py:F401
 
 exclude =

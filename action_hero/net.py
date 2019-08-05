@@ -1,6 +1,6 @@
-from action_heroes.utils import CheckAction, CheckPresentInValuesAction
+from action_hero.utils import CheckAction, CheckPresentInValuesAction
 
-from action_heroes.net_utils import (
+from action_hero.net_utils import (
     status_code_from_response_to_request_url,
     is_valid_ip_address,
     is_valid_ipv4_address,

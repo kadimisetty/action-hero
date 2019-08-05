@@ -1,5 +1,5 @@
-from action_heroes.email_utils import is_valid_email
-from action_heroes.utils import CheckAction
+from action_hero.email_utils import is_valid_email
+from action_hero.utils import CheckAction
 
 
 __all__ = ["EmailIsValidAction"]

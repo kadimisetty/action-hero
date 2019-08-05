@@ -1,6 +1,6 @@
 import unittest
 
-from action_heroes.getters import get_about
+from action_hero.getters import get_about
 
 
 class TestAbout(unittest.TestCase):

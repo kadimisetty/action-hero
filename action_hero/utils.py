@@ -75,7 +75,7 @@ class ActionHeroAction(argparse.Action):
 class BaseAction(ActionHeroAction):
     """ArgumentParser Action subclass that runs user's func over values
 
-    ActionHeroes' Baseclass for subclasses that need access to a func,
+    ActionHero' Baseclass for subclasses that need access to a func,
         err_msg_singular and err_msg_plural
 
     Attributes:
@@ -306,7 +306,7 @@ class PipelineAction(ActionHeroAction):
         Cases when the parser has pipeline action with multiple action_values
         due to the way argumenterrors are raised and exits.  Current workaround
         solution is to run those particular tests in a subprocess.  Note that
-        this workaround WILL ONLY WORK when action_heroes module is available
+        this workaround WILL ONLY WORK when action_hero module is available
         e.g. with `pip install --editable .` which might not be the case on a
         different system. e.g. a CI system where action_hero module is not
         loaded.
@@ -325,7 +325,7 @@ class PipelineAction(ActionHeroAction):
     action_values = None
 
     @staticmethod
-    def _is_valid_action_heroes_action(action):
+    def _is_valid_action_hero_action(action):
         return issubclass(action, ActionHeroAction)
 
     def __init__(
@@ -364,9 +364,9 @@ class PipelineAction(ActionHeroAction):
                 action_values = value[1]
 
                 # 2. Verify the action is legit and raise ValueError if not
-                if not self._is_valid_action_heroes_action(action):
+                if not self._is_valid_action_hero_action(action):
                     raise ValueError(
-                        "Invalid action_heroes action: {}".format(action)
+                        "Invalid action_hero action: {}".format(action)
                     )
                 else:
                     # 3. Add action to children
@@ -386,9 +386,9 @@ class PipelineAction(ActionHeroAction):
                 # 1. Get action class
                 action = value
                 # 2. Verify the action is legit and raise ValueError if not
-                if not self._is_valid_action_heroes_action(action):
+                if not self._is_valid_action_hero_action(action):
                     raise ValueError(
-                        "Invalid action_heroes action: {}".format(action)
+                        "Invalid action_hero action: {}".format(action)
                     )
                 # 3. Add action to children
                 self.children.append(

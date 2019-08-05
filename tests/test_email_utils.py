@@ -1,6 +1,6 @@
 import unittest
 
-from action_heroes.email_utils import is_valid_email
+from action_hero.email_utils import is_valid_email
 
 
 class TestIsEmailValid(unittest.TestCase):

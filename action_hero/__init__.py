@@ -1,5 +1,5 @@
-from action_heroes.email import EmailIsValidAction
-from action_heroes.net import (
+from action_hero.email import EmailIsValidAction
+from action_hero.net import (
     IPIsValidIPAddressAction,
     IPIsValidIPv4AddressAction,
     IPIsValidIPv6AddressAction,
@@ -7,7 +7,7 @@ from action_heroes.net import (
     URLIsReachableAction,
     URLWithHTTPResponseStatusCodeAction,
 )
-from action_heroes.path import (
+from action_hero.path import (
     DirectoryDoesNotExistAction,
     DirectoryExistsAction,
     DirectoryIsExecutableAction,
@@ -41,7 +41,7 @@ from action_heroes.path import (
     PathIsWritableAction,
     ResolvePathAction,
 )
-from action_heroes.path_utils import (
+from action_hero.path_utils import (
     add_execute_permission,
     is_empty_file,
     is_executable_directory,
@@ -61,7 +61,7 @@ from action_heroes.path_utils import (
     remove_write_permission,
     resolve_path,
 )
-from action_heroes.types import (
+from action_hero.types import (
     IsConvertibleToFloatAction,
     IsConvertibleToIntAction,
     IsConvertibleToUUIDAction,

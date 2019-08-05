@@ -2,8 +2,8 @@ import unittest
 
 import requests
 
-from action_heroes.utils import run_only_when_when_internet_is_up
-from action_heroes.net_utils import (
+from action_hero.utils import run_only_when_when_internet_is_up
+from action_hero.net_utils import (
     is_valid_ip_address,
     is_valid_ipv4_address,
     is_valid_ipv6_address,

@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-from action_heroes.getters import (
+from action_hero.getters import (
     get_about,
     get_readme_contents,
     get_readme_content_type,

@@ -2,7 +2,7 @@ import unittest
 import pathlib
 import os
 
-from action_heroes.getters import (
+from action_hero.getters import (
     get_about,
     get_config_as_dict,
     get_readme_contents,

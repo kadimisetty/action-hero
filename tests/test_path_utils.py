@@ -3,7 +3,7 @@ import tempfile
 import shutil
 import os
 
-from action_heroes.path_utils import (
+from action_hero.path_utils import (
     add_execute_permission,
     create_directory,
     create_file,

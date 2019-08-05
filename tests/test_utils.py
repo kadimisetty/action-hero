@@ -4,13 +4,13 @@ import tempfile
 import unittest
 
 
-from action_heroes.utils import (
+from action_hero.utils import (
     ActionHeroAction,
-    ActionHeroesTestCase,
+    ActionHeroTestCase,
     ExitCapturedArgumentParser,
     run_only_when_modules_loaded,
 )
-from action_heroes.utils import (
+from action_hero.utils import (
     BaseAction,
     CheckAction,
     CheckPresentInValuesAction,
@@ -18,7 +18,7 @@ from action_heroes.utils import (
     MapAndReplaceAction,
     PipelineAction,
 )
-from action_heroes import (
+from action_hero import (
     FileDoesNotExistAction,
     FileExistsAction,
     FileIsEmptyAction,
@@ -29,7 +29,7 @@ from action_heroes import (
 
 
 @unittest.skip("TODO")
-class TestRunOnlyWhenWhenInternetIsUp(ActionHeroesTestCase):
+class TestRunOnlyWhenWhenInternetIsUp(ActionHeroTestCase):
     pass
 
 
@@ -52,7 +52,7 @@ class TestRunOnlyWhenModuleLoaded(unittest.TestCase):
         raise_value_error()
 
 
-class TestActionHeroesTestCase(ActionHeroesTestCase):
+class TestActionHeroTestCase(ActionHeroTestCase):
     def test_argparse_argument_parser_is_present(self):
         self.assertTrue(hasattr(self, "parser"))
 
@@ -63,15 +63,15 @@ class TestActionHeroesTestCase(ActionHeroesTestCase):
         self.assertIsInstance(self.parser, ExitCapturedArgumentParser)
 
     def test_is_subclassed_of_unittest_testcase(self):
-        self.assertTrue(issubclass(ActionHeroesTestCase, unittest.TestCase))
+        self.assertTrue(issubclass(ActionHeroTestCase, unittest.TestCase))
 
 
-class TestBaseAction(ActionHeroesTestCase):
+class TestBaseAction(ActionHeroTestCase):
     def test_if_is_subclass_of_argparse_action(self):
         self.assertTrue(issubclass(BaseAction, argparse.Action))
 
 
-class TestCheckAction(ActionHeroesTestCase):
+class TestCheckAction(ActionHeroTestCase):
     def test_if_is_subclass_of_argparse_action(self):
         self.assertTrue(issubclass(CheckAction, argparse.Action))
 
@@ -100,7 +100,7 @@ class TestCheckAction(ActionHeroesTestCase):
             CheckActionWithotErrMsgSingular(option_strings=[], dest="")
 
 
-class TestMapAction(ActionHeroesTestCase):
+class TestMapAction(ActionHeroTestCase):
     def test_if_is_subclass_of_argparse_action(self):
         self.assertTrue(issubclass(MapAction, argparse.Action))
 
@@ -112,7 +112,7 @@ class TestMapAction(ActionHeroesTestCase):
             MapActionWithotFunc(option_strings=[], dest="")
 
 
-class TestMapAndReplaceAction(ActionHeroesTestCase):
+class TestMapAndReplaceAction(ActionHeroTestCase):
     def test_if_is_subclass_of_argparse_action(self):
         self.assertTrue(issubclass(MapAndReplaceAction, argparse.Action))
 
@@ -124,7 +124,7 @@ class TestMapAndReplaceAction(ActionHeroesTestCase):
             MapAndReplaceWithotFunc(option_strings=[], dest="")
 
 
-class TestCheckPresentInValuesAction(ActionHeroesTestCase):
+class TestCheckPresentInValuesAction(ActionHeroTestCase):
     def test_if_is_subclass_of_argparse_action(self):
         self.assertTrue(
             issubclass(CheckPresentInValuesAction, argparse.Action)
@@ -155,12 +155,12 @@ class TestCheckPresentInValuesAction(ActionHeroesTestCase):
             )
 
 
-class TestActionHeroAction(ActionHeroesTestCase):
+class TestActionHeroAction(ActionHeroTestCase):
     def test_if_is_subclass_of_argparse_action(self):
         self.assertTrue(issubclass(ActionHeroAction, argparse.Action))
 
 
-class TestPipelineAction(ActionHeroesTestCase):
+class TestPipelineAction(ActionHeroTestCase):
     """Known issue with testing PipelineActions using actions w/ action_values
     tends to cause errors where some test cases do not have any content for
     values"""
@@ -230,8 +230,8 @@ class TestPipelineAction(ActionHeroesTestCase):
             self.parser.parse_args(["--file", file1])
 
 
-class SoloTestCase(ActionHeroesTestCase):
-    def test_on_nonaction_heroes_action_in_action_values(self):
+class SoloTestCase(ActionHeroTestCase):
+    def test_on_nonaction_hero_action_in_action_values(self):
         class UnrecognizedAction(argparse.Action):
             def __call__(self, parser, namespace, values, option_string=None):
                 pass
@@ -245,13 +245,13 @@ class SoloTestCase(ActionHeroesTestCase):
                 ],
             )
 
-    @unittest.skip("run only when action_heroes module is available")
+    @unittest.skip("run only when action_hero module is available")
     def test_on_action_that_accepts_action_values(self):
         # 1. Code to run argumentparser and parse args
         script_contents = """
 import argparse
-from action_heroes.utils import PipelineAction
-from action_heroes import FilenameHasExtension, FileDoesNotExistAction
+from action_hero.utils import PipelineAction
+from action_hero import FilenameHasExtension, FileDoesNotExistAction
 
 # p = ExitCapturedArgumentParser()
 p = argparse.ArgumentParser()

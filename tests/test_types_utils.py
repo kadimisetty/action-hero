@@ -1,6 +1,6 @@
 import unittest
 
-from action_heroes.types_utils import (
+from action_hero.types_utils import (
     is_convertible_to_UUID,
     is_convertible_to_float,
     is_convertible_to_int,

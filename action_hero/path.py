@@ -1,10 +1,10 @@
-from action_heroes.utils import (
+from action_hero.utils import (
     CheckAction,
     CheckPresentInValuesAction,
     MapAction,
     MapAndReplaceAction,
 )
-from action_heroes.path_utils import (
+from action_hero.path_utils import (
     create_directory,
     create_file,
     get_extension,

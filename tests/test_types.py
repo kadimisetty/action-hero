@@ -1,5 +1,5 @@
-from action_heroes.utils import ActionHeroesTestCase
-from action_heroes.types import (
+from action_hero.utils import ActionHeroTestCase
+from action_hero.types import (
     IsConvertibleToFloatAction,
     IsConvertibleToIntAction,
     IsConvertibleToUUIDAction,
@@ -8,7 +8,7 @@ from action_heroes.types import (
 )
 
 
-class TestIsConvertibleToIntAction(ActionHeroesTestCase):
+class TestIsConvertibleToIntAction(ActionHeroTestCase):
     def test_on_valid_value(self):
         self.parser.add_argument("--value", action=IsConvertibleToIntAction)
         value = "5"
@@ -44,7 +44,7 @@ class TestIsConvertibleToIntAction(ActionHeroesTestCase):
             self.parser.parse_args(["--value", *values])
 
 
-class TestIsConvertibleToFloatAction(ActionHeroesTestCase):
+class TestIsConvertibleToFloatAction(ActionHeroTestCase):
     def test_on_valid_value(self):
         self.parser.add_argument("--value", action=IsConvertibleToFloatAction)
         value = "5.3"
@@ -80,7 +80,7 @@ class TestIsConvertibleToFloatAction(ActionHeroesTestCase):
             self.parser.parse_args(["--value", *values])
 
 
-class TestIsTruthyAction(ActionHeroesTestCase):
+class TestIsTruthyAction(ActionHeroTestCase):
     def test_on_truthy_value(self):
         self.parser.add_argument("--value", action=IsTruthyAction)
         value = "true"
@@ -110,7 +110,7 @@ class TestIsTruthyAction(ActionHeroesTestCase):
             self.parser.parse_args(["--value", *values])
 
 
-class TestIsFalsyAction(ActionHeroesTestCase):
+class TestIsFalsyAction(ActionHeroTestCase):
     def test_on_truthy_value(self):
         self.parser.add_argument("--value", action=IsFalsyAction)
         value = "true"
@@ -140,7 +140,7 @@ class TestIsFalsyAction(ActionHeroesTestCase):
             self.parser.parse_args(["--value", *values])
 
 
-class TestIsConvertibleToUUIDAction(ActionHeroesTestCase):
+class TestIsConvertibleToUUIDAction(ActionHeroTestCase):
     def test_on_valid_uuid_value(self):
         self.parser.add_argument("--value", action=IsConvertibleToUUIDAction)
         value = "cc3c3eb9-48a1-4307-8e92-700d9a25fffe"
