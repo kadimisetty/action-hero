@@ -222,6 +222,24 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
                 "--number", action=Action1, action_values=[4, 5, "6"]
             )
 
+    def test_on_uncastable_action_value_entry(self):
+        class Action1(CheckPresentInValuesAction):
+            def func(value):
+                return value
+
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        self.parser.add_argument(
+            "--number",
+            action=Action1,
+            action_values=["four"],
+            type=int,
+        )
+
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--number", "4"])
+
 
 class TestActionHeroAction(ActionHeroTestCase):
     def test_if_is_subclass_of_argparse_action(self):
