@@ -8,6 +8,7 @@ from action_heroes.utils import (
     ActionHeroAction,
     ActionHeroesTestCase,
     ExitCapturedArgumentParser,
+    run_only_when_modules_loaded,
 )
 from action_heroes.utils import (
     BaseAction,
@@ -30,6 +31,23 @@ from action_heroes import (
 @unittest.skip("TODO")
 class TestRunOnlyWhenWhenInternetIsUp(ActionHeroesTestCase):
     pass
+
+
+class TestRunOnlyWhenModuleLoaded(unittest.TestCase):
+    def test_on_available_module_unittest(self):
+        @run_only_when_modules_loaded(modules=["sys"])
+        def raise_value_error():
+            raise ValueError()
+
+        with self.assertRaises(ValueError):
+            raise_value_error()
+
+    def test_on_unavailable_module_unittest(self):
+        @run_only_when_modules_loaded(modules=["unavailable_module_xyz"])
+        def raise_value_error():
+            raise ValueError()
+
+        raise_value_error()
 
 
 class TestActionHeroesTestCase(ActionHeroesTestCase):
@@ -209,7 +227,7 @@ class TestPipelineAction(ActionHeroesTestCase):
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--file", file1])
 
-    @unittest.skip("run only when action_heroes module is available")
+    @run_only_when_modules_loaded(modules=["action_heroes"])
     def test_on_action_that_accepts_action_values(self):
         # 1. Code to run argumentparser and parse args
         script_contents = """

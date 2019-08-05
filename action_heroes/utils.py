@@ -1,3 +1,4 @@
+import sys
 import unittest
 import functools
 import argparse
@@ -13,7 +14,29 @@ __all__ = [
     "MapAndReplaceAction",
     "PipelineAction",
     "run_only_when_when_internet_is_up",
+    "run_only_when_modules_loaded",
 ]
+
+
+def run_only_when_modules_loaded(modules=["argparse"]):
+    """Decorator that runs wrapped function only when the supplied modules are
+    loaded
+
+    Args:
+        modules (list[srtr]): List of modules to check if loaded
+
+    """
+
+    def run_only_when_modules_loaded_wrapper(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            # Only run func if module loaded
+            if all([(module in sys.modules) for module in modules]):
+                func(*args, **kwargs)
+
+        return wrapper
+
+    return run_only_when_modules_loaded_wrapper
 
 
 def run_only_when_when_internet_is_up(urls=["http://www.google.com"]):
@@ -297,6 +320,7 @@ class PipelineAction(ActionHeroAction):
                 2. Tuple of (action_hero action, action_values<list>)
 
     """
+
     children = []
     action_values = None
 
@@ -437,5 +461,3 @@ class ActionHeroesTestCase(unittest.TestCase):
     def setUp(self):
         """Enclose ExitCapturedArgumentParser as parser"""
         self.parser = ExitCapturedArgumentParser()
-
-
