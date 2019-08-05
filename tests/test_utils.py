@@ -167,8 +167,7 @@ class TestPipelineAction(ActionHeroTestCase):
     def test_if_is_subclass_of_actionheroaction(self):
         self.assertTrue(issubclass(PipelineAction, ActionHeroAction))
 
-
-    def test_on_action(self):
+    def test_on_child_action(self):
         self.parser.add_argument(
             "--file", action=PipelineAction, action_values=[FileExistsAction]
         )
@@ -180,7 +179,39 @@ class TestPipelineAction(ActionHeroTestCase):
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--file", file1])
 
-    def test_on_multiple_actions(self):
+    def test_on_empty_list_of_child_actions(self):
+        with self.assertRaises(ValueError):
+            self.parser.add_argument(
+                "--file",
+                action=PipelineAction,
+                action_values=[],
+            )
+
+    def test_on_action_value_of_wrong_type_int(self):
+        with self.assertRaises(ValueError):
+            self.parser.add_argument(
+                "--file",
+                action=PipelineAction,
+                action_values=5,
+            )
+
+    def test_on_action_value_of_wrong_type_str(self):
+        with self.assertRaises(ValueError):
+            self.parser.add_argument(
+                "--file",
+                action=PipelineAction,
+                action_values=5,
+            )
+
+    def test_on_action_value_of_wrong_type_action_with_no_list(self):
+        with self.assertRaises(ValueError):
+            self.parser.add_argument(
+                "--file",
+                action=PipelineAction,
+                action_values=FileExistsAction,
+            )
+
+    def test_on_list_of_child_multiple_actions(self):
         self.parser.add_argument(
             "--file",
             action=PipelineAction,
