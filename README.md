@@ -40,7 +40,7 @@ __helps you manage user arguments in command line applications using `argparse`_
 
 
 <dt>4. action_hero 💥</dt>
-<code>action_hero</code> provides many such custom actions to deal with accepting user arguments in your command line application. They are subclasses of <code>argparse.Action</code> and fit in with the rest of you <code>argparse</code> code.</dd>
+<dd><code>action_hero</code> provides many such custom actions to deal with accepting user arguments in your command line application. They are subclasses of <code>argparse.Action</code> and fit in with the rest of you <code>argparse</code> code.</dd>
 
 <dd>For example, the <strong><code>FileIsWritableAction</code> automatically verifies that all file paths accepted as arguments are indeed writable, informing the user if they aren't.</strong> This saves you the trouble of doing that check yourself. Nice, no? <a href="#catalog">Browse the catalog</a> for more custom actions.</dd>
 
