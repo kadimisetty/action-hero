@@ -6,6 +6,7 @@ import requests
 
 
 __all__ = [
+    "ActionHeroAction",
     "CheckAction",
     "CheckPresentInValuesAction",
     "MapAction",
@@ -44,7 +45,11 @@ def run_only_when_when_internet_is_up(urls=["http://www.google.com"]):
     return run_only_when_when_internet_is_up_wrapper
 
 
-class BaseAction(argparse.Action):
+class ActionHeroAction(argparse.Action):
+    pass
+
+
+class BaseAction(ActionHeroAction):
     """ArgumentParser Action subclass that runs user's func over values
 
     ActionHeroes' Baseclass for subclasses that need access to a func,
@@ -266,46 +271,7 @@ class MapAndReplaceAction(BaseAction):
         setattr(namespace, self.dest, values)
 
 
-class ExitCapturedArgumentParser(argparse.ArgumentParser):
-    def error(self, message):
-        """error(message: string)
-
-        Important note from this superclass's error(s, m) docstring:
-            If you override this in a subclass, it should not return -- it
-            should either exit or raise an exception.
-
-        Reason for overriding superclass error:
-            This function is overridden in order to stop the default behavior
-            of ArgumentParser to exit when receiving an ArgumentError as that
-            convolutes testing.
-            So instead of exiting, just constructing the message and passing it
-            on as a ValueError that can be captured in testing.
-
-        Args:
-            message(str): Use to explain reason for error.
-
-        Raises:
-            ValueError: Raises valueerror with formatted message.
-        """
-        error_message = "{}s: error: {}s\n".format(self.prog, message)
-        raise ValueError(error_message)
-
-
-class ActionHeroesTestCase(unittest.TestCase):
-    """unitests.TestCase subclass that encloses a ExitCapturedArgumentParser
-
-    Reason for a special TestCase:
-        1. Enclose parser within setup
-        2. The enclosed parser should capture exits and raise ValueError
-
-    """
-
-    def setUp(self):
-        """Enclose ExitCapturedArgumentParser as parser"""
-        self.parser = ExitCapturedArgumentParser()
-
-
-class PipelineAction(argparse.Action):
+class PipelineAction(ActionHeroAction):
     """Run ActionHero actions thrugh a pipeline.
 
     Actions that are run through a pipeline need to satify two constraints:
@@ -316,8 +282,11 @@ class PipelineAction(argparse.Action):
     Known Issues with Testing:
         Cases when the parser has pipeline action with multiple action_values
         due to the way argumenterrors are raised and exits.  Current workaround
-        solution is to run those particular tests in a subprocess.
-
+        solution is to run those particular tests in a subprocess.  Note that
+        this workaround WILL ONLY WORK when action_heroes module is available
+        e.g. with `pip install --editable .` which might not be the case on a
+        different system. e.g. a CI system where action_hero module is not
+        loaded.
 
     Attributes:
         children (list): Valid action_hero actions to pipeline through.
@@ -429,3 +398,44 @@ class PipelineAction(argparse.Action):
                 values=values,
                 option_string=option_string,
             )
+
+
+class ExitCapturedArgumentParser(argparse.ArgumentParser):
+    def error(self, message):
+        """error(message: string)
+
+        Important note from this superclass's error(s, m) docstring:
+            If you override this in a subclass, it should not return -- it
+            should either exit or raise an exception.
+
+        Reason for overriding superclass error:
+            This function is overridden in order to stop the default behavior
+            of ArgumentParser to exit when receiving an ArgumentError as that
+            convolutes testing.
+            So instead of exiting, just constructing the message and passing it
+            on as a ValueError that can be captured in testing.
+
+        Args:
+            message(str): Use to explain reason for error.
+
+        Raises:
+            ValueError: Raises valueerror with formatted message.
+        """
+        error_message = "{}s: error: {}s\n".format(self.prog, message)
+        raise ValueError(error_message)
+
+
+class ActionHeroesTestCase(unittest.TestCase):
+    """unitests.TestCase subclass that encloses a ExitCapturedArgumentParser
+
+    Reason for a special TestCase:
+        1. Enclose parser within setup
+        2. The enclosed parser should capture exits and raise ValueError
+
+    """
+
+    def setUp(self):
+        """Enclose ExitCapturedArgumentParser as parser"""
+        self.parser = ExitCapturedArgumentParser()
+
+
