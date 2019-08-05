@@ -200,10 +200,10 @@ around `parser.parse_args()` to capture that exception.
 
 In order to maintain consistency with the rest of your `argparse` code,
 exceptions in `action_hero` are also of type `argparse.ArgumentError` and
-induce the same exiting behavior. More information can be found in [PEP
-389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the
-expected, I recommend you allow the exception to display usage
-information and exit as well.
+causes system exit as well. More information can be found in [PEP
+389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is
+expected behavior, I recommend you allow exception and let it display usage
+information and exit.
 
 ### On arguments accepting multiple values
 Just like any other `argparse.Action` each `action_hero.Action` handles
