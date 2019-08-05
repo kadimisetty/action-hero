@@ -324,6 +324,10 @@ class PipelineAction(ActionHeroAction):
     children = []
     action_values = None
 
+    @staticmethod
+    def _is_valid_action_heroes_action(action):
+        return issubclass(action, ActionHeroAction)
+
     def __init__(
         self,
         option_strings,
@@ -360,23 +364,32 @@ class PipelineAction(ActionHeroAction):
                 action_values = value[1]
 
                 # 2. Verify the action is legit and raise ValueError if not
-                # 3. Add action to children
-                self.children.append(
-                    action(
-                        option_strings=option_strings,
-                        dest=dest,
-                        nargs=nargs,
-                        action_values=action_values,
-                        help=help,
-                        metavar=metavar,
+                if not self._is_valid_action_heroes_action(action):
+                    raise ValueError(
+                        "Invalid action_heroes action: {}".format(action)
                     )
-                )
+                else:
+                    # 3. Add action to children
+                    self.children.append(
+                        action(
+                            option_strings=option_strings,
+                            dest=dest,
+                            nargs=nargs,
+                            action_values=action_values,
+                            help=help,
+                            metavar=metavar,
+                        )
+                    )
 
             # Form 2 is an action class
             elif issubclass(value, argparse.Action):
                 # 1. Get action class
                 action = value
                 # 2. Verify the action is legit and raise ValueError if not
+                if not self._is_valid_action_heroes_action(action):
+                    raise ValueError(
+                        "Invalid action_heroes action: {}".format(action)
+                    )
                 # 3. Add action to children
                 self.children.append(
                     action(

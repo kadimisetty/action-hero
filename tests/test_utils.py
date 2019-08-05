@@ -229,6 +229,22 @@ class TestPipelineAction(ActionHeroesTestCase):
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--file", file1])
 
+
+class SoloTestCase(ActionHeroesTestCase):
+    def test_on_nonaction_heroes_action_in_action_values(self):
+        class UnrecognizedAction(argparse.Action):
+            def __call__(self, parser, namespace, values, option_string=None):
+                pass
+
+        with self.assertRaises(ValueError):
+            self.parser.add_argument(
+                "--word",
+                action=PipelineAction,
+                action_values=[
+                    UnrecognizedAction,
+                ],
+            )
+
     @unittest.skip("run only when action_heroes module is available")
     def test_on_action_that_accepts_action_values(self):
         # 1. Code to run argumentparser and parse args
