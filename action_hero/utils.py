@@ -462,7 +462,7 @@ class ExitCapturedArgumentParser(argparse.ArgumentParser):
         raise ValueError(error_message)
 
 
-class ActionHeroesTestCase(unittest.TestCase):
+class ActionHeroTestCase(unittest.TestCase):
     """unitests.TestCase subclass that encloses a ExitCapturedArgumentParser
 
     Reason for a special TestCase:
