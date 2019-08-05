@@ -227,7 +227,7 @@ class TestPipelineAction(ActionHeroesTestCase):
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--file", file1])
 
-    @run_only_when_modules_loaded(modules=["action_heroes"])
+    @unittest.skip("run only when action_heroes module is available")
     def test_on_action_that_accepts_action_values(self):
         # 1. Code to run argumentparser and parse args
         script_contents = """
