@@ -9,6 +9,7 @@ from action_hero.utils import (
     ActionHeroTestCase,
     ExitCapturedArgumentParser,
     run_only_when_modules_loaded,
+    run_only_when_when_internet_is_up,
 )
 from action_hero.utils import (
     BaseAction,
@@ -28,9 +29,14 @@ from action_hero import (
 )
 
 
-@unittest.skip("TODO")
 class TestRunOnlyWhenWhenInternetIsUp(ActionHeroTestCase):
-    pass
+    def test_on_reachable_url(self):
+        @run_only_when_when_internet_is_up(urls="AAA")
+        def func():
+            raise ValueError
+
+        # Should not run this func since the url is invalid and unreachable
+        func()
 
 
 class TestRunOnlyWhenModuleLoaded(unittest.TestCase):
