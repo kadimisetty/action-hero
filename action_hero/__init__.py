@@ -68,6 +68,8 @@ from action_hero.types import (
     IsFalsyAction,
     IsTruthyAction,
 )
+from action_hero.misc import ChoicesAction
+
 
 __all__ = ["EmailIsValidAction"]
 __all__.extend(
@@ -127,3 +129,4 @@ __all__.extend(
         "IsTruthyAction",
     ]
 )
+__all__.extend(["ChoicesAction"])

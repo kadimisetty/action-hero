@@ -167,6 +167,7 @@ class CheckPresentInValuesAction(BaseAction):
         dest,
         action_values=None,
         nargs=None,
+        type=None,
         help=None,
         metavar=None,
     ):
@@ -177,7 +178,7 @@ class CheckPresentInValuesAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        if not action_values:
+        if action_values is None:
             # Raise ValueError if action_values not specified
             raise ValueError("Please supply required attribute: action_values")
         else:
@@ -192,6 +193,14 @@ class CheckPresentInValuesAction(BaseAction):
                     "Required attribute action_values cannot be empty list"
                 )
             else:
+
+                # Raise ValueError if action_values list has different types
+                if len(set([v.__class__ for v in action_values])) != 1:
+                    raise ValueError(
+                        "Items in this action's action_values should all "
+                        "have the same type"
+                    )
+
                 # Accept init's action_values
                 self.action_values = action_values
 
@@ -199,25 +208,46 @@ class CheckPresentInValuesAction(BaseAction):
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
+            type=type,
             help=help,
             metavar=metavar,
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
-        # When values are a list of strings
+
+        # 1. Check presence
+
+        # 1.1 Check if something other than default type was given Do type
+        #   conversion of value in values
+        # self.type is set when type is passed in with add_argument, else str
+        default_type = str
+        chosen_type = self.type if self.type else default_type
+        # Check all action_value are of specified type passed with add_argument
+        if not all([type(v) is chosen_type for v in self.action_values]):
+            raise ValueError(
+                "All items in action_values should be of given type {}".format(
+                    chosen_type
+                )
+            )
+
+        # 1.2 Check presence for every value in values
         if isinstance(values, list):
             if not all(
                 [
-                    self.run_user_func(value) in self.action_values
+                    self.run_user_func(chosen_type(value))
+                    in self.action_values
                     for value in values
                 ]
             ):
                 raise argparse.ArgumentError(self, self.err_msg_plural)
 
-        # When values is one string
+        # 1.3 Check presence for values
         else:
             value = values
-            if not self.run_user_func(value) in self.action_values:
+            if (
+                not self.run_user_func(chosen_type(value))
+                in self.action_values
+            ):
                 raise argparse.ArgumentError(self, self.err_msg_singular)
 
         setattr(namespace, self.dest, values)
@@ -337,7 +367,7 @@ class PipelineAction(ActionHeroAction):
         help=None,
         metavar=None,
     ):
-        if not action_values:
+        if action_values is None:
             # Raise ValueError if action_values not specified
             raise ValueError("Please supply required attribute: action_values")
         else:

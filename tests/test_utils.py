@@ -131,33 +131,95 @@ class TestMapAndReplaceAction(ActionHeroTestCase):
 
 
 class TestCheckPresentInValuesAction(ActionHeroTestCase):
-    def test_if_is_subclass_of_argparse_action(self):
+    def test_on_subclass_of_argparse_action(self):
         self.assertTrue(
             issubclass(CheckPresentInValuesAction, argparse.Action)
         )
 
-    def test_if_checks_for_required_func_and_err_msgs(self):
-        class CheckPresentInValuesActionSubClassWithoutFuncAndErrMsgs(
-            CheckPresentInValuesAction
-        ):
-            pass
+    def test_on_empty_action_values(self):
+        class Action1(CheckPresentInValuesAction):
+            def func(value):
+                return value
 
-        with self.assertRaises(ValueError):
-            CheckPresentInValuesActionSubClassWithoutFuncAndErrMsgs(
-                option_strings=[], dest="", action_values=["UV"]
-            )
-
-    def test_if_checks_for_required_value(self):
-        class CheckPresentInValuesActionSubClassWithoutValue(
-            CheckPresentInValuesAction
-        ):
-            func = print
             err_msg_singular = "S"
             err_msg_plural = "P"
 
         with self.assertRaises(ValueError):
-            CheckPresentInValuesActionSubClassWithoutValue(
-                option_strings=[], dest=""
+            self.parser.add_argument(
+                "--number", action=Action1, action_values=[]
+            )
+
+    def test_on__required_func_and_err_msgs(self):
+        class Action1(CheckPresentInValuesAction):
+            pass
+
+        with self.assertRaises(ValueError):
+            Action1(option_strings=[], dest="", action_values=["UV"])
+
+    def test_on_required_value(self):
+        class Action1(CheckPresentInValuesAction):
+            def func(value):
+                return value
+
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        with self.assertRaises(ValueError):
+            Action1(option_strings=[], dest="")
+
+    def test_on_action_values_with_uneven_types(self):
+        class Action1(CheckPresentInValuesAction):
+            def func(value):
+                return value
+
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        with self.assertRaises(ValueError):
+            self.parser.add_argument(
+                "--color", action=Action1, action_values=["red", "blue", 2]
+            )
+
+    def test_on_action_values_with_type_specified(self):
+        class Action1(CheckPresentInValuesAction):
+            def func(value):
+                return value
+
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        self.parser.add_argument(
+            "--number", action=Action1, type=int, action_values=[1, 2, 3]
+        )
+
+        self.parser.parse_args(["--number", "2"])
+
+    def test_on_action_values_with_unheeded_type_specified(self):
+        class Action1(CheckPresentInValuesAction):
+            def func(value):
+                return value
+
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        self.parser.add_argument(
+            "--number", action=Action1, action_values=[4, 5, 6]
+        )
+
+        with self.assertRaises(ValueError):
+            self.parser.parse_args(["--number", "5"])
+
+    def test_on_action_values_with_mixed_type_specified(self):
+        class Action1(CheckPresentInValuesAction):
+            def func(value):
+                return value
+
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        with self.assertRaises(ValueError):
+            self.parser.add_argument(
+                "--number", action=Action1, action_values=[4, 5, "6"]
             )
 
 
@@ -170,6 +232,7 @@ class TestPipelineAction(ActionHeroTestCase):
     """Known issue with testing PipelineActions using actions w/ action_values
     tends to cause errors where some test cases do not have any content for
     values"""
+
     def test_if_is_subclass_of_actionheroaction(self):
         self.assertTrue(issubclass(PipelineAction, ActionHeroAction))
 
@@ -188,33 +251,25 @@ class TestPipelineAction(ActionHeroTestCase):
     def test_on_empty_list_of_child_actions(self):
         with self.assertRaises(ValueError):
             self.parser.add_argument(
-                "--file",
-                action=PipelineAction,
-                action_values=[],
+                "--file", action=PipelineAction, action_values=[]
             )
 
     def test_on_action_value_of_wrong_type_int(self):
         with self.assertRaises(ValueError):
             self.parser.add_argument(
-                "--file",
-                action=PipelineAction,
-                action_values=5,
+                "--file", action=PipelineAction, action_values=5
             )
 
     def test_on_action_value_of_wrong_type_str(self):
         with self.assertRaises(ValueError):
             self.parser.add_argument(
-                "--file",
-                action=PipelineAction,
-                action_values=5,
+                "--file", action=PipelineAction, action_values=5
             )
 
     def test_on_action_value_of_wrong_type_action_with_no_list(self):
         with self.assertRaises(ValueError):
             self.parser.add_argument(
-                "--file",
-                action=PipelineAction,
-                action_values=FileExistsAction,
+                "--file", action=PipelineAction, action_values=FileExistsAction
             )
 
     def test_on_list_of_child_multiple_actions(self):
@@ -277,9 +332,7 @@ class SoloTestCase(ActionHeroTestCase):
             self.parser.add_argument(
                 "--word",
                 action=PipelineAction,
-                action_values=[
-                    UnrecognizedAction,
-                ],
+                action_values=[UnrecognizedAction],
             )
 
     @unittest.skip("run only when action_hero module is available")
