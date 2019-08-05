@@ -1,5 +1,5 @@
-[action_heroes_logo]: ./art/logo.svg
-![Action Heroes Logo][action_heroes_logo]
+[action_hero_logo]: ./art/logo.svg
+![Action Hero Logo][action_hero_logo]
 
 
 [![codecov](https://codecov.io/gh/kadimisetty/action-heroes/branch/master/graph/badge.svg?token=7myLPPQe8k)](https://codecov.io/gh/kadimisetty/action-heroes)
@@ -11,7 +11,7 @@
 
 ####
 
-`action_heroes` is a python package that provides  
+`action_hero` is a python package that provides  
 __custom argparse _Actions_ to help you manage user arguments in command line interfaces.__
 
 
@@ -39,14 +39,14 @@ __custom argparse _Actions_ to help you manage user arguments in command line in
 </dd>
 
 
-<dt>4. action_heroes 💥</dt>
-<dd><code>argparse.Action</code> objects are subclassable, to allow custom actions. This library, <code>action_heroes</code>, include many such custom actions that will prove their worth when dealing with accepting user arguments in your command line application.</dd>
+<dt>4. action_hero 💥</dt>
+<dd><code>argparse.Action</code> objects are subclassable, to allow custom actions. This library, <code>action_hero</code>, include many such custom actions that will prove their worth when dealing with accepting user arguments in your command line application.</dd>
 
 <dd>For example, the <strong><code>FileIsWritableAction</code> automatically verifies that all file paths accepted as arguments are indeed writable, informing the user if they aren't.</strong> This saves you the trouble of doing that check yourself. Nice, no? <a href="#catalog">Browse the catalog</a> for more custom actions.</dd>
 
 </dl>
 
-Therefore __`argparse`__ + __`action_heroes`__ = 🧨
+Therefore __`argparse`__ + __`action_hero`__ = 🧨
 
 
 ## Quick Usage
@@ -55,13 +55,13 @@ Therefore __`argparse`__ + __`action_heroes`__ = 🧨
 __1. Installation__: Use `pip` for installation
 
 ```python 
-pip install action_heroes
+pip install action_hero
 ```
 
 __2. Quick Usage__: Import an action and specify it when adding an argument to your parser.
 
 ```python 
-from action_heroes import FileIsReadableAction
+from action_hero import FileIsReadableAction
 ...
 parser.add_argument("--file", action=FileIsReadableAction)
 ...
@@ -73,7 +73,7 @@ __3. Full Example__: CLI program that counts number of lines of a file.
 # examples/line_counter.py
 import argparse
 
-from action_heroes import FileIsReadableAction
+from action_hero import FileIsReadableAction
 
 
 if __name__ == "__main__":
@@ -172,14 +172,14 @@ parser.add_argument(
 ### Not capturing user argument exceptions
 `argparse.ArgumentParser` has a slightly unconventional approach to handling `argparse.ArgumentError`s. Upon encountering one, it prints argument usage information, error and exits. I mention this, so you don't setup a `try/except` around `parser.parse_args()` to capture the exception. 
 
-In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_heroes` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit as well.
+In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_hero` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit as well.
 
 ### On arguments accepting multiple values
 Just like any other `argparse.Action` each `action_hero.Action` handles both singular and plural values with error messages customized for that as well.
 
 ### FAQ
 <dl>
-<dt>What do I need to know to use <code>action_heroes</code> in my command line application?</dt>
+<dt>What do I need to know to use <code>action_hero</code> in my command line application?</dt>
 <dd>Vanilla <code>argparse</code> knowledge should do it.</dd>
 
 <dt>Where can I find information about <code>argparse</code>?</dt>
@@ -188,11 +188,11 @@ Just like any other `argparse.Action` each `action_hero.Action` handles both sin
 <dt>What type are the user argument exceptions?</dt>
 <dd><code>argparse.ArgumentError{"helpful error message"}</code>, just like any other <code>argparse.Action</code></code></dd>
 
-<dt>Is <code>action_heroes</code> tied to the <code>argparse</code> module?</dt>
+<dt>Is <code>action_hero</code> tied to the <code>argparse</code> module?</dt>
 <dd>Yes <em>(but technically no — any project that can use an <code>argpoarse.Action</code> should work as long as it handles the <code>argparse.ArgumentError</code> exception)</em></dd>
 
 <dt>I don't want to learn another library. I already know <code>argparse</code>!</dt>
-<dd><code>action_heroes</code> can be used just like any other <code>argparse.Action</code>, so feel free to take advantage.</dd>
+<dd><code>action_hero</code> can be used just like any other <code>argparse.Action</code>, so feel free to take advantage.</dd>
 
 <dt>There was no mention of humans! Does this work for humans?</dt>
 <dd>Yes, yes it works for humans :)</dd>
@@ -297,6 +297,6 @@ Just like any other `argparse.Action` each `action_hero.Action` handles both sin
 4. More examples.
 5. Proper repo things.
 
-> If you like action heroes please give it a quick star ⭐️  
+> If you like action hero please give it a quick star ⭐️  
 > It helps with visibility and will be much appreciated!  
-> Thank you for using `action_heroes`
+> Thank you for using `action_hero`
