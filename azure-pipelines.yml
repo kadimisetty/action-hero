@@ -1,0 +1,52 @@
+name: action-hero
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - art/
+    - examples/
+    - README.md
+    - README.md
+    - .coveragerc
+    - .flake8
+    - .gitignore
+    - .hound.yml
+    - .projections.json
+    - .travis.yml
+
+pool:
+  vmImage: 'ubuntu-latest'
+strategy:
+  matrix:
+    Python36:
+      python.version: '3.6'
+    Python37:
+      python.version: '3.7'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(python.version)'
+  displayName: 'Use Python $(python.version)'
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install requests
+    pip install importlib_resources
+  - pip install coverage
+  displayName: 'Install dependencies'
+
+- script: |
+  - python -m unittest discover
+  displayName: 'unittest'
+
+- script: |
+  - coverage run -m unittest discover
+  displayName: 'coverage'
+
+- script: bash <(curl https://codecov.io/bash) -t {CODECOV_TOKEN}
+    displayName: 'codecov'
