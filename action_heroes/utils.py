@@ -313,8 +313,10 @@ class PipelineAction(argparse.Action):
         2. Logical: Piping some actions might not make logical sense.
             e.g. FilexxxActions to URLxxxActions
 
-    Known Issues with Testing
-        Cases when the parser has pipeline action with multiple action_values.
+    Known Issues with Testing:
+        Cases when the parser has pipeline action with multiple action_values
+        due to the way argumenterrors are raised and exits.  Current workaround
+        solution is to run those particular tests in a subprocess.
 
 
     Attributes:

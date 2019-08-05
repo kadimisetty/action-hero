@@ -134,21 +134,46 @@ class TestCheckPresentInValuesAction(ActionHeroesTestCase):
             )
 
 
-@unittest.skip("Issues w/ pipeline's action value w/ multiple action_values")
 class TestPipelineActionSolo(unittest.TestCase):
     def test_on_action_that_accepts_action_values(self):
-        p = ExitCapturedArgumentParser()
-        p.add_argument(
-            "--readme",
-            action=PipelineAction,
-            nargs="+",
-            action_values=[
-                (FilenameHasExtension, ["md2"]),
-                FileDoesNotExistAction,
-            ],
-        )
-        p.parse_args(["--readme", "DAILY.md2", "another.md2"])
-        del p
+        # 1. Code to run argumentparser and parse args
+        script_contents = """
+import argparse
+from action_heroes.utils import PipelineAction
+from action_heroes import FilenameHasExtension, FileDoesNotExistAction
+
+# p = ExitCapturedArgumentParser()
+p = argparse.ArgumentParser()
+p.add_argument(
+    "--readme",
+    action=PipelineAction,
+    nargs="+",
+    action_values=[
+        (FilenameHasExtension, ["md", "markdown"]),
+        FileDoesNotExistAction,
+    ],
+)
+args = p.parse_args(["--readme", "DAILY.md", "another.markdown"])
+print(args.readme)
+"""
+        # 2. Create a temporary file
+        with tempfile.NamedTemporaryFile(suffix=".py") as script_file:
+            # 3. Write into temporary sciptfile
+            with open(script_file.name, "w") as f:
+                f.write(script_contents)
+
+            # 4. Run temp_script_file as a subprocess
+            from subprocess import PIPE, run
+            import sys
+
+            script_result = run(
+                [sys.executable, script_file.name],
+                stdin=PIPE,
+                stdout=PIPE,
+                stderr=PIPE,
+            )
+            # 5. Assert subprocess stderr is empty string
+            self.assertFalse(script_result.stderr)
 
 
 class TestPipelineAction(ActionHeroesTestCase):
@@ -156,6 +181,7 @@ class TestPipelineAction(ActionHeroesTestCase):
     tends to cause errors where some test cases do not have any content for
     values
     """
+
     def test_if_is_subclass_of_argparse_action(self):
         self.assertTrue(issubclass(PipelineAction, argparse.Action))
 
