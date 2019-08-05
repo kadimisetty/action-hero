@@ -236,7 +236,7 @@ multiple arguments and provides relevant error messages.
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
-| __`PipelineAction`__ | Run multiple actions as a pipeline | Actions to run as a pipeline. e.g. `[FileExistsAction, FileIsWritableAction]`  |
+| __`PipelineAction`__ | Run multiple actions as a pipeline | Actions to run as a pipeline. e.g. `[FileExistsAction, FileIsWritableAction]`. ([Read more about this](#pipelining-multiple-actions)) |
 
 2. __Path, Directory and File__ related actions:
 
