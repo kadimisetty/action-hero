@@ -1,6 +1,6 @@
 import argparse
 
-from action_heroes import FileIsReadableAction
+from action_hero import FileIsReadableAction
 
 
 if __name__ == "__main__":
