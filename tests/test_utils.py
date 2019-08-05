@@ -39,6 +39,7 @@ class TestRunOnlyWhenModuleLoaded(unittest.TestCase):
         def raise_value_error():
             raise ValueError()
 
+        # Assert that func raise_value_error runs
         with self.assertRaises(ValueError):
             raise_value_error()
 
@@ -47,6 +48,7 @@ class TestRunOnlyWhenModuleLoaded(unittest.TestCase):
         def raise_value_error():
             raise ValueError()
 
+        # func raise_value_error does not run
         raise_value_error()
 
 
