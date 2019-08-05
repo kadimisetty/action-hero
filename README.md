@@ -310,6 +310,11 @@ multiple arguments and provides relevant error messages.
 | Action | Description | `action_values` |
 | --- | --- | --- |
 
+7. __Miscellaneous__ other actions:
+
+| Action | Description | `action_values` |
+| --- | --- | --- |
+| __`ChoicesAction`__ | Allow atgument to only be from passed in choices  | Choices e.g. `["red", "blue", "green"]` |
 
 ## Development
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · __Development__
