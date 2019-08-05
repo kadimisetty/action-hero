@@ -11,7 +11,7 @@
 
 ####
 
-`action_hero` is a python package that 
+`action_hero` is a python package that  
 __helps you manage user arguments in command line applications using `argparse`__ 
 
 
@@ -28,21 +28,32 @@ __helps you manage user arguments in command line applications using `argparse`_
 </dd>
 
 <dt>2. ArgumentParser</dt>
-<dd><code>argparse.ArgumentParser</code> parses user arguments by inspecting the command line, converting each argument to an appropriate type and finally invoking an appropriate <code>argparse.Action</code>
+<dd><code>argparse.ArgumentParser</code> parses user arguments by inspecting
+the command line, converting each argument to an appropriate type and finally
+invoking an appropriate <code>argparse.Action</code>
 <a href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser">⚓︎</a>
 </dd>
 
 
 <dt>3. Action</dt>
-<dd><code>argparse.Action</code> objects are used by <code>ArgumentParser</code> to represent information needed to parse arguments from the command line. 
+<dd><code>argparse.Action</code> objects are used by
+<code>ArgumentParser</code> to represent information needed to parse arguments
+from the command line.
 <a href="https://docs.python.org/3/library/argparse.html#action">⚓︎</a>
 </dd>
 
 
 <dt>4. action_hero 💥</dt>
-<dd><code>action_hero</code> provides many such custom actions to deal with accepting user arguments in your command line application. They are subclasses of <code>argparse.Action</code> and fit in with the rest of you <code>argparse</code> code.</dd>
+<dd><code>action_hero</code> provides many such custom actions to deal with
+accepting user arguments in your command line application. They are subclasses
+of <code>argparse.Action</code> and fit in with the rest of you
+<code>argparse</code> code.</dd>
 
-<dd>For example, the <strong><code>FileIsWritableAction</code> automatically verifies that all file paths accepted as arguments are indeed writable, informing the user if they aren't.</strong> This saves you the trouble of doing that check yourself. Nice, no? <a href="#catalog">Browse the catalog</a> for more custom actions.</dd>
+<dd>For example, the <strong><code>FileIsWritableAction</code> automatically
+verifies that all file paths accepted as arguments are indeed writable,
+informing the user if they aren't.</strong> This saves you the trouble of doing
+that check yourself. Nice, no? <a href="#catalog">Browse the catalog</a> for
+more custom actions.</dd>
 
 </dl>
 
@@ -130,13 +141,18 @@ parser.add_argument(
 
 ```
 
-Unless otherwise mentioned,  `action_values` should be provided as a non-empty list of strings. e.g.
+Unless otherwise mentioned,  `action_values` should be provided as a non-empty
+list of strings. e.g.
 `action_values = ["md", "markdown"]`.
 
 
 ### Pipelining multiple actions
 
-The `PipelineAction` allows you to run multiple actions as a pipeline. Pass in your pipeline of actions as a list to `action_values`. If one of the actions you're passing in has it's own `action_values`, put that one as a tuple, like such: `(FilenameHasExtension, ["md", "markdown"])`. Here's an example of pipelining actions on arguments of `--file` 
+The `PipelineAction` allows you to run multiple actions as a pipeline. Pass in
+your pipeline of actions as a list to `action_values`. If one of the actions
+you're passing in has it's own `action_values`, put that one as a tuple, like
+such: `(FilenameHasExtension, ["md", "markdown"])`. Here's an example of
+pipelining actions for `--file` 
 
 1. File has extensions `md` or `markdown`
 2. File exists
@@ -146,16 +162,23 @@ parser.add_argument(
     "--file", 
     action=PipelineAction, 
     action_values=[
-        FileExistsAction, 
-        (FilenameHasExtension, ["md", "markdown"])
+        (FilenameHasExtension, ["md", "markdown"]),
+        FileExistsAction
     ]
 )
 ```
 
-Another helpful feature, this action provides is error-reporting. 
-if it did not have the desired extensions, the error message would mention that. If the file did not exist, the error message mentions that instead. 
+Another helpful feature, this action provides is the _order of error
+reporting_.  In the above example, if the supplied argument file did not have
+the markdown extensions, the error message would reflect that and exit.  After
+the user redoes the entry with a valid filename the next action in the pipeline
+applies `FileExistsAction` which check for existence.  If the file does not
+exist, an error message about file not existing will be shown and exits
+allowing the user to try again.
 
-This behaviour can save checking and reporting for quite a few condition as your could pipeline more actions to reflect the desired order of possible errors at each stage. e.g. To check for an existing, writable, non-empty, markdown file, this order would do —
+This behavior can save you a lot of manual condition checks later on. For
+example, here's how to check for an existing, writable, non-empty, markdown
+file —
 
 ```python
 parser.add_argument(
@@ -170,12 +193,21 @@ parser.add_argument(
 ```
 
 ### Not capturing user argument exceptions
-`argparse.ArgumentParser` has a slightly unconventional approach to handling `argparse.ArgumentError`s. Upon encountering one, it prints argument usage information, error and exits. I mention this, so you don't setup a `try/except` around `parser.parse_args()` to capture the exception. 
+`argparse.ArgumentParser` has a slightly unconventional approach to handling
+`argparse.ArgumentError`s. Upon encountering one, it prints argument usage
+information, error and exits. I mention this, so you don't setup a `try/except`
+around `parser.parse_args()` to capture that exception. 
 
-In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_hero` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit as well.
+In order to maintain consistency with the rest of your `argparse` code,
+exceptions in `action_hero` are also of type `argparse.ArgumentError` and
+induce the same exiting behavior. More information can be found in [PEP
+389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the
+expected, I recommend you allow the exception to display usage
+information and exit as well.
 
 ### On arguments accepting multiple values
-Just like any other `argparse.Action` each `action_hero.Action` handles both singular and plural values with error messages customized for that as well.
+Just like any other `argparse.Action` each `action_hero.Action` handles
+multiple arguments and provides relevant error messages.
 
 ### FAQ
 <dl>
@@ -185,17 +217,14 @@ Just like any other `argparse.Action` each `action_hero.Action` handles both sin
 <dt>Where can I find information about <code>argparse</code>?</dt>
 <dd><code>argparse</code> is part of the <a href="https://docs.python.org/3.7/library/argparse.html#module-argparse">Python standard library</a>.</dd>
 
-<dt>What type are the user argument exceptions?</dt>
-<dd><code>argparse.ArgumentError{"helpful error message"}</code>, just like any other <code>argparse.Action</code></code></dd>
-
 <dt>Is <code>action_hero</code> tied to the <code>argparse</code> module?</dt>
 <dd>Yes <em>(but technically no — any project that can use an <code>argpoarse.Action</code> should work as long as it handles the <code>argparse.ArgumentError</code> exception)</em></dd>
 
-<dt>I don't want to learn another library. I already know <code>argparse</code>!</dt>
-<dd><code>action_hero</code> can be used just like any other <code>argparse.Action</code>, so feel free to take advantage.</dd>
+<dt>What type are the user argument exceptions?</dt>
+<dd><code>argparse.ArgumentError{"helpful error message"}</code>, just like any other <code>argparse.Action</code></code></dd>
 
 <dt>There was no mention of humans! Does this work for humans?</dt>
-<dd>Yes, yes it works for humans :)</dd>
+<dd>Yes, it works for humans :)</dd>
 </dl>
 
 
@@ -286,7 +315,7 @@ Just like any other `argparse.Action` each `action_hero.Action` handles both sin
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · __Development__
 
 ### Notes
-- __Formatting__-: _PEP8 only. Please format with  black using `black_linelength=79`_
+- __Formatting__-: _PEP8 only. Please format with black using `black_linelength=79`_
 - __License__: _The MIT License_
 - __Image Attributions__: _Karate by Alex Auda Samora from the Noun Project_
 
