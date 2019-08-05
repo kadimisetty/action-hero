@@ -297,5 +297,6 @@ Just like any other `argparse.Action` each `action_hero.Action` handles both sin
 4. More examples.
 5. Proper repo things.
 
-> Thank you for using `action_heroes`.  
-> If you like action heroes do give it a quick __star__ ⭐️ Will be much appreciated!
+> If you like action heroes please give it a quick star ⭐️  
+> It helps with visibility and will be much appreciated!  
+> Thank you for using `action_heroes`
