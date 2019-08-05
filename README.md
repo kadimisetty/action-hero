@@ -2,11 +2,11 @@
 ![Action Hero Logo][action_hero_logo]
 
 
-[![codecov](https://codecov.io/gh/kadimisetty/action-heroes/branch/master/graph/badge.svg?token=7myLPPQe8k)](https://codecov.io/gh/kadimisetty/action-heroes)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/action_heroes)
+[![codecov](https://codecov.io/gh/kadimisetty/action-hero/branch/master/graph/badge.svg)](https://codecov.io/gh/kadimisetty/action-hero)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/action-hero?style=flat-square)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
-![PyPI - License](https://img.shields.io/pypi/l/action_heroes)
-[![Build Status](https://travis-ci.org/kadimisetty/action-heroes.svg?branch=master)](https://travis-ci.org/kadimisetty/action-heroes)
+![PyPI - License](https://img.shields.io/pypi/l/action-hero?style=flat-square)
+[![Build Status](https://travis-ci.org/kadimisetty/action-hero.svg?branch=master)](https://travis-ci.org/kadimisetty/action-hero)
 
 
 ####
