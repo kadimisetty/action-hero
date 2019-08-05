@@ -118,15 +118,58 @@ line_counter.py: error: argument --file: File is not readable
 ## Help and FAQ
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · __Help & FAQ__ · [Catalog](#catalog) · [Development](#development)
 
-### On accepting `action_values`
+### Accepting `action_values`
 There are times your action requires an additional value. For instance, when your argument accepts only filenames with `md` or `markdown` extensions. You can use the `FilenameHasExtension` action for this and pass in the extensions to check for via `action_values`, like so — 
 
 ```python
-parser.add_argument("--filename", action=FilenameHasExtension, action_values=["md", "markdown"])
+parser.add_argument(
+    "--file", 
+    action=FilenameHasExtension, 
+    action_values=["md", "markdown"]
+)
 
 ```
 
-### On not capturing user argument exceptions
+Unless otherwise mentioned,  `action_values` should be provided as a non-empty list of strings. e.g.
+`action_values = ["md", "markdown"]`.
+
+
+### Pipelining multiple actions
+
+The `PipelineAction` allows you to run multiple actions as a pipeline. Pass in your pipeline of actions as a list to `action_values`. If one of the actions you're passing in has it's own `action_values`, put that one as a tuple, like such: `(FilenameHasExtension, ["md", "markdown"])`. Here's an example of pipelining actions on arguments of `--file` 
+
+1. File has extensions `md` or `markdown`
+2. File exists
+
+```python
+parser.add_argument(
+    "--file", 
+    action=PipelineAction, 
+    action_values=[
+        FileExistsAction, 
+        (FilenameHasExtension, ["md", "markdown"])
+    ]
+)
+```
+
+Another helpful feature, this action provides is error-reporting. 
+if it did not have the desired extensions, the error message would mention that. If the file did not exist, the error message mentions that instead. 
+
+This behaviour can save checking and reporting for quite a few condition as your could pipeline more actions to reflect the desired order of possible errors at each stage. e.g. To check for an existing, writable, non-empty, markdown file, this order would do —
+
+```python
+parser.add_argument(
+    "--file", 
+    action=PipelineAction, 
+    action_values=[
+        FileExistsAction, 
+        FileIsWritableAction,
+        FileIsNotEmptyAction,
+        (FilenameHasExtension, ["md", "markdown"])
+]
+```
+
+### Not capturing user argument exceptions
 `argparse.ArgumentParser` has a slightly unconventional approach to handling `argparse.ArgumentError`s. Upon encountering one, it prints argument usage information, error and exits. I mention this, so you don't setup a `try/except` around `parser.parse_args()` to capture the exception. 
 
 In order to maintain consistency with the rest of your `argparse` code, exceptions in `action_heroes` are also of type `argparse.ArgumentError`. More information can be found in [PEP 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is the expected behavior, I recommend you allow the exception to display usage information and exit as well.
@@ -159,11 +202,14 @@ Just like any other `argparse.Action` each `action_hero.Action` handles both sin
 ## Catalog
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __Catalog__ · [Development](#development)
 
-__Note__: `action_values` should be provided as a non-empty list of strings. e.g.
-`action_values = ["md", "markdown"]`. See [help section on action_values](#accepting-action_values) for more
 
+1. __Special__ actions:
 
-1. __Path, Directory and File__ related actions:
+| Action | Description | `action_values` |
+| --- | --- | --- |
+| __`PipelineAction`__ | Run multiple actions as a pipeline | Actions to run as a pipeline. e.g. `[FileExistsAction, FileIsWritableAction]`  |
+
+2. __Path, Directory and File__ related actions:
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
@@ -202,7 +248,7 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 | __`ResolvePathAction`__ | Resolves path to canonical path removing symbolic links if present | |
 
 
-2. __Network__ related actions:
+3. __Network__ related actions:
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
@@ -214,8 +260,7 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 | __`URLWithHTTPResponseStatusCodeAction`__ | Check if upplied URL responds with expected HTTP response status code | [Status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) to check against. e.g. `["200", "201", "202", "204"]`  |
 
 
-
-3. __Type__ related actions:
+4. __Type__ related actions:
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
@@ -225,18 +270,16 @@ __Note__: `action_values` should be provided as a non-empty list of strings. e.g
 | __`IsFalsyAction`__ | Checks if value is falsy | |
 | __`IsTruthyAction`__ | Checks if value is truthy | |
 
-
-4. __Range__ related actions:
-
-| Action | Description | `action_values` |
-| --- | --- | --- |
-
-
 5. __Email__ related actions:
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
 | __`EmailIsValidAction`__ | Checks if email address is valid | |
+
+6. __Range__ related actions:
+
+| Action | Description | `action_values` |
+| --- | --- | --- |
 
 
 ## Development
