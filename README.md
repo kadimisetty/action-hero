@@ -11,8 +11,8 @@
 
 ####
 
-`action_hero` is a python package that provides  
-__custom argparse _Actions_ to help you manage user arguments in command line interfaces.__
+`action_hero` is a python package that 
+__helps you manage user arguments in command line applications using `argparse`__ 
 
 
 ## Introduction
@@ -34,13 +34,13 @@ __custom argparse _Actions_ to help you manage user arguments in command line in
 
 
 <dt>3. Action</dt>
-<dd><code>argparse.Action</code> objects are used by <code>ArgumentParser</code> to represent information needed to parse arguments from the command line.
+<dd><code>argparse.Action</code> objects are used by <code>ArgumentParser</code> to represent information needed to parse arguments from the command line. 
 <a href="https://docs.python.org/3/library/argparse.html#action">⚓︎</a>
 </dd>
 
 
 <dt>4. action_hero 💥</dt>
-<dd><code>argparse.Action</code> objects are subclassable, to allow custom actions. This library, <code>action_hero</code>, include many such custom actions that will prove their worth when dealing with accepting user arguments in your command line application.</dd>
+<code>action_hero</code> provides many such custom actions to deal with accepting user arguments in your command line application. They are subclasses of <code>argparse.Action</code> and fit in with the rest of you <code>argparse</code> code.</dd>
 
 <dd>For example, the <strong><code>FileIsWritableAction</code> automatically verifies that all file paths accepted as arguments are indeed writable, informing the user if they aren't.</strong> This saves you the trouble of doing that check yourself. Nice, no? <a href="#catalog">Browse the catalog</a> for more custom actions.</dd>
 
