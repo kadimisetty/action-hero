@@ -13,8 +13,8 @@ __all__ = [
     "MapAction",
     "MapAndReplaceAction",
     "PipelineAction",
-    "run_only_when_when_internet_is_up",
     "run_only_when_modules_loaded",
+    "run_only_when_when_internet_is_up",
 ]
 
 

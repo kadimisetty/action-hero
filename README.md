@@ -192,6 +192,17 @@ parser.add_argument(
 ]
 ```
 
+### Exceptions in this module
+You'll come across two different exceptions in `action_hero`.
+
+1. __`ValueError`__: These are intended for you, the CLI developer. You'd want
+   to fix any underlying issue that causes them before releasing your CLI.
+   e.g. when `action_values` is an empty list.
+
+2. __`argparse.ArgumentError`__: These are intended for your CLI's users, so
+   they might use the messages as hints to provide corrent command line
+   options.
+
 ### Not capturing user argument exceptions
 `argparse.ArgumentParser` has a slightly unconventional approach to handling
 `argparse.ArgumentError`s. Upon encountering one, it prints argument usage
