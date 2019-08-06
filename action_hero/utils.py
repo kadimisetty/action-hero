@@ -178,31 +178,15 @@ class CheckPresentInValuesAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        if action_values is None:
-            # Raise ValueError if action_values not specified
-            raise ValueError("Please supply required attribute: action_values")
-        else:
-            # Raise ValueError if action_values is not of type list
-            if not isinstance(action_values, list):
-                raise ValueError(
-                    "Required attribute action_values has to be of type list"
-                )
-            # Raise ValueError if action_values list is empty
-            elif len(action_values) == 0:
-                raise ValueError(
-                    "Required attribute action_values cannot be empty list"
-                )
-            else:
-
-                # Raise ValueError if action_values list has different types
-                if len(set([v.__class__ for v in action_values])) != 1:
-                    raise ValueError(
-                        "Items in this action's action_values should all "
-                        "have the same type"
-                    )
-
-                # Accept init's action_values
-                self.action_values = action_values
+        # Raise exception if action_values are invalid, else accept
+        _raise_exception_if_invalid_action_values(
+            action_values=action_values,
+            container_type=list,
+            empty_allowed=False,
+            different_item_types_allowed=False,
+            preferred_exception=ValueError,
+        )
+        self.action_values = action_values
 
         super(CheckPresentInValuesAction, self).__init__(
             option_strings=option_strings,
@@ -367,23 +351,16 @@ class PipelineAction(ActionHeroAction):
         help=None,
         metavar=None,
     ):
-        if action_values is None:
-            # Raise ValueError if action_values not specified
-            raise ValueError("Please supply required attribute: action_values")
-        else:
-            # Raise ValueError if action_values is not of type list
-            if not isinstance(action_values, list):
-                raise ValueError(
-                    "Required attribute action_values has to be of type list"
-                )
-            # Raise ValueError if action_values list is empty
-            elif len(action_values) == 0:
-                raise ValueError(
-                    "Required attribute action_values cannot be empty list"
-                )
-            else:
-                # Accept init's action_values
-                self.action_values = action_values
+
+        # Raise exception if action_values are invalid, else accept
+        _raise_exception_if_invalid_action_values(
+            action_values=action_values,
+            container_type=list,
+            empty_allowed=False,
+            different_item_types_allowed=True,
+            preferred_exception=ValueError,
+        )
+        self.action_values = action_values
 
         # Add actions as children
         for value in self.action_values:
@@ -504,3 +481,59 @@ class ActionHeroTestCase(unittest.TestCase):
     def setUp(self):
         """Enclose ExitCapturedArgumentParser as parser"""
         self.parser = ExitCapturedArgumentParser()
+
+
+def _raise_exception_if_invalid_action_values(
+    action_values=None,
+    container_type=list,
+    empty_allowed=False,
+    different_item_types_allowed=False,
+    preferred_exception=ValueError,
+):
+    """Raise an exception if supplied action_values are deemed invalid
+
+
+    Args:
+        action_values (list): aciton_values to check validity for
+        container_type (list): container type of action_Values
+        empty_allowed(bool): Whether action_values is allowed to be emoty
+        preferred_exception(Exception): preferred exception to call to raise an
+            error
+
+    """
+
+    # Raise exception if action_values is still None
+    if action_values is None:
+        raise preferred_exception(
+            "Please supply required attribute: action_values"
+        )
+
+    # Non-empty action_values
+    else:
+        # Raise exception if action_values is not of container type
+        if not isinstance(action_values, container_type):
+            raise preferred_exception(
+                "Required attribute action_values has to be of type list"
+            )
+
+        # Raise exception if action_values list is empty
+        # and empty not allowed
+        elif len(action_values) == 0:
+            if not empty_allowed:
+                raise preferred_exception(
+                    "Required attribute action_values cannot be empty list"
+                )
+
+        # Raise exception if action_values list has different types
+        # and different item types not allowed
+        else:
+
+            def has_different_types_of_items(l):
+                return len(set([v.__class__ for v in l])) != 1
+
+            if has_different_types_of_items(action_values):
+                if not different_item_types_allowed:
+                    raise preferred_exception(
+                        "Items in this action's action_values should all "
+                        "have the same type"
+                    )
