@@ -353,7 +353,7 @@ class SoloTestCase(ActionHeroTestCase):
                 action_values=[UnrecognizedAction],
             )
 
-    @unittest.skip("run only when action_hero module is available")
+    @run_only_when_modules_loaded(modules=["action_hero"])
     def test_on_action_that_accepts_action_values(self):
         # 1. Code to run argumentparser and parse args
         script_contents = """
