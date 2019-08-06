@@ -1,3 +1,4 @@
+from action_hero.utils import PipelineAction
 from action_hero.email import EmailIsValidAction
 from action_hero.net import (
     IPIsValidIPAddressAction,
@@ -71,7 +72,8 @@ from action_hero.types import (
 from action_hero.misc import ChoicesAction
 
 
-__all__ = ["EmailIsValidAction"]
+__all__ = ["PipelineAction"]
+__all__.extend(["EmailIsValidAction"])
 __all__.extend(
     [
         "IPIsValidIPAddressAction",
