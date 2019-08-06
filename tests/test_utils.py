@@ -136,6 +136,20 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
             issubclass(CheckPresentInValuesAction, argparse.Action)
         )
 
+    def test_on_action_value_that_is_not_a_list(self):
+        class Action1(CheckPresentInValuesAction):
+            def func(value):
+                return value
+
+            err_msg_singular = "S"
+            err_msg_plural = "P"
+
+        with self.assertRaises(ValueError):
+            self.parser.add_argument(
+                "--number", action=Action1, action_values=()
+            )
+
+
     def test_on_empty_action_values(self):
         class Action1(CheckPresentInValuesAction):
             def func(value):
