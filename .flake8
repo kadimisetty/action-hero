@@ -4,6 +4,7 @@ per-file-ignores =
     tests/test_init.py:F401
 
 exclude =
+    .git,
     .ropeproject,
     .dist,
     build,
