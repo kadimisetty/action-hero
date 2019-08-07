@@ -8,22 +8,20 @@ LICENSE = "MIT"
 PYTHON_REQUIREMENTS = ">=3.5.0"
 README_FILENAME = "README.md"
 REQUIRED_INSTALLS = ["requests"]
-CLASSIFIERS = (
-    [
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: Implementation :: CPython",
-        "Programming Language :: Python :: Implementation :: PyPy",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        "Topic :: Software Development :: Libraries",
-        "Topic :: Terminals",
-        "Natural Language :: English",
-    ],
-)
+CLASSIFIERS = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Terminals",
+    "Natural Language :: English",
+]
 
 
 # INSTRUCTIONS
@@ -70,13 +68,13 @@ CLASSIFIERS = (
 # 3. setup.py filled in with values specified above the fold.
 
 
-import os                             # noqa: E402 # pylint: disable=C0413
-import pathlib                        # noqa: E402 # pylint: disable=C0413
-import shutil                         # noqa: E402 # pylint: disable=C0413
-import sys                            # noqa: E402 # pylint: disable=C0413
+import os  # noqa: E402 # pylint: disable=C0413
+import pathlib  # noqa: E402 # pylint: disable=C0413
+import shutil  # noqa: E402 # pylint: disable=C0413
+import sys  # noqa: E402 # pylint: disable=C0413
 from setuptools import find_packages  # noqa: E402 # pylint: disable=C0413
-from setuptools import setup          # noqa: E402 # pylint: disable=C0413
-from setuptools import Command        # noqa: E402 # pylint: disable=C0413
+from setuptools import setup  # noqa: E402 # pylint: disable=C0413
+from setuptools import Command  # noqa: E402 # pylint: disable=C0413
 
 
 def get_long_description(readme_filename=README_FILENAME):
@@ -140,7 +138,8 @@ class MakeCommand(Command):
         for stage in ["clean", "build", "check", "publish"]:
             # Run stage with confirmation
             prompt = (
-                "\x1b[5;30;42m "
+                # "\x1b[5;30;42m "
+                "\x1b[1;37;44m "
                 + "{}? ".format(stage).rjust(9)
                 + "\x1b[0m [Yn]: "
             )
