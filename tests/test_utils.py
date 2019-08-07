@@ -347,7 +347,7 @@ class TestPipelineAction(ActionHeroTestCase):
             self.parser.parse_args(["--file", file1])
 
 
-class SoloTestCase(ActionHeroTestCase):
+class TestPipelineActionSolo(ActionHeroTestCase):
     def test_on_nonaction_hero_action_in_action_values(self):
         class UnrecognizedAction(argparse.Action):
             def __call__(self, parser, namespace, values, option_string=None):
