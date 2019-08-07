@@ -11,7 +11,9 @@ install:
   - pip install codecov
   - pip install coverage
   - pip install --editable .
+  - pip install flake8
 script:
+  - flake8
   - python -m unittest discover
   - coverage run -m unittest discover
 after_success:
