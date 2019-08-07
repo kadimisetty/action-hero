@@ -20,12 +20,9 @@ from action_hero.utils import (
     PipelineAction,
 )
 from action_hero import (
-    FileDoesNotExistAction,
     FileExistsAction,
     FileIsEmptyAction,
-    FileIsReadableAction,
     FileIsWritableAction,
-    FilenameHasExtension,
 )
 
 
@@ -149,7 +146,6 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
                 "--number", action=Action1, action_values=()
             )
 
-
     def test_on_empty_action_values(self):
         class Action1(CheckPresentInValuesAction):
             def func(value):
@@ -245,10 +241,7 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
             err_msg_plural = "P"
 
         self.parser.add_argument(
-            "--number",
-            action=Action1,
-            action_values=["four"],
-            type=int,
+            "--number", action=Action1, action_values=["four"], type=int
         )
 
         with self.assertRaises(ValueError):
