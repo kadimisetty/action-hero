@@ -366,7 +366,7 @@ class SoloTestCase(ActionHeroTestCase):
         script_contents = """
 import argparse
 from action_hero.utils import PipelineAction
-from action_hero import FilenameHasExtension, FileDoesNotExistAction
+from action_hero import FileHasExtension, FileDoesNotExistAction
 
 # p = ExitCapturedArgumentParser()
 p = argparse.ArgumentParser()
@@ -375,7 +375,7 @@ p.add_argument(
     action=PipelineAction,
     nargs="+",
     action_values=[
-        (FilenameHasExtension, ["md", "markdown"]),
+        (FileHasExtension, ["md", "markdown"]),
         FileDoesNotExistAction,
     ],
 )

@@ -3,7 +3,7 @@ import argparse
 from action_hero import (
     FileIsReadableAction,
     PipelineAction,
-    FilenameHasExtension,
+    FileHasExtension,
 )
 
 
@@ -17,7 +17,7 @@ if __name__ == "__main__":
         "--file",
         action=PipelineAction,
         action_values=[
-            (FilenameHasExtension, ["md", "markdown"]),
+            (FileHasExtension, ["md", "markdown"]),
             FileIsReadableAction,
         ],
     )
