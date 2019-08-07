@@ -1,10 +1,3 @@
-from setuptools import find_packages, setup, Command
-import os
-import pathlib
-import shutil
-import sys
-
-
 AUTHOR = "Sri Kadimisetty"
 AUTHOR_EMAIL = "s@sri.io"
 PROGRAM_NAME = "action-hero"
@@ -36,23 +29,60 @@ CLASSIFIERS = (
 # INSTRUCTIONS
 # ------------
 # 1. Update setup.py values above the fold
-# 2. Use command `$ python setup.py publish` to clean/build/check/publish
+# 2. Use command `$ python setup.py make` to clean/build/check/publish
 
 
-# -------------- STAY ABOVE THIS FOLD ------------------->o--------------------
+# ---------------- STAY ABOVE THE FOLD ------------------>o--------------------
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# Stay above the fold. For under swim dangerous sharks. . . . . . . . . . . . .
+# above-the-fold v0.0.1 . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# What are you still doing down here? . . . . . . . . . . . . . . . . . . . . .
+# Didn't I just tell you about dangerous sharks?  . . . . . . . . . . . . . . .
+# Have you even seen Jaws! or Jaws 2!! or Jaws 3D!!! or Jaws Revenge!!!!  . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# If you insist on going anyway — you're gonna need a bigger boat.  . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 
 # CONTENTS BELOW THE FOLD
 # -----------------------
-# 1. Helpers to extract long description from README
-# 2. Custom setuptools.Command `publish` to clean/build/check/publish
-# 3. setup.py filled in with values specified above the fold
+# 1. Helpers to extract long description from README.
+# 2. Custom setuptools.Command `make` to clean/build/check/publish.
+# 3. setup.py filled in with values specified above the fold.
 
 
-def get_long_description(filename=README_FILENAME):
+import os                             # noqa: E402 # pylint: disable=C0413
+import pathlib                        # noqa: E402 # pylint: disable=C0413
+import shutil                         # noqa: E402 # pylint: disable=C0413
+import sys                            # noqa: E402 # pylint: disable=C0413
+from setuptools import find_packages  # noqa: E402 # pylint: disable=C0413
+from setuptools import setup          # noqa: E402 # pylint: disable=C0413
+from setuptools import Command        # noqa: E402 # pylint: disable=C0413
+
+
+def get_long_description(readme_filename=README_FILENAME):
     """Return contents of long description from contents of filename"""
-    with open(filename, "r", encoding="utf-8") as f:
-        return f.read()
+    with open(readme_filename, "r", encoding="utf-8") as readme:
+        return readme.read()
 
 
 def get_long_description_content_type(filename=README_FILENAME):
@@ -62,19 +92,29 @@ def get_long_description_content_type(filename=README_FILENAME):
     return content_types.get(suffix, "text/plain")
 
 
-class PublishCommand(Command):
-    """Add command `publish` to upload to PyPi
+class MakeCommand(Command):
+    """Add command `make` to upload to PyPi
+
+    setuptools runs the function `run` which will in turn, with confirmation,
+    do clean, build, check and publish.
 
     Credits:
+        - http://code.nabla.net/doc/setuptools/api/setuptools/ \
+            setuptools.Command.html
         - https://setuptools.readthedocs.io/en/latest/setuptools.html? \
             highlight=Command#adding-commands
         - Inspired by @kennethreitz/setup.py
 
-
     """
 
-    description = "Clean/build/check/publish project to PyPi"
+    description = "clean/build/check/publish project to PyPi"
     user_options = []
+
+    def initialize_options(self):
+        """Set default values for all the options supported by command"""
+
+    def finalize_options(self):
+        """Set final values for all the options supported by command"""
 
     @staticmethod
     def display(update, state="normal"):
@@ -84,7 +124,7 @@ class PublishCommand(Command):
             "ended": "\N{check mark}",
             "error": "!",
         }
-        if state is "error":
+        if state == "error":
             print(
                 "setup.py "
                 + "\x1b[1;31;40m"
@@ -109,12 +149,6 @@ class PublishCommand(Command):
             else:
                 self.display("skipping {}".format(stage))
         sys.exit()
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
 
     def publish(self):
         """Publish to PyPi"""
@@ -186,19 +220,6 @@ setup(
     packages=find_packages(exclude=["tests"]),
     include_package_data=True,
     install_requires=REQUIRED_INSTALLS,
-    classifiers=[
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: Implementation :: CPython",
-        "Programming Language :: Python :: Implementation :: PyPy",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        "Topic :: Software Development :: Libraries",
-        "Topic :: Terminals",
-        "Natural Language :: English",
-    ],
-    cmdclass={"publish": PublishCommand},
+    classifiers=CLASSIFIERS,
+    cmdclass={"make": MakeCommand},
 )
