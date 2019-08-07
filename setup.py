@@ -82,7 +82,7 @@ class PublishCommand(Command):
         state_symbols = {
             "normal": "·",
             "ended": "\N{check mark}",
-            "error": "\N{warning sign}",
+            "error": "!",
         }
         print("setup.py {} {}".format(state_symbols[state], update))
 
@@ -122,7 +122,7 @@ class PublishCommand(Command):
         if os.system("twine check dist/*") == 0:
             self.display("checked with twine", state="ended")
         else:
-            self.display("failed checking with twine. Exiting…", state="error")
+            self.display("failed checking with twine. Please fix. Exiting…", state="error")
             sys.exit()
 
     def build(self):
@@ -134,7 +134,7 @@ class PublishCommand(Command):
 
         except OSError:
             self.display(
-                "failed removing previous builds. Exiting…", state="error"
+                "failed removing previous builds. Plese fix. Exiting…", state="error"
             )
             sys.exit()
 
@@ -150,7 +150,7 @@ class PublishCommand(Command):
 
         except OSError:
             self.display(
-                "failed removing previous builds. Exiting…", state="error"
+                "failed removing previous builds. Please fix. Exiting…", state="error"
             )
             sys.exit()
 
