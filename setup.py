@@ -84,7 +84,16 @@ class PublishCommand(Command):
             "ended": "\N{check mark}",
             "error": "!",
         }
-        print("setup.py {} {}".format(state_symbols[state], update))
+        if state is "error":
+            print(
+                "setup.py "
+                + "\x1b[1;31;40m"
+                + "{}".format(state_symbols[state])
+                + "\x1b[0m [Yn]:"
+                + " {}".format(update)
+            )
+        else:
+            print("setup.py {} {}".format(state_symbols[state], update))
 
     def run(self):
         """Runs the Command"""
@@ -109,48 +118,56 @@ class PublishCommand(Command):
 
     def publish(self):
         """Publish to PyPi"""
-        self.display("publishing to PyPi with twine")
+        task = "publishing to PyPi with twine"
+        self.display(task)
         if os.system("twine upload dist/*") == 0:
-            self.display("published to PyPi with twine", state="ended")
+            self.display("finished " + task, state="ended")
         else:
-            self.display("failed publishing to PyPi with twine", state="error")
+            self.display(
+                "failed " + task + ". Please fix. Exiting…", state="error"
+            )
             sys.exit()
 
     def check(self):
         """Check with twine"""
-        self.display("checking with twine")
+        task = "checking with twine"
+        self.display(task)
         if os.system("twine check dist/*") == 0:
-            self.display("checked with twine", state="ended")
+            self.display("finished " + task, state="ended")
         else:
-            self.display("failed checking with twine. Please fix. Exiting…", state="error")
+            self.display(
+                "failed " + task + ". Please fix. Exiting…", state="error"
+            )
             sys.exit()
 
     def build(self):
         """Build"""
+        task = "building source and wheel distribution"
         try:
-            self.display("building source and wheel distribution")
+            self.display(task, state="normal")
             os.system("{0} setup.py sdist bdist_wheel".format(sys.executable))
-            self.display("built source and wheel distribution", state="ended")
+            self.display("finished " + task, state="ended")
 
         except OSError:
             self.display(
-                "failed removing previous builds. Plese fix. Exiting…", state="error"
+                "failed " + task + ". Please fix. Exiting…", state="error"
             )
             sys.exit()
 
     def clean(self):
         """Remove previous builds"""
+        task = "removing previous builds"
         try:
-            self.display("removing previous builds", state="normal")
+            self.display(task, state="normal")
             shutil.rmtree("dist")
-            self.display("removed previous builds", state="ended")
+            self.display("finished " + task, state="ended")
 
         except FileNotFoundError:
             self.display("no previous builds found.", state="error")
 
         except OSError:
             self.display(
-                "failed removing previous builds. Please fix. Exiting…", state="error"
+                "failed " + task + ". Please fix. Exiting…", state="error"
             )
             sys.exit()
 
