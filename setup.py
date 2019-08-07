@@ -4,7 +4,6 @@ import pathlib
 
 AUTHOR = "Sri Kadimisetty"
 AUTHOR_EMAIL = "s@sri.io"
-
 PROGRAM_NAME = "action-hero"
 PROGRAM_VERSION = "0.6.3"
 DESCRIPTION = "Argparse Actions that pack a punch!"
@@ -13,15 +12,15 @@ LICENSE = "MIT"
 PYTHON_REQUIREMENTS = ">=3.5.0"
 
 
-def get_long_description(file="README.md"):
-    """Return contents of long description from contents of file"""
-    with open(file, "r", encoding="utf-8") as f:
+def get_long_description(filename="README.md"):
+    """Return contents of long description from contents of filename"""
+    with open(filename, "r", encoding="utf-8") as f:
         return f.read()
 
 
-def get_long_description_content_type(file="README.md"):
-    """Return content-type of long description from content-type of file"""
-    suffix = pathlib.Path(file).suffix
+def get_long_description_content_type(filename="README.md"):
+    """Return content-type of long description from content-type of filename"""
+    suffix = pathlib.Path(filename).suffix
     content_types = {"md": "text/markdown", "rst": "text/x-rst"}
     return content_types.get(suffix, "text/plain")
 
