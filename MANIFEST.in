@@ -3,4 +3,4 @@ include README.md
 graft art
 graft examples
 graft tests
-global-exclude *.py[co] .DS_Store
+global-exclude *.py[co]
