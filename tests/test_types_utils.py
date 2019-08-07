@@ -26,7 +26,7 @@ class TestIsConvertibleToInt(unittest.TestCase):
         self.assertFalse(is_convertible_to_int(value))
 
     def test_on_invalid_value_float(self):
-        value = "3.40"
+        value = "9.40"
         self.assertFalse(is_convertible_to_int(value))
 
     def test_on_invalid_value_blank(self):

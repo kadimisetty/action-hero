@@ -10,7 +10,7 @@ PROGRAM_VERSION = "0.6.2"
 DESCRIPTION = "Argparse Actions that pack a punch!"
 URL = "https://github.com/kadimisetty/action-hero"
 LICENSE = "MIT"
-PYTHON_REQUIREMENTS = ">=3.4.0"
+PYTHON_REQUIREMENTS = ">=3.5.0"
 
 
 def get_long_description(file="README.md"):
@@ -43,6 +43,7 @@ setup(
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
