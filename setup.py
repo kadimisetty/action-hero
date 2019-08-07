@@ -6,7 +6,7 @@ AUTHOR = "Sri Kadimisetty"
 AUTHOR_EMAIL = "s@sri.io"
 
 PROGRAM_NAME = "action-hero"
-PROGRAM_VERSION = "0.6.2"
+PROGRAM_VERSION = "0.6.3"
 DESCRIPTION = "Argparse Actions that pack a punch!"
 URL = "https://github.com/kadimisetty/action-hero"
 LICENSE = "MIT"
