@@ -1,31 +1,45 @@
 from setuptools import find_packages, setup
-
-from action_hero.getters import (
-    get_about,
-    get_readme_contents,
-    get_readme_content_type,
-)
+import pathlib
 
 
-about = get_about()
-long_description = get_readme_contents()
-long_description_content_type = get_readme_content_type()
+AUTHOR = "Sri Kadimisetty"
+AUTHOR_EMAIL = "s@sri.io"
+
+PROGRAM_NAME = "action-hero"
+PROGRAM_VERSION = "0.6.2"
+DESCRIPTION = "Argparse Actions that pack a punch!"
+URL = "https://github.com/kadimisetty/action-hero"
+LICENSE = "MIT"
+PYTHON_REQUIREMENTS = ">=3.4.0"
+
+
+def get_long_description(file="README.md"):
+    """Return contents of long description from contents of file"""
+    with open(file, "r", encoding="utf-8") as f:
+        return f.read()
+
+
+def get_long_description_content_type(file="README.md"):
+    """Return content-type of long description from content-type of file"""
+    suffix = pathlib.Path(file).suffix
+    content_types = {"md": "text/markdown", "rst": "text/x-rst"}
+    return content_types.get(suffix, "text/plain")
 
 
 setup(
-    name=about["PROJECT"]["program_name"],
-    version=about["PROJECT"]["version"],
-    description=about["PROJECT"]["description"],
-    long_description=long_description,
-    long_description_content_type=long_description_content_type,
-    author=about["AUTHOR"]["name"],
-    author_email=about["AUTHOR"]["email"],
-    python_requires=">={}".format(about["PROJECT"]["requires_python"]),
-    url=about["PROJECT"]["url"],
-    license=about["PROJECT"]["license"],
+    name=PROGRAM_NAME,
+    version=PROGRAM_VERSION,
+    description=DESCRIPTION,
+    long_description=get_long_description(),
+    long_description_content_type=get_long_description_content_type(),
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
+    python_requires=PYTHON_REQUIREMENTS,
+    url=URL,
+    license=LICENSE,
     packages=find_packages(exclude=["tests"]),
     include_package_data=True,
-    install_requires=["importlib_resources", "requests"],
+    install_requires=["requests"],
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
@@ -37,6 +51,6 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Software Development :: Libraries",
         "Topic :: Terminals",
-        'Natural Language :: English',
+        "Natural Language :: English",
     ],
 )
