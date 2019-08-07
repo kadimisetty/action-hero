@@ -124,7 +124,7 @@ usage: line_counter.py [-h] [--file FILE]
 line_counter.py: error: argument --file: File is not readable
 ```
 
-**Note**: _Supported Python versions 3.6 upwards._
+**Note**: _Supported Python Versions >= 3.5_
 
 ## Help and FAQ
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · __Help & FAQ__ · [Catalog](#catalog) · [Development](#development)
