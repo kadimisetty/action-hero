@@ -325,7 +325,7 @@ multiple arguments and provides relevant error messages.
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
-| __`ChoicesAction`__ | Allow argument to only be from passed in choices  | Choices e.g. `["red", "blue", "green"]` |
+| __`ChoicesAction`__ | Argument can only have values from provided choices  | Choices e.g. `["red", "blue", "green"]` |
 
 ## Development
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · __Development__
