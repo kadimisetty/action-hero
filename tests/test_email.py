@@ -1,4 +1,4 @@
-from action_hero.email import EmailIsValidAction
+from action_hero import EmailIsValidAction
 from action_hero.utils import ActionHeroTestCase
 
 

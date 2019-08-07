@@ -1,5 +1,5 @@
 from action_hero.utils import ActionHeroTestCase
-from action_hero.types import (
+from action_hero import (
     IsConvertibleToFloatAction,
     IsConvertibleToIntAction,
     IsConvertibleToUUIDAction,

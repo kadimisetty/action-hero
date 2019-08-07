@@ -3,21 +3,18 @@ import os
 import tempfile
 import unittest
 
-
 from action_hero.utils import (
     ActionHeroAction,
     ActionHeroTestCase,
-    ExitCapturedArgumentParser,
-    run_only_when_modules_loaded,
-    run_only_when_when_internet_is_up,
-)
-from action_hero.utils import (
     BaseAction,
     CheckAction,
     CheckPresentInValuesAction,
+    ExitCapturedArgumentParser,
     MapAction,
     MapAndReplaceAction,
     PipelineAction,
+    run_only_when_modules_loaded,
+    run_only_when_when_internet_is_up,
 )
 from action_hero import (
     FileExistsAction,

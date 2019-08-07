@@ -1,4 +1,4 @@
-from action_hero.net import (
+from action_hero import (
     IPIsValidIPAddressAction,
     IPIsValidIPv4AddressAction,
     IPIsValidIPv6AddressAction,

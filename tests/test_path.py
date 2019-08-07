@@ -2,7 +2,7 @@ import os
 import tempfile
 
 from action_hero.utils import ActionHeroTestCase
-from action_hero.path import (
+from action_hero import (
     DirectoryDoesNotExistAction,
     DirectoryExistsAction,
     DirectoryIsExecutableAction,
