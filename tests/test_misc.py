@@ -1,6 +1,7 @@
 import unittest
+from unittest import mock
 
-from action_hero.utils import ActionHeroTestCase, capture_output
+from action_hero.utils import ActionHeroTestCase, capture_output, mock_input
 from action_hero import (
     ChoicesAction,
     ConfirmAction,
@@ -87,18 +88,25 @@ class TestNotifyAndContinueAction(ActionHeroTestCase):
 class TestNotifyAndExitAction(ActionHeroTestCase):
     def test_on_adding_to_parser(self):
         self.parser.add_argument(
-            "--message", action=NotifyAndExitAction, action_values=["hello"]
+            "--message",
+            action=NotifyAndExitAction,
+            action_values=["hello"],
+            nargs=0,
         )
 
     def test_on_accepting_single_message(self):
         self.parser.add_argument(
-            "--message", action=NotifyAndExitAction, action_values=["hello"]
+            "--message",
+            action=NotifyAndExitAction,
+            action_values=["hello"],
+            nargs=0,
         )
 
     def test_on_accepting_multiple_messages(self):
         self.parser.add_argument(
             "--message",
             action=NotifyAndExitAction,
+            nargs=0,
             action_values=["hello", "hello again", "hello, yet, again"],
         )
 
@@ -134,7 +142,6 @@ class TestNotifyAndExitAction(ActionHeroTestCase):
             action_values=["hello"],
         )
 
-
         result = None
         try:
             # Capturing output to prevent polluting test report
@@ -163,9 +170,71 @@ class TestNotifyAndExitAction(ActionHeroTestCase):
             self.assertEqual(result, "hello\nola\nsalve")
 
 
-@unittest.skip("not implemented")
 class TestConfirmAction(ActionHeroTestCase):
     def test_on_adding_to_parser(self):
         self.parser.add_argument(
-            "--message", action=ConfirmAction, action_values=["black", "white"]
+            "--message", action=ConfirmAction, action_values=["casablanca"]
         )
+
+    def test_on_adding_to_parser(self):
+        self.parser.add_argument(
+            "--message",
+            action=ConfirmAction,
+            nargs=0,
+            action_values=["Continue?"],
+        )
+
+    def test_on_accepting_single_message(self):
+        self.parser.add_argument(
+            "--message",
+            action=ConfirmAction,
+            nargs=0,
+            action_values=["Continue?"],
+        )
+
+    def test_on_accepting_multiple_messages(self):
+        self.parser.add_argument(
+            "--message",
+            action=ConfirmAction,
+            nargs=0,
+            action_values=["Failed Install", "Try Again?"],
+        )
+
+    def test_on_not_quitting_on_y(self):
+        self.parser.add_argument(
+            "--message",
+            action=ConfirmAction,
+            nargs=0,
+            action_values=["Continue?"],
+        )
+        # No SystemExit on "y"
+        with mock.patch('builtins.input', return_value="y"):
+            self.parser.parse_args(["--message"])
+
+    def test_on_quitting_on_n(self):
+        self.parser.add_argument(
+            "--message",
+            action=ConfirmAction,
+            nargs=0,
+            action_values=["Continue?"],
+        )
+        # Assert SystemExit on not n
+        with self.assertRaises(SystemExit):
+            with mock.patch('builtins.input', return_value="n"):
+                self.parser.parse_args(["--message"])
+
+    @unittest.skip("TODO capture stdout and mock input")
+    def test_on_displaying_message_and_not_quit_on_y(self):
+        raise NotImplementedError
+
+    @unittest.skip("TODO capture stdout and mock input")
+    def test_on_displaying_multiple_messages_and_not_quit_on_y(self):
+        raise NotImplementedError
+
+    @unittest.skip("TODO capture stdout and mock input")
+    def test_on_displaying_message_and_quit_on_n(self):
+        raise NotImplementedError
+
+    @unittest.skip("TODO capture stdout and mock input")
+    def test_on_displaying_multiple_messages_and_quit_on_n(self):
+        raise NotImplementedError
