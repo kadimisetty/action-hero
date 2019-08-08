@@ -17,19 +17,9 @@ __all__ = [
     "MapAndReplaceAction",
     "PipelineAction",
     "captured_output",
-    "mock_input",
     "run_only_when_modules_loaded",
     "run_only_when_when_internet_is_up",
 ]
-
-
-@contextlib.contextmanager
-def mock_input(mock_value):
-    """Mocks builtin input's input with mock_value"""
-    original_input = __builtins__.input
-    __builtins__.input = lambda _: mock_value
-    yield
-    __builtins__.input = original_input
 
 
 def capture_output(func, *args):

@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from action_hero.utils import ActionHeroTestCase, capture_output, mock_input
+from action_hero.utils import ActionHeroTestCase, capture_output
 from action_hero import (
     ChoicesAction,
     ConfirmAction,
