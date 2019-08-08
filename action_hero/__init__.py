@@ -69,7 +69,12 @@ from action_hero.types import (
     IsFalsyAction,
     IsTruthyAction,
 )
-from action_hero.misc import ChoicesAction
+from action_hero.misc import (
+    ChoicesAction,
+    ConfirmAction,
+    NotifyAndContinueAction,
+    NotifyAndExitAction,
+)
 
 
 __all__ = ["PipelineAction"]
@@ -131,4 +136,9 @@ __all__.extend(
         "IsTruthyAction",
     ]
 )
-__all__.extend(["ChoicesAction"])
+__all__.extend([
+    "ChoicesAction",
+    "ConfirmAction",
+    "NotifyAndContinueAction",
+    "NotifyAndExitAction",
+])

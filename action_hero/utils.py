@@ -1,7 +1,9 @@
+import argparse
+import contextlib
+import functools
+import io
 import sys
 import unittest
-import functools
-import argparse
 
 import requests
 
@@ -10,12 +12,26 @@ __all__ = [
     "ActionHeroAction",
     "CheckAction",
     "CheckPresentInValuesAction",
+    "DisplayMessageAndExitAction",
     "MapAction",
     "MapAndReplaceAction",
     "PipelineAction",
+    "captured_output",
     "run_only_when_modules_loaded",
     "run_only_when_when_internet_is_up",
 ]
+
+
+def capture_output(func, *args):
+    """Return captured stdout output of func when called"""
+    stdout = io.StringIO()
+
+    # Context manager to fetch all stdout output into value stdoout
+    with contextlib.redirect_stdout(stdout):
+        func(*args)
+
+    # Return sanitized stdout output value of func
+    return stdout.getvalue().strip()
 
 
 def run_only_when_modules_loaded(modules=["argparse"]):
@@ -125,7 +141,7 @@ class CheckAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        super(CheckAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -188,7 +204,7 @@ class CheckPresentInValuesAction(BaseAction):
         )
         self.action_values = action_values
 
-        super(CheckPresentInValuesAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -250,7 +266,7 @@ class MapAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        super(MapAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -285,7 +301,7 @@ class MapAndReplaceAction(BaseAction):
                     "Please supply required attribute: {}".format(attr)
                 )
 
-        super(MapAndReplaceAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -413,7 +429,7 @@ class PipelineAction(ActionHeroAction):
                 raise ValueError("action_values contains invalid values")
 
         # REMAINDER PIPELINE INIT
-        super(PipelineAction, self).__init__(
+        super().__init__(
             option_strings=option_strings,
             dest=dest,
             nargs=nargs,
@@ -537,3 +553,71 @@ def _raise_exception_if_invalid_action_values(
                         "Items in this action's action_values should all "
                         "have the same type"
                     )
+
+
+class DisplayMessageAndExitAction(BaseAction):
+    """Display message as notification/confirmation and exit if wanted"""
+
+    action_values = None
+
+    get_confirmation = False
+    exit = False
+
+    def __init__(
+        self,
+        option_strings,
+        dest,
+        action_values=None,
+        nargs=None,
+        type=None,
+        help=None,
+        metavar=None,
+    ):
+
+        # Raise exception if action_values are invalid, else accept
+        _raise_exception_if_invalid_action_values(
+            action_values=action_values,
+            container_type=list,
+            empty_allowed=False,
+            different_item_types_allowed=False,
+            preferred_exception=ValueError,
+        )
+        self.action_values = action_values
+
+        super().__init__(
+            option_strings=option_strings,
+            dest=dest,
+            nargs=nargs,
+            type=type,
+            help=help,
+            metavar=metavar,
+        )
+
+    def __call__(self, parser, namespace, values, option_string=None):
+
+        # 1. CONFIRMATION (Exit program if confirmation is no)
+        if self.get_confirmation:
+
+            # 2.1 If single message in action_values, append confirmation
+            # prompt at  end of message
+            if len(self.action_values) == 1:
+                message = self.action_values
+                # Exit program, if any other key than y ot Y
+                if input("{} [Yn] ".format(message)).lower() != "y":
+                    sys.exit()
+
+            # 2.2 If multiple messages in action_values, show confirmation
+            # prompt on line after
+            else:
+                [print(message) for message in self.action_values]
+                # Exit program, if any other key than y ot Y
+                if input("[Yn] ").lower() != "y":
+                    sys.exit()
+
+        # 2. DISPLAY MESSAGE(S) ONLY
+        else:
+            [print(value) for value in self.action_values]
+
+            # Exit program when specified, else continue
+            if self.exit:
+                sys.exit()

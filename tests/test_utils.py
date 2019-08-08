@@ -9,6 +9,7 @@ from action_hero.utils import (
     BaseAction,
     CheckAction,
     CheckPresentInValuesAction,
+    DisplayMessageAndExitAction,
     ExitCapturedArgumentParser,
     MapAction,
     MapAndReplaceAction,
@@ -67,12 +68,12 @@ class TestActionHeroTestCase(ActionHeroTestCase):
 
 
 class TestBaseAction(ActionHeroTestCase):
-    def test_if_is_subclass_of_argparse_action(self):
+    def test_if_proper_subclass(self):
         self.assertTrue(issubclass(BaseAction, argparse.Action))
 
 
 class TestCheckAction(ActionHeroTestCase):
-    def test_if_is_subclass_of_argparse_action(self):
+    def test_if_proper_subclass(self):
         self.assertTrue(issubclass(CheckAction, argparse.Action))
 
     def test_if_checks_for_required_func(self):
@@ -101,7 +102,7 @@ class TestCheckAction(ActionHeroTestCase):
 
 
 class TestMapAction(ActionHeroTestCase):
-    def test_if_is_subclass_of_argparse_action(self):
+    def test_if_proper_subclass(self):
         self.assertTrue(issubclass(MapAction, argparse.Action))
 
     def test_if_checks_for_required_func(self):
@@ -113,7 +114,7 @@ class TestMapAction(ActionHeroTestCase):
 
 
 class TestMapAndReplaceAction(ActionHeroTestCase):
-    def test_if_is_subclass_of_argparse_action(self):
+    def test_if_proper_subclass(self):
         self.assertTrue(issubclass(MapAndReplaceAction, argparse.Action))
 
     def test_if_checks_for_required_func(self):
@@ -246,7 +247,7 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
 
 
 class TestActionHeroAction(ActionHeroTestCase):
-    def test_if_is_subclass_of_argparse_action(self):
+    def test_if_proper_subclass(self):
         self.assertTrue(issubclass(ActionHeroAction, argparse.Action))
 
 
@@ -397,3 +398,9 @@ print(args.readme)
             )
             # 5. Assert subprocess stderr is empty string
             self.assertFalse(script_result.stderr)
+
+
+@unittest.skip("not implemented")
+class TestDisplayMessageAndExitAction(ActionHeroTestCase):
+    def test_if_proper_subclass(self):
+        self.assertTrue(issubclass(ActionHeroAction, argparse.Action))
