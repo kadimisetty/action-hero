@@ -164,8 +164,7 @@ class CheckAction(BaseAction):
             if not self.run_user_func(value):
                 failure = value
                 raise argparse.ArgumentError(
-                    self,
-                    "{}: {}".format(self.error_message, failure),
+                    self, "{}: {}".format(self.error_message, failure)
                 )
 
         setattr(namespace, self.dest, values)
@@ -239,14 +238,18 @@ class CheckPresentInValuesAction(BaseAction):
 
         # 1.2 Check presence for every value in values
         if isinstance(values, list):
-            if not all(
-                [
-                    self.run_user_func(chosen_type(value))
-                    in self.action_values
-                    for value in values
-                ]
-            ):
-                raise argparse.ArgumentError(self, self.error_message)
+            failures = [
+                value
+                for value in values
+                if self.run_user_func(chosen_type(value))
+                not in self.action_values
+            ]
+
+            if failures:
+                raise argparse.ArgumentError(
+                    self,
+                    "{}: {}".format(self.error_message, ", ".join(failures)),
+                )
 
         # 1.3 Check presence for values
         else:
@@ -255,6 +258,10 @@ class CheckPresentInValuesAction(BaseAction):
                 not self.run_user_func(chosen_type(value))
                 in self.action_values
             ):
+                failure = value
+                raise argparse.ArgumentError(
+                    self, "{}: {}".format(self.error_message, failure)
+                )
                 raise argparse.ArgumentError(self, self.error_message)
 
         setattr(namespace, self.dest, values)
