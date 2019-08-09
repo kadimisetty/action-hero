@@ -66,7 +66,7 @@ class URLWithHTTPResponseStatusCodeAction(CheckPresentInValuesAction):
     """Check if supplied URL responds with status code in action_values"""
 
     func = status_code_from_response_to_request_url
-    err_msg_singular = "Response from URL does not have expected status code."
+    err_msg_singular = "Response from URL does not have expected status code"
     err_msg_plural = (
-        "Response from at least one URL does not have expected status code."
+        "Response from at least one URL does not have expected status code"
     )
