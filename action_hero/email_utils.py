@@ -16,4 +16,4 @@ def is_valid_email(email):
         email (str): The email address to check validity for
     """
     pattern = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
-    return True if pattern.match(email) else False
+    return bool(pattern.match(email))
