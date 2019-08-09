@@ -18,7 +18,7 @@ class ChoicesAction(CheckPresentInValuesAction):
     def func(value):
         return value
 
-    error_message = "Value(s) not present in allowed choices"
+    error_message = "Value(s) not in allowed choices"
 
 
 class NotifyAndContinueAction(DisplayMessageAndExitAction):
