@@ -82,7 +82,6 @@ __all__.extend(["EmailIsValidAction"])
 __all__.extend(
     [
         "IPIsValidIPAddressAction",
-        "IPIsValidIPAddressAction",
         "IPIsValidIPv4AddressAction",
         "IPIsValidIPv6AddressAction",
         "URLIsNotReachableAction",
@@ -136,9 +135,11 @@ __all__.extend(
         "IsTruthyAction",
     ]
 )
-__all__.extend([
-    "ChoicesAction",
-    "ConfirmAction",
-    "NotifyAndContinueAction",
-    "NotifyAndExitAction",
-])
+__all__.extend(
+    [
+        "ChoicesAction",
+        "ConfirmAction",
+        "NotifyAndContinueAction",
+        "NotifyAndExitAction",
+    ]
+)

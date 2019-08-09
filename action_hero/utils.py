@@ -152,16 +152,43 @@ class CheckAction(BaseAction):
     def __call__(self, parser, namespace, values, option_string=None):
         # When values are a list of strings
         if isinstance(values, list):
-            if not all([self.run_user_func(value) for value in values]):
-                raise argparse.ArgumentError(self, self.err_msg_plural)
+            failures = [
+                value for value in values if not self.run_user_func(value)
+            ]
+
+            if failures:
+                raise argparse.ArgumentError(
+                    self,
+                    "{}: {}".format(self.err_msg_plural, ", ".join(failures)),
+                )
 
         # When values is one string
         else:
             value = values
             if not self.run_user_func(value):
-                raise argparse.ArgumentError(self, self.err_msg_singular)
+                raise argparse.ArgumentError(
+                    self,
+                    "{}: {}".format(
+                        self.err_msg_singular, ", ".join(value)
+                    ),
+                )
 
         setattr(namespace, self.dest, values)
+
+    # def __call__(self, parser, namespace, values, option_string=None):
+    #     # When values are a list of strings
+    #     if isinstance(values, list):
+    #         if not all([self.run_user_func(value) for value in values]):
+    #             raise argparse.ArgumentError(self, self.err_msg_plural)
+    #
+    #     # When values is one string
+    #     else:
+    #         value = values
+    #         if not self.run_user_func(value):
+    #             raise argparse.ArgumentError(self, self.err_msg_singular)
+    #
+    #     setattr(namespace, self.dest, values)
+    #
 
 
 class CheckPresentInValuesAction(BaseAction):
