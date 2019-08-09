@@ -727,8 +727,8 @@ class DebugAction(BaseAction):
 
         # BEGIN
         print("")
-        print(" DebugAction:")
-        print("┌────────────")
+        print(" DebugAction")
+        print(" ━━━━━━━━━━━")
 
         # func
         if getattr(self, "func", None):
@@ -739,7 +739,7 @@ class DebugAction(BaseAction):
         # action_values
         if getattr(self, "action_values", None):
             print(
-                "| self.action_values(list): {}".format(
+                " self.action_values(list): {}".format(
                     self.action_values
                 )
             )
@@ -747,7 +747,7 @@ class DebugAction(BaseAction):
         # error_message
         if getattr(self, "error_message", None):
             print(
-                "| self.error_message(str): {}".format(
+                " self.error_message(str): {}".format(
                     self.error_message
                 )
             )
@@ -755,29 +755,29 @@ class DebugAction(BaseAction):
         # values type and values
         if isinstance(values, list):
             # values is a list
-            print("| values(list): {}".format(values))
+            print(" values(list): {}".format(values))
 
         else:
             # values is a str
-            print("| values(str): {}".format(values))
+            print(" values(str): {}".format(values))
 
         # nargs
         if getattr(self, "nargs", None):
-            print("| self.nargs: {}".format(self.nargs))
+            print(" self.nargs: {}".format(self.nargs))
 
         # type
         if getattr(self, "type", None):
-            print("| self.type: {}".format(self.type))
+            print(" self.type: {}".format(self.type))
 
         # self.dest
-        print("| self.dest({}): {}".format(type(self.dest), self.dest))
+        print(" self.dest({}): {}".format(type(self.dest), self.dest))
 
         # option_string
         if option_string:
-            print("| option_string: {}".format(option_string))
+            print(" option_string: {}".format(option_string))
 
         # namespace
-        print("| namespace: {}".format(namespace))
+        print(" namespace: {}".format(namespace))
 
         # END
         print("")

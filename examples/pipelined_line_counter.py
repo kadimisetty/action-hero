@@ -1,9 +1,10 @@
 import argparse
 
 from action_hero import (
+    DebugAction,
+    FileHasExtension,
     FileIsReadableAction,
     PipelineAction,
-    FileHasExtension,
 )
 
 
@@ -19,6 +20,7 @@ if __name__ == "__main__":
         action_values=[
             (FileHasExtension, ["md", "markdown"]),
             FileIsReadableAction,
+            DebugAction,
         ],
     )
 
