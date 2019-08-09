@@ -72,6 +72,8 @@ from action_hero.types import (
 from action_hero.misc import (
     ChoicesAction,
     ConfirmAction,
+    GetInputAction,
+    GetSecretInputAction,
     NotifyAndContinueAction,
     NotifyAndExitAction,
 )
@@ -141,5 +143,7 @@ __all__.extend(
         "ConfirmAction",
         "NotifyAndContinueAction",
         "NotifyAndExitAction",
+        "GetInputAction",
+        "GetSecretInputAction",
     ]
 )

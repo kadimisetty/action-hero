@@ -1,6 +1,7 @@
 import argparse
 import contextlib
 import functools
+import getpass
 import io
 import sys
 import unittest
@@ -13,6 +14,7 @@ __all__ = [
     "CheckAction",
     "CheckPresentInValuesAction",
     "DisplayMessageAndExitAction",
+    "DisplayMessageAndGetInputAction",
     "MapAction",
     "MapAndReplaceAction",
     "PipelineAction",
@@ -570,7 +572,7 @@ def _raise_exception_if_invalid_action_values(
 
 
 class DisplayMessageAndExitAction(BaseAction):
-    """Display message as notification/confirmation and exit if wanted"""
+    """Display message from action_values and confirm and exit if wanted"""
 
     action_values = None
 
@@ -635,3 +637,83 @@ class DisplayMessageAndExitAction(BaseAction):
             # Exit program when specified, else continue
             if self.exit:
                 sys.exit()
+
+
+class DisplayMessageAndGetInputAction(BaseAction):
+    """
+    Display message from action_values, get input and save to `self.dest`
+
+    Attributes:
+        action_values([str]): Values to be passed to this Action.
+            List of messages to display
+        hide_input_on_screen(bool): Whether to hide input like a password
+
+    Note:
+        This is a desctructive Action. It replaces the value of dest as single
+        str with input.
+
+        Due to dependence on getpass, this will only work on terminals.
+
+        By default saves as type, str.
+        TODO: Accoomodate self.type .e.g for type=int, convert to type
+
+    """
+
+    action_values = None
+
+    hide_input_on_screen = False
+
+    def __init__(
+        self,
+        option_strings,
+        dest,
+        action_values=None,
+        nargs=None,
+        type=None,
+        help=None,
+        metavar=None,
+    ):
+
+        # Raise exception if action_values are invalid, else accept
+        _raise_exception_if_invalid_action_values(
+            action_values=action_values,
+            container_type=list,
+            empty_allowed=False,
+            different_item_types_allowed=False,
+            preferred_exception=ValueError,
+        )
+        self.action_values = action_values
+
+        super().__init__(
+            option_strings=option_strings,
+            dest=dest,
+            nargs=nargs,
+            type=type,
+            help=help,
+            metavar=metavar,
+        )
+
+    def __call__(self, parser, namespace, values, option_string=None):
+
+        # 1. Display any provided message prompts for input from action_values
+        display_message = "\n".join(
+            [message for message in self.action_values]
+        )
+        display_message += " : "
+
+        try:
+            # 2. If self.hide_input_on_screen
+            if self.hide_input_on_screen:
+                # 2.1 Get user input (while hiding characters)
+                values = getpass.getpass(display_message)
+
+            # 2. If not self.hide_input_on_screen
+            else:
+                # 2.2 Get user input
+                values = input(display_message)
+
+        # Don't alter values on keyboard interrupt
+        except KeyboardInterrupt:
+            print("<Input Cancelled>")
+
+        setattr(namespace, self.dest, values)

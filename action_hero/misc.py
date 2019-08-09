@@ -1,12 +1,15 @@
 from action_hero.utils import (
     CheckPresentInValuesAction,
     DisplayMessageAndExitAction,
+    DisplayMessageAndGetInputAction,
 )
 
 
 __all__ = [
     "ChoicesAction",
     "ConfirmAction",
+    "GetInputAction",
+    "GetSecretInputAction",
     "NotifyAndContinueAction",
     "NotifyAndExitAction",
 ]
@@ -40,13 +43,13 @@ class ConfirmAction(DisplayMessageAndExitAction):
     exit = False
 
 
-class GetInputAction:
+class GetInputAction(DisplayMessageAndGetInputAction):
     """Get input and save to `self.dest` """
-    def __init__(self):
-        raise NotImplementedError
+
+    hide_input_on_screen = False
 
 
-class SecretInputAction:
+class GetSecretInputAction(DisplayMessageAndGetInputAction):
     """Get input and save to `self.dest` while hiding characters from screen"""
-    def __init__(self):
-        raise NotImplementedError
+
+    hide_input_on_screen = True
