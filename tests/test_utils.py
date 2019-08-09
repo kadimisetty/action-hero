@@ -78,27 +78,17 @@ class TestCheckAction(ActionHeroTestCase):
 
     def test_if_checks_for_required_func(self):
         class CheckActionWithotFunc(CheckAction):
-            err_msg_singular = "S"
-            err_msg_plural = "P"
+            error_message = "E"
 
         with self.assertRaises(ValueError):
             CheckActionWithotFunc(option_strings=[], dest="")
 
-    def test_if_checks_for_required_err_msg_singular(self):
-        class CheckActionWithotErrMsgSingular(CheckAction):
+    def test_if_checks_for_required_error_message(self):
+        class CheckActionWithotErrorMessage(CheckAction):
             func = print
-            err_msg_plural = "P"
 
         with self.assertRaises(ValueError):
-            CheckActionWithotErrMsgSingular(option_strings=[], dest="")
-
-    def test_if_checks_for_required_err_msg_plural(self):
-        class CheckActionWithotErrMsgSingular(CheckAction):
-            func = print
-            err_msg_singular = "S"
-
-        with self.assertRaises(ValueError):
-            CheckActionWithotErrMsgSingular(option_strings=[], dest="")
+            CheckActionWithotErrorMessage(option_strings=[], dest="")
 
 
 class TestMapAction(ActionHeroTestCase):
@@ -136,8 +126,7 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
             def func(value):
                 return value
 
-            err_msg_singular = "S"
-            err_msg_plural = "P"
+            error_message = "E"
 
         with self.assertRaises(ValueError):
             self.parser.add_argument(
@@ -149,8 +138,7 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
             def func(value):
                 return value
 
-            err_msg_singular = "S"
-            err_msg_plural = "P"
+            error_message = "E"
 
         with self.assertRaises(ValueError):
             self.parser.add_argument(
@@ -169,8 +157,7 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
             def func(value):
                 return value
 
-            err_msg_singular = "S"
-            err_msg_plural = "P"
+            error_message = "E"
 
         with self.assertRaises(ValueError):
             Action1(option_strings=[], dest="")
@@ -180,8 +167,7 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
             def func(value):
                 return value
 
-            err_msg_singular = "S"
-            err_msg_plural = "P"
+            error_message = "E"
 
         with self.assertRaises(ValueError):
             self.parser.add_argument(
@@ -193,8 +179,7 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
             def func(value):
                 return value
 
-            err_msg_singular = "S"
-            err_msg_plural = "P"
+            error_message = "E"
 
         self.parser.add_argument(
             "--number", action=Action1, type=int, action_values=[1, 2, 3]
@@ -207,8 +192,7 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
             def func(value):
                 return value
 
-            err_msg_singular = "S"
-            err_msg_plural = "P"
+            error_message = "E"
 
         self.parser.add_argument(
             "--number", action=Action1, action_values=[4, 5, 6]
@@ -222,8 +206,7 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
             def func(value):
                 return value
 
-            err_msg_singular = "S"
-            err_msg_plural = "P"
+            error_message = "E"
 
         with self.assertRaises(ValueError):
             self.parser.add_argument(
@@ -235,8 +218,7 @@ class TestCheckPresentInValuesAction(ActionHeroTestCase):
             def func(value):
                 return value
 
-            err_msg_singular = "S"
-            err_msg_plural = "P"
+            error_message = "E"
 
         self.parser.add_argument(
             "--number", action=Action1, action_values=["four"], type=int

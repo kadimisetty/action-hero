@@ -91,21 +91,17 @@ class ActionHeroAction(argparse.Action):
 class BaseAction(ActionHeroAction):
     """ArgumentParser Action subclass that runs user's func over values
 
-    ActionHero' Baseclass for subclasses that need access to a func,
-        err_msg_singular and err_msg_plural
+    ActionHero' Baseclass for subclasses that need access to a func and
+        error_message
 
     Attributes:
         func (func): To be used to fill in subclasses preferred func.
-        err_msg_singular(str): To be used to fill error message for singular
-            failure.
-        err_msg_plural(str): To be used to fill error message for singular
-            failure.
+        error_message(str): Message used to report errors
 
     """
 
     func = None
-    err_msg_singular = None
-    err_msg_plural = None
+    error_message = None
 
     @classmethod
     def run_user_func(cls, value):
@@ -134,7 +130,7 @@ class CheckAction(BaseAction):
     def __init__(
         self, option_strings, dest, nargs=None, help=None, metavar=None
     ):
-        for attr in ["func", "err_msg_singular", "err_msg_plural"]:
+        for attr in ["func", "error_message"]:
             # Use getattr. hasattr returns True as they're initialized to None.
             if not getattr(self, attr):
                 raise ValueError(
@@ -159,36 +155,20 @@ class CheckAction(BaseAction):
             if failures:
                 raise argparse.ArgumentError(
                     self,
-                    "{}: {}".format(self.err_msg_plural, ", ".join(failures)),
+                    "{}: {}".format(self.error_message, ", ".join(failures)),
                 )
 
         # When values is one string
         else:
             value = values
             if not self.run_user_func(value):
+                failure = value
                 raise argparse.ArgumentError(
                     self,
-                    "{}: {}".format(
-                        self.err_msg_singular, ", ".join(value)
-                    ),
+                    "{}: {}".format(self.error_message, ", ".join(failure)),
                 )
 
         setattr(namespace, self.dest, values)
-
-    # def __call__(self, parser, namespace, values, option_string=None):
-    #     # When values are a list of strings
-    #     if isinstance(values, list):
-    #         if not all([self.run_user_func(value) for value in values]):
-    #             raise argparse.ArgumentError(self, self.err_msg_plural)
-    #
-    #     # When values is one string
-    #     else:
-    #         value = values
-    #         if not self.run_user_func(value):
-    #             raise argparse.ArgumentError(self, self.err_msg_singular)
-    #
-    #     setattr(namespace, self.dest, values)
-    #
 
 
 class CheckPresentInValuesAction(BaseAction):
@@ -214,7 +194,7 @@ class CheckPresentInValuesAction(BaseAction):
         help=None,
         metavar=None,
     ):
-        for attr in ["func", "err_msg_singular", "err_msg_plural"]:
+        for attr in ["func", "error_message"]:
             # Use getattr. hasattr returns True as they're initialized to None.
             if not getattr(self, attr):
                 raise ValueError(
@@ -266,7 +246,7 @@ class CheckPresentInValuesAction(BaseAction):
                     for value in values
                 ]
             ):
-                raise argparse.ArgumentError(self, self.err_msg_plural)
+                raise argparse.ArgumentError(self, self.error_message)
 
         # 1.3 Check presence for values
         else:
@@ -275,7 +255,7 @@ class CheckPresentInValuesAction(BaseAction):
                 not self.run_user_func(chosen_type(value))
                 in self.action_values
             ):
-                raise argparse.ArgumentError(self, self.err_msg_singular)
+                raise argparse.ArgumentError(self, self.error_message)
 
         setattr(namespace, self.dest, values)
 

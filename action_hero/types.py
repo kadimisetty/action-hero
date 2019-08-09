@@ -21,24 +21,21 @@ class IsConvertibleToIntAction(CheckAction):
     """Check if value is convertible to int"""
 
     func = is_convertible_to_int
-    err_msg_singular = "Value is not convertible to int"
-    err_msg_plural = "Atleast one value is not convertible to int"
+    error_message = "Value(s) not convertible to int"
 
 
 class IsConvertibleToFloatAction(CheckAction):
     """Check if value is convertible to float"""
 
     func = is_convertible_to_float
-    err_msg_singular = "Value is not convertible to float"
-    err_msg_plural = "Atleast one value is not convertible to float"
+    error_message = "Value(s) not convertible to float"
 
 
 class IsTruthyAction(CheckAction):
     """Checks if value is truthy"""
 
     func = is_truthy
-    err_msg_singular = "Value is falsy"
-    err_msg_plural = "Atleast one value is falsy"
+    error_message = "Value(s) is not truthy"
 
 
 class IsFalsyAction(CheckAction):
@@ -47,13 +44,11 @@ class IsFalsyAction(CheckAction):
     def func(value):
         return not is_truthy(value)
 
-    err_msg_singular = "value is falsy"
-    err_msg_plural = "Atleast one value is falsy"
+    error_message = "Value(s) is not falsy"
 
 
 class IsConvertibleToUUIDAction(CheckAction):
     """Checks if value is convertible to UUID"""
 
     func = is_convertible_to_UUID
-    err_msg_singular = "Value cannot be converted to UUID"
-    err_msg_plural = "Atleast one value cannot be converted to UUID"
+    error_message = "Value(s) not convertible to UUID"
