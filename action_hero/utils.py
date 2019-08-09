@@ -165,7 +165,7 @@ class CheckAction(BaseAction):
                 failure = value
                 raise argparse.ArgumentError(
                     self,
-                    "{}: {}".format(self.error_message, ", ".join(failure)),
+                    "{}: {}".format(self.error_message, failure),
                 )
 
         setattr(namespace, self.dest, values)
