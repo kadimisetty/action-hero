@@ -40,6 +40,12 @@ class ConfirmAction(DisplayMessageAndExitAction):
     exit = False
 
 
+class GetInputAction:
+    """Get input while hiding characters from being displayed on screen"""
+    def __init__(self):
+        raise NotImplementedError
+
+
 class SecretInputAction:
     """Get input while hiding characters from being displayed on screen"""
     def __init__(self):
