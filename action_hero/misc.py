@@ -40,7 +40,7 @@ class ConfirmAction(DisplayMessageAndExitAction):
     exit = False
 
 
-class PasswordInputAction:
-    """Get input from user shwoing a hidden field"""
+class SecretInputAction:
+    """Get input while hiding characters from being displayed on screen"""
     def __init__(self):
         raise NotImplementedError
