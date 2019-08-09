@@ -402,5 +402,5 @@ print(args.readme)
 
 @unittest.skip("not implemented")
 class TestDisplayMessageAndExitAction(ActionHeroTestCase):
-    def test_if_proper_subclass(self):
+    def test_if_is_subclass_of_argparse_action(self):
         self.assertTrue(issubclass(ActionHeroAction, argparse.Action))
