@@ -38,3 +38,9 @@ class ConfirmAction(DisplayMessageAndExitAction):
 
     get_confirmation = True
     exit = False
+
+
+class PasswordInputAction:
+    """Get input from user shwoing a hidden field"""
+    def __init__(self):
+        raise NotImplementedError
