@@ -400,7 +400,13 @@ print(args.readme)
             self.assertFalse(script_result.stderr)
 
 
-@unittest.skip("not implemented")
 class TestDisplayMessageAndExitAction(ActionHeroTestCase):
     def test_if_is_subclass_of_argparse_action(self):
-        self.assertTrue(issubclass(ActionHeroAction, argparse.Action))
+        self.assertTrue(
+            issubclass(DisplayMessageAndExitAction, argparse.Action)
+        )
+
+    def test_if_is_subclass_of_actionhero_action(self):
+        self.assertTrue(
+            issubclass(DisplayMessageAndExitAction, ActionHeroAction)
+        )

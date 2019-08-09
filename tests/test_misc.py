@@ -171,12 +171,12 @@ class TestNotifyAndExitAction(ActionHeroTestCase):
 
 
 class TestConfirmAction(ActionHeroTestCase):
-    def test_on_adding_to_parser(self):
+    def test_on_adding_to_parser_with_nargs_implicit(self):
         self.parser.add_argument(
             "--message", action=ConfirmAction, action_values=["casablanca"]
         )
 
-    def test_on_adding_to_parser(self):
+    def test_on_adding_to_parser_with_nargs_explicit(self):
         self.parser.add_argument(
             "--message",
             action=ConfirmAction,
