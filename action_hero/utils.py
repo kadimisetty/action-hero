@@ -225,7 +225,7 @@ class CheckPresentInValuesAction(BaseAction):
         # Check all action_value are of specified type passed with add_argument
         if not all([type(v) is chosen_type for v in self.action_values]):
             raise ValueError(
-                "items in action_values should be of given type {}".format(
+                "Items in action_values should be of given type {}".format(
                     chosen_type
                 )
             )
