@@ -13,6 +13,7 @@ __all__ = [
     "ActionHeroAction",
     "CheckAction",
     "CheckPresentInValuesAction",
+    "DebugAction",
     "DisplayMessageAndExitAction",
     "DisplayMessageAndGetInputAction",
     "MapAction",
@@ -717,3 +718,66 @@ class DisplayMessageAndGetInputAction(BaseAction):
             print("<Input Cancelled>")
 
         setattr(namespace, self.dest, values)
+
+
+class DebugAction(BaseAction):
+    """Prints debug information"""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+
+        # BEGIN
+        print("")
+        print(" DebugAction:")
+        print("┌────────────")
+
+        # func
+        if getattr(self, "func", None):
+            print(
+                "│ self.func(function): {}".format(self.func.__name__)
+            )
+
+        # action_values
+        if getattr(self, "action_values", None):
+            print(
+                "| self.action_values(list): {}".format(
+                    self.action_values
+                )
+            )
+
+        # error_message
+        if getattr(self, "error_message", None):
+            print(
+                "| self.error_message(str): {}".format(
+                    self.error_message
+                )
+            )
+
+        # values type and values
+        if isinstance(values, list):
+            # values is a list
+            print("| values(list): {}".format(values))
+
+        else:
+            # values is a str
+            print("| values(str): {}".format(values))
+
+        # nargs
+        if getattr(self, "nargs", None):
+            print("| self.nargs: {}".format(self.nargs))
+
+        # type
+        if getattr(self, "type", None):
+            print("| self.type: {}".format(self.type))
+
+        # self.dest
+        print("| self.dest({}): {}".format(type(self.dest), self.dest))
+
+        # option_string
+        if option_string:
+            print("| option_string: {}".format(option_string))
+
+        # namespace
+        print("| namespace: {}".format(namespace))
+
+        # END
+        print("")
