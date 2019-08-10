@@ -330,7 +330,7 @@ multiple arguments and provides relevant error messages.
 | __`ChoicesAction`__ | Argument can only have values from provided choices  | Choices e.g. `["red", "blue", "green"]` |
 
 
-<sup>1</sup> Actions that can make changes to disk
+<sup>1</sup> Actions that can make changes to disk  
 <sup>2</sup> Actions that can make changes to `self.dest`
 
 
