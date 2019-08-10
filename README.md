@@ -2,7 +2,6 @@
 ![Action Hero Logo][action_hero_logo]
 
 
-[![codecov](https://codecov.io/gh/kadimisetty/action-hero/branch/master/graph/badge.svg)](https://codecov.io/gh/kadimisetty/action-hero)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/action-hero?style=flat-square)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 ![PyPI - License](https://img.shields.io/pypi/l/action-hero?style=flat-square)
