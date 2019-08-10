@@ -264,8 +264,8 @@ multiple arguments and provides relevant error messages.
 | __`DirectoryIsReadableAction`__ | Check if directory is readable | |
 | __`DirectoryIsValidAction`__ | Check directory is valid | |
 | __`DirectoryIsWritableAction`__ | Check if directory is writable | |
-| __`EnsureDirectoryAction`__ | Ensure directory exists and create it if it doesnt | |
-| __`EnsureFileAction`__ | Ensure file exists and create it if it doesnt | |
+| __`EnsureDirectoryAction`__<sup>1</sup> | Ensure directory exists and create it if it doesnt | |
+| __`EnsureFileAction`__<sup>1</sup> | Ensure file exists and create it if it doesnt | |
 | __`FileDoesNotExistAction`__ | Check if file doesnt exist | |
 | __`FileExistsAction`__ | Check if file exists | |
 | __`FileIsEmptyAction`__ | Check if file is empty | |
@@ -287,7 +287,7 @@ multiple arguments and provides relevant error messages.
 | __`PathIsReadableAction`__ | Check if path is readable | |
 | __`PathIsValidAction`__ | Check if path is valid | |
 | __`PathIsWritableAction`__ | Check if path is writable | |
-| __`ResolvePathAction`__ | Resolves path to canonical path removing symbolic links if present | |
+| __`ResolvePathAction`__<sup>2</sup2> | Resolves path to canonical path removing symbolic links if present | |
 
 
 3. __Network__ related actions:
@@ -328,6 +328,11 @@ multiple arguments and provides relevant error messages.
 | Action | Description | `action_values` |
 | --- | --- | --- |
 | __`ChoicesAction`__ | Argument can only have values from provided choices  | Choices e.g. `["red", "blue", "green"]` |
+
+
+<sup>1</sup> Actions that can make changes to disk
+<sup>2</sup> Actions that can make changes to `self.dest`
+
 
 ## Development
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · __Development__
