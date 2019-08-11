@@ -250,6 +250,7 @@ multiple arguments and provides relevant error messages.
 | Action | Description | `action_values` |
 | --- | --- | --- |
 | __`PipelineAction`__ | Run multiple actions as a pipeline | Actions to run as a pipeline. e.g. `[FileExistsAction, FileIsWritableAction]`. ([Read more about this](#pipelining-multiple-actions)) |
+| __`DebugAction`__ | Print debug information. There can be multiple of these in a pipeline | |
 
 2. __Path, Directory and File__ related actions:
 
@@ -327,7 +328,12 @@ multiple arguments and provides relevant error messages.
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
-| __`ChoicesAction`__ | Argument can only have values from provided choices  | Choices e.g. `["red", "blue", "green"]` |
+| __`ChoicesAction`__ | Argument can only have values from provided choice(s)  | Choices e.g. `["red", "blue", "green"]` |
+| __`NotifyAndContinueAction`__ | Print provided notification message(s) | Message(s) e.g. `["This command will be deprecated soon."]` |
+| __`NotifyAndExitAction`__ | Print provided notification message(s) and Exit | Message(s) e.g. `["This command has been deprecated", "Good bye"]` |
+| __`ConfirmAction`__ | Print provided message and proceed with user confirmation _yes or no_. | Message(s) e.g. `["Are you sure you want to finish installation?"]` |
+| __`GetInputAction`__ | Get user input and save to the namespace  | Message(s) e.g. `["What us your favorite color?"]` |
+| __`GetSecretInputAction`__ | Get user input without displaying characters and save to the namespace  | Message(s) e.g. `["Enter your Password"]` |
 
 
 <sup>1</sup> Actions that can make changes to disk  
