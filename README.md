@@ -20,15 +20,22 @@ __manage user arguments in command line applications using `argparse`__
 <dl>
 
 <dt><code>argparse</code></dt>
-<dd><code>argparse</code> is a python standard library module used to make command line applications.
+<dd><code>argparse</code> is a python standard library module used to make
+command line applications.
 <code>argparse</code> provides
-<code>ArgumentParser</code> that parses user arguments and runs <code>argparse.Action</code>s on them.
+<code>ArgumentParser</code> that parses user arguments and runs
+<code>argparse.Action</code>s on them.
 <a href="https://docs.python.org/3/library/argparse.html">⚓︎</a>
 </dd>
 
 
 <dt><code>action_hero</code> 🔥</dt>
-<dd><code>action_hero</code> make <code>argparse</code> more capable by providing a large number of custom actions. For example, the <strong><code>FileIsWritableAction</code> automatically verifies that all file paths accepted as arguments are writable, informing the user if they aren't.</strong> This saves you the trouble of doing that check yourself. Nice, no? <a href="#catalog">Browse the catalog</a> for many such action.</dd>
+<dd><code>action_hero</code> make <code>argparse</code> more capable by
+providing a large number of custom actions. For example, the
+<strong><code>FileIsWritableAction</code> automatically verifies that file
+path(s) accepted as arguments are writable, informing the user if they
+aren't.</strong> This saves you the trouble of doing that check yourself. Nice,
+no? <a href="#catalog">Browse the catalog</a> for many such actions.</dd>
 
 </dl>
 
@@ -38,7 +45,7 @@ __manage user arguments in command line applications using `argparse`__
 ## Quick Usage
 > [Introduction](#introduction) · __Quick Usage__ · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
-__1. Installation__: Use `pip` for installation
+__1. Installation__:
 
 ```python 
 pip install action_hero
