@@ -17,46 +17,22 @@ __manage user arguments in command line applications using `argparse`__
 ## Introduction
 > __Introduction__ · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
-##### _Argparse, Parsers, Actions? What now??_ 🤷‍♂️
-
 <dl>
 
-<dt>1. argparse</dt>
-<dd><code>argparse</code> is a python standard library module used to build command line interfaces.
+<dt><code>argparse</code></dt>
+<dd><code>argparse</code> is a python standard library module used to make command line applications.
+<code>argparse</code> provides
+<code>ArgumentParser</code> that parses user arguments and runs <code>argparse.Action</code>s on them.
 <a href="https://docs.python.org/3/library/argparse.html">⚓︎</a>
 </dd>
 
-<dt>2. ArgumentParser</dt>
-<dd><code>argparse.ArgumentParser</code> parses user arguments by inspecting
-the command line, converting each argument to an appropriate type and finally
-invoking an appropriate <code>argparse.Action</code>
-<a href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser">⚓︎</a>
-</dd>
 
-
-<dt>3. Action</dt>
-<dd><code>argparse.Action</code> objects are used by
-<code>ArgumentParser</code> to represent information needed to parse arguments
-from the command line.
-<a href="https://docs.python.org/3/library/argparse.html#action">⚓︎</a>
-</dd>
-
-
-<dt>4. action_hero 💥</dt>
-<dd><code>action_hero</code> provides many such custom actions to deal with
-accepting user arguments in your command line application. They are subclasses
-of <code>argparse.Action</code> and fit in with the rest of you
-<code>argparse</code> code.</dd>
-
-<dd>For example, the <strong><code>FileIsWritableAction</code> automatically
-verifies that all file paths accepted as arguments are indeed writable,
-informing the user if they aren't.</strong> This saves you the trouble of doing
-that check yourself. Nice, no? <a href="#catalog">Browse the catalog</a> for
-more custom actions.</dd>
+<dt><code>action_hero</code> 🔥</dt>
+<dd><code>action_hero</code> make <code>argparse</code> more capable by providing a large number of custom actions. For example, the <strong><code>FileIsWritableAction</code> automatically verifies that all file paths accepted as arguments are writable, informing the user if they aren't.</strong> This saves you the trouble of doing that check yourself. Nice, no? <a href="#catalog">Browse the catalog</a> for many such action.</dd>
 
 </dl>
 
-Therefore __`argparse`__ + __`action_hero`__ = 🧨
+
 
 
 ## Quick Usage
