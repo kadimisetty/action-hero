@@ -25,7 +25,7 @@ __all__ = [
     "DebugAction",
     "DisplayMessageAndExitAction",
     "DisplayMessageAndGetInputAction",
-    "LoadSerializedFile",
+    "LoadSerializedFileAction",
     "MapAction",
     "MapAndReplaceAction",
     "PipelineAction",
@@ -783,7 +783,7 @@ class DebugAction(BaseAction):
         print("")
 
 
-class LoadSerializedFile(BaseAction):
+class LoadSerializedFileAction(BaseAction):
     """Load YAML/JSON file
 
     Args:

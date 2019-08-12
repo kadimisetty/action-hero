@@ -2,7 +2,7 @@ from action_hero.utils import (
     CheckPresentInValuesAction,
     DisplayMessageAndExitAction,
     DisplayMessageAndGetInputAction,
-    LoadSerializedFile,
+    LoadSerializedFileAction,
 )
 
 
@@ -59,19 +59,19 @@ class GetSecretInputAction(DisplayMessageAndGetInputAction):
     hide_input_on_screen = True
 
 
-class LoadYAMLFromFileAction(LoadSerializedFile):
+class LoadYAMLFromFileAction(LoadSerializedFileAction):
     """Return loaded contents of a YAML file"""
 
     format = "yaml"
 
 
-class LoadJSONFromFileAction(LoadSerializedFile):
+class LoadJSONFromFileAction(LoadSerializedFileAction):
     """Return loaded contents of a JSON file"""
 
     format = "json"
 
 
-class LoadPickleFromFileAction(LoadSerializedFile):
+class LoadPickleFromFileAction(LoadSerializedFileAction):
     """Return loaded contents of a JSON file"""
 
     format = "pickle"
