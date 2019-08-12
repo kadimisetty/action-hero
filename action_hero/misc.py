@@ -59,12 +59,12 @@ class GetSecretInputAction(DisplayMessageAndGetInputAction):
 
 
 class LoadYAMLFromFile(LoadSerializedFile):
-    """Return loaded contents of a YAML file as a dict"""
+    """Return loaded contents of a YAML file"""
 
     format = "yml"
 
 
 class LoadJSONFromFile(LoadSerializedFile):
-    """Return loaded contents of a JSON file as a dict"""
+    """Return loaded contents of a JSON file"""
 
     format = "json"

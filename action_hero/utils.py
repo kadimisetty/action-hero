@@ -783,23 +783,23 @@ class DebugAction(BaseAction):
 
 
 class LoadSerializedFile(BaseAction):
-    """Load yaml/json file into a dict
+    """Load YAML/JSON file
 
     Args:
-        format(str): yaml/json the format to load file as
+        format(str): the format (YAML/JSON) to load file as
 
     """
 
     format = None
 
     def load_json_from_file(self, file):
-        """Return loaded json file as a dict
+        """Return loaded json file
 
         Args:
             file(str/path): Filename to load json from
 
         Returns:
-            (dict): contents of json file as a dict
+            (dict/list): contents of json file
 
         Raises:
             argparse.ArgmentError that captures json.JSONDecodeError: When the
@@ -816,13 +816,13 @@ class LoadSerializedFile(BaseAction):
             )
 
     def load_yaml_from_file(self, file):
-        """Return loaded yaml file as a dict
+        """Return loaded yaml file
 
         Args:
             file(str/path): Filename to load yaml from
 
         Returns:
-            (list/dict): contents of yaml file as a dict
+            (list/dict): contents of yaml file
 
         Raises:
             argparse.ArgmentError that captures yaml.YAMLError: When the

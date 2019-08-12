@@ -307,7 +307,7 @@ multiple arguments and provides relevant error messages.
 | Action | Description | `action_values` |
 | --- | --- | --- |
 
-7. __Miscellaneous__ other actions:
+7. __Miscellaneous__ actions:
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
@@ -317,6 +317,8 @@ multiple arguments and provides relevant error messages.
 | __`ConfirmAction`__ | Print provided message and proceed with user confirmation _yes or no_. | Message(s) e.g. `["Proceed to Installation?"]` |
 | __`GetInputAction`__ | Get user input and save to the namespace  | Message(s) e.g. `["Favorite color"]` |
 | __`GetSecretInputAction`__ | Get user input without displaying characters and save to the namespace  | Message(s) e.g. `["Enter your Password"]` |
+| __`LoadJSONFromFile`__ | Return loaded JSON file(s) |  |
+| __`LoadYAMLFromFile`__ | Return loaded YAML file(s) |  |
 
 
 <strong><sup>1</sup></strong> Actions that can make changes to disk  
