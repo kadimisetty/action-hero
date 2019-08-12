@@ -296,7 +296,6 @@ multiple arguments and provides relevant error messages.
 | __`IsConvertibleToUUIDAction`__ | Checks if value is convertible to UUID | |
 | __`IsFalsyAction`__ | Checks if value is falsy | |
 | __`IsTruthyAction`__ | Checks if value is truthy | |
- --- | --- | --- |
 
 5. __Range__ related actions:
 
