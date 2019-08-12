@@ -248,8 +248,8 @@ multiple values and provides relevant error messages.
 | __`DirectoryIsReadableAction`__ | Check if directory is readable | |
 | __`DirectoryIsValidAction`__ | Check directory is valid | |
 | __`DirectoryIsWritableAction`__ | Check if directory is writable | |
-| __`EnsureDirectoryAction`__<sup>1</sup> | Ensure directory exists and create it if it doesnt | |
-| __`EnsureFileAction`__<sup>1</sup> | Ensure file exists and create it if it doesnt | |
+| __`EnsureDirectoryAction`__<sup>*</sup> | Ensure directory exists and create it if it doesnt | |
+| __`EnsureFileAction`__<sup>*</sup> | Ensure file exists and create it if it doesnt | |
 | __`FileDoesNotExistAction`__ | Check if file doesnt exist | |
 | __`FileExistsAction`__ | Check if file exists | |
 | __`FileIsEmptyAction`__ | Check if file is empty | |
@@ -310,15 +310,15 @@ multiple values and provides relevant error messages.
 | __`NotifyAndContinueAction`__ | Print provided notification message(s) | Message(s) e.g. `["This command will be deprecated in the next version."]` |
 | __`NotifyAndExitAction`__ | Print provided notification message(s) and Exit | Message(s) e.g. `["This command has been deprecated", "Try --new-command"]` |
 | __`ConfirmAction`__ | Print provided message and proceed with user confirmation _yes or no_. | Message(s) e.g. `["Proceed to Installation?"]` |
-| __`GetInputAction`__<sup>2</sup> | Get user input and save to `self.dest`  | Message(s) e.g. `["Favorite color"]` |
-| __`GetSecretInputAction`__<sup>2</sup> | Get user input without displaying characters and save to the `self.dest`  | Message(s) e.g. `["Enter your Password"]` |
-| __`LoadJSONFromFileAction`__<sup>2</sup> | Return loaded JSON file(s) |  |
-| __`LoadYAMLFromFileAction`__<sup>2</sup> | Return loaded YAML file(s) |  |
-| __`LoadPickleFromFileAction`__<sup>2</sup> | Return unpickled file(s) |  |
+| __`GetInputAction`__<sup>†</sup> | Get user input and save to `self.dest`  | Message(s) e.g. `["Favorite color"]` |
+| __`GetSecretInputAction`__<sup>†</sup> | Get user input without displaying characters and save to the `self.dest`  | Message(s) e.g. `["Enter your Password"]` |
+| __`LoadJSONFromFileAction`__<sup>†</sup> | Return loaded JSON file(s) |  |
+| __`LoadYAMLFromFileAction`__<sup>†</sup> | Return loaded YAML file(s) |  |
+| __`LoadPickleFromFileAction`__<sup>†</sup> | Return unpickled file(s) |  |
 
 
-<strong><sup>1</sup></strong> Actions that can make changes to disk  
-<strong><sup>2</sup></strong> Actions that can make changes to `self.dest`
+<strong><sup>*</sup></strong> Actions that can make changes to disk  
+<strong><sup>†</sup></strong> Actions that can make changes to `self.dest`
 
 
 ## Development
