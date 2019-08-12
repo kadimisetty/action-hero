@@ -1,6 +1,6 @@
 from action_hero.utils import PipelineAction, DebugAction
-from action_hero.email import EmailIsValidAction
 from action_hero.net import (
+    EmailIsValidAction,
     IPIsValidIPAddressAction,
     IPIsValidIPv4AddressAction,
     IPIsValidIPv6AddressAction,
@@ -66,8 +66,8 @@ __all__ = [
     "PipelineAction",
     "DebugAction"
     # email
-    "EmailIsValidAction"
     # net
+    "EmailIsValidAction"
     "IPIsValidIPAddressAction",
     "IPIsValidIPv4AddressAction",
     "IPIsValidIPv6AddressAction",

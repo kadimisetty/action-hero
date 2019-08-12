@@ -1,14 +1,29 @@
 import ipaddress
+import re
 
 import requests
 
 __all__ = [
     "is_reachable_url",
+    "is_valid_email",
     "is_valid_ip_address",
     "is_valid_ipv4_address",
     "is_valid_ipv6_address",
     "status_code_from_response_to_request_url",
 ]
+
+
+def is_valid_email(email):
+    """Return True if email is valid
+
+    There is no perfect regex match for email.
+    Using the email regex pattern from http://emailregex.com
+
+    Args:
+        email (str): The email address to check validity for
+    """
+    pattern = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+    return bool(pattern.match(email))
 
 
 def is_valid_ipv4_address(ip):

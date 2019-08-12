@@ -868,7 +868,7 @@ class LoadSerializedFile(BaseAction):
         # Valid formats
         else:
             # 1. Load yaml
-            if self.format is "yml":
+            if self.format == "yml":
                 # When values is a list
                 if isinstance(values, list):
                     values = [
@@ -882,7 +882,7 @@ class LoadSerializedFile(BaseAction):
                     values = value
 
             # 2. Load json
-            if self.format is "json":
+            if self.format == "json":
                 # When values is a list
                 if isinstance(values, list):
                     values = [

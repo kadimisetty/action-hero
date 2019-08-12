@@ -1,16 +1,17 @@
 from action_hero.utils import CheckAction, CheckPresentInValuesAction
 
 from action_hero.net_utils import (
-    status_code_from_response_to_request_url,
+    is_reachable_url,
     is_valid_ip_address,
     is_valid_ipv4_address,
     is_valid_ipv6_address,
-    is_reachable_url,
+    status_code_from_response_to_request_url,
+    is_valid_email,
 )
 
 
 __all__ = [
-    "IPIsValidIPAddressAction",
+    "EmailIsValidAction",
     "IPIsValidIPAddressAction",
     "IPIsValidIPv4AddressAction",
     "IPIsValidIPv6AddressAction",
@@ -18,6 +19,13 @@ __all__ = [
     "URLIsReachableAction",
     "URLWithHTTPResponseStatusCodeAction",
 ]
+
+
+class EmailIsValidAction(CheckAction):
+    """Check if email address is valid"""
+
+    func = is_valid_email
+    error_message = "Invalid email address(es)"
 
 
 class IPIsValidIPv4AddressAction(CheckAction):
