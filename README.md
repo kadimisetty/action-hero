@@ -315,10 +315,10 @@ multiple arguments and provides relevant error messages.
 | __`NotifyAndContinueAction`__ | Print provided notification message(s) | Message(s) e.g. `["This command will be deprecated in the next version."]` |
 | __`NotifyAndExitAction`__ | Print provided notification message(s) and Exit | Message(s) e.g. `["This command has been deprecated", "Try --new-command"]` |
 | __`ConfirmAction`__ | Print provided message and proceed with user confirmation _yes or no_. | Message(s) e.g. `["Proceed to Installation?"]` |
-| __`GetInputAction`__ | Get user input and save to the namespace  | Message(s) e.g. `["Favorite color"]` |
-| __`GetSecretInputAction`__ | Get user input without displaying characters and save to the namespace  | Message(s) e.g. `["Enter your Password"]` |
-| __`LoadJSONFromFile`__ | Return loaded JSON file(s) |  |
-| __`LoadYAMLFromFile`__ | Return loaded YAML file(s) |  |
+| __`GetInputAction`__<sup>2</sup> | Get user input and save to the namespace  | Message(s) e.g. `["Favorite color"]` |
+| __`GetSecretInputAction`__<sup>2</sup> | Get user input without displaying characters and save to the namespace  | Message(s) e.g. `["Enter your Password"]` |
+| __`LoadJSONFromFile`__<sup>2</sup> | Return loaded JSON file(s) |  |
+| __`LoadYAMLFromFile`__<sup>2</sup> | Return loaded YAML file(s) |  |
 
 
 <strong><sup>1</sup></strong> Actions that can make changes to disk  
