@@ -111,7 +111,7 @@ line_counter.py: error: argument --file: File is not readable
 ## Help and FAQ
 > [Introduction](#introduction) · [Quick Usage](#quick-usage) · __Help & FAQ__ · [Catalog](#catalog) · [Development](#development)
 
-### Accepting `action_values`
+### 1. Accepting `action_values`
 There are times your action requires an additional value. For instance, when your argument accepts only filenames with `md` or `markdown` extensions. You can use the `FileHasExtension` action for this and pass in the extensions to check for via `action_values`, like so — 
 
 ```python
@@ -128,7 +128,7 @@ list of strings. e.g.
 `action_values = ["md", "markdown"]`.
 
 
-### Pipelining multiple actions
+### 2. Pipelining multiple actions
 
 The `PipelineAction` allows you to run multiple actions as a pipeline. Pass in
 your pipeline of actions as a list to `action_values`. If one of the actions
@@ -174,7 +174,7 @@ parser.add_argument(
 ]
 ```
 
-### Exceptions in this module
+### 3. Exceptions in this module
 You'll come across two different exceptions in `action_hero`.
 
 1. __`ValueError`__: These are intended for you, the CLI developer. You'd want
@@ -185,7 +185,7 @@ You'll come across two different exceptions in `action_hero`.
    they might use the messages as hints to provide corrent command line
    options.
 
-### Not capturing user argument exceptions
+### 4. Not capturing user argument exceptions
 `argparse.ArgumentParser` has a slightly unconventional approach to handling
 `argparse.ArgumentError`s. Upon encountering one, it prints argument usage
 information, error and exits. I mention this, so you don't setup a `try/except`
@@ -198,9 +198,9 @@ causes system exit as well. More information can be found in [PEP
 expected behavior, I recommend you allow exception and let it display usage
 information and exit.
 
-### On arguments accepting multiple values
+### 5. Arguments accepting multiple values
 Just like any other `argparse.Action` each `action_hero.Action` handles
-multiple arguments and provides relevant error messages.
+multiple values and provides relevant error messages.
 
 ### FAQ
 <dl>
