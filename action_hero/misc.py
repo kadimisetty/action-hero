@@ -2,6 +2,7 @@ from action_hero.utils import (
     CheckPresentInValuesAction,
     DisplayMessageAndExitAction,
     DisplayMessageAndGetInputAction,
+    LoadSerializedFile,
 )
 
 
@@ -12,6 +13,8 @@ __all__ = [
     "GetSecretInputAction",
     "NotifyAndContinueAction",
     "NotifyAndExitAction",
+    "LoadYAMLFromFile",
+    "LoadJSONFromFile",
 ]
 
 
@@ -53,3 +56,15 @@ class GetSecretInputAction(DisplayMessageAndGetInputAction):
     """Get input and save to `self.dest` while hiding characters from screen"""
 
     hide_input_on_screen = True
+
+
+class LoadYAMLFromFile(LoadSerializedFile):
+    """Return loaded contents of a YAML file as a dict"""
+
+    format = "yml"
+
+
+class LoadJSONFromFile(LoadSerializedFile):
+    """Return loaded contents of a JSON file as a dict"""
+
+    format = "json"

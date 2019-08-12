@@ -54,6 +54,8 @@ from action_hero.misc import (
     ConfirmAction,
     GetInputAction,
     GetSecretInputAction,
+    LoadJSONFromFile,
+    LoadYAMLFromFile,
     NotifyAndContinueAction,
     NotifyAndExitAction,
 )
@@ -115,8 +117,10 @@ __all__ = [
     # misc
     "ChoicesAction",
     "ConfirmAction",
-    "NotifyAndContinueAction",
-    "NotifyAndExitAction",
     "GetInputAction",
     "GetSecretInputAction",
+    "LoadJSONFromFile",
+    "LoadYAMLFromFile",
+    "NotifyAndContinueAction",
+    "NotifyAndExitAction",
 ]

@@ -5,6 +5,14 @@ import getpass
 import io
 import sys
 import unittest
+import json
+import yaml
+
+try:
+    from yaml import CLoader as Loader
+except ImportError:
+    from yaml import Loader
+
 
 import requests
 
@@ -16,6 +24,7 @@ __all__ = [
     "DebugAction",
     "DisplayMessageAndExitAction",
     "DisplayMessageAndGetInputAction",
+    "LoadSerializedFile",
     "MapAction",
     "MapAndReplaceAction",
     "PipelineAction",
@@ -732,25 +741,15 @@ class DebugAction(BaseAction):
 
         # func
         if getattr(self, "func", None):
-            print(
-                "│ self.func(function): {}".format(self.func.__name__)
-            )
+            print("│ self.func(function): {}".format(self.func.__name__))
 
         # action_values
         if getattr(self, "action_values", None):
-            print(
-                "│ self.action_values(list): {}".format(
-                    self.action_values
-                )
-            )
+            print("│ self.action_values(list): {}".format(self.action_values))
 
         # error_message
         if getattr(self, "error_message", None):
-            print(
-                "│ self.error_message(str): {}".format(
-                    self.error_message
-                )
-            )
+            print("│ self.error_message(str): {}".format(self.error_message))
 
         # values type and values
         if isinstance(values, list):
@@ -781,3 +780,121 @@ class DebugAction(BaseAction):
 
         # END
         print("")
+
+
+class LoadSerializedFile(BaseAction):
+    """Load yaml/json file into a dict
+
+    Args:
+        format(str): yaml/json the format to load file as
+
+    """
+
+    format = None
+
+    def load_json_from_file(self, file):
+        """Return loaded json file as a dict
+
+        Args:
+            file(str/path): Filename to load json from
+
+        Returns:
+            (dict): contents of json file as a dict
+
+        Raises:
+            argparse.ArgmentError that captures json.JSONDecodeError: When the
+                loaded json cannot be decoded
+
+        """
+        try:
+            with open(file, "r") as f:
+                return json.load(f)
+
+        # except json.decoder.JSONDecodeError:
+        except json.JSONDecodeError as e:
+            raise argparse.ArgumentError(
+                self, "JSONDecodeError in file {}: {}".format(file, e)
+            )
+
+    def load_yaml_from_file(self, file):
+        """Return loaded yaml file as a dict
+
+        Args:
+            file(str/path): Filename to load yaml from
+
+        Returns:
+            (list/dict): contents of yaml file as a dict
+
+        Raises:
+            argparse.ArgmentError that captures yaml.YAMLError: When the
+                yaml cannot be loaded
+
+        """
+        try:
+            with open(file) as f:
+                return yaml.load(f, Loader=Loader)
+
+        except yaml.YAMLError as e:
+            if hasattr(e, "problem_mark"):
+                # Report point of problem
+                mark = e.problem_mark
+                raise argparse.ArgumentError(
+                    "Error position: (%s:%s)"
+                    % (mark.line + 1, mark.column + 1)
+                )
+            else:
+                raise argparse.ArgumentError(
+                    "Error in configuration file: {}".format(e)
+                )
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        # Ensure self.format is specified and either json/yaml
+        supported_formats = ["json", "yml"]
+        if not self.format:
+            raise ValueError("Required file format not specified")
+
+        elif self.format not in supported_formats:
+            raise ValueError(
+                "Unsupported file format: {}. Supported format(s): {}".format(
+                    self.format,
+                    ", ".join(
+                        [
+                            supported_format
+                            for supported_format in supported_formats
+                        ]
+                    ),
+                )
+            )
+
+        # Valid formats
+        else:
+            # 1. Load yaml
+            if self.format is "yml":
+                # When values is a list
+                if isinstance(values, list):
+                    values = [
+                        self.load_yaml_from_file(value) for value in values
+                    ]
+
+                # When values is a str
+                else:
+                    value = values
+                    value = self.load_yaml_from_file(value)
+                    values = value
+
+            # 2. Load json
+            if self.format is "json":
+                # When values is a list
+                if isinstance(values, list):
+                    values = [
+                        self.load_json_from_file(value) for value in values
+                    ]
+
+                # When values is a str
+                else:
+                    value = values
+                    value = self.load_json_from_file(value)
+                    values = value
+
+            # Save to self.dest
+            setattr(namespace, self.dest, values)
