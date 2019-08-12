@@ -271,7 +271,7 @@ multiple values and provides relevant error messages.
 | __`PathIsReadableAction`__ | Check if path is readable | |
 | __`PathIsValidAction`__ | Check if path is valid | |
 | __`PathIsWritableAction`__ | Check if path is writable | |
-| __`ResolvePathAction`__<sup>2</sup2> | Resolves path to canonical path removing symbolic links if present | |
+| __`ResolvePathAction`__<sup>†</sup> | Resolves path to canonical path removing symbolic links if present | |
 
 
 3. __Net & Email__ related actions:
