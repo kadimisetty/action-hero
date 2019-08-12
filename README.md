@@ -274,7 +274,7 @@ multiple arguments and provides relevant error messages.
 | __`ResolvePathAction`__<sup>2</sup2> | Resolves path to canonical path removing symbolic links if present | |
 
 
-3. __Network__ related actions:
+3. __Net & Email__ related actions:
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
@@ -284,6 +284,7 @@ multiple arguments and provides relevant error messages.
 | __`URLIsNotReachableAction`__ | Check if URL is not reachable | |
 | __`URLIsReachableAction`__ | Check if URL is reachable | |
 | __`URLWithHTTPResponseStatusCodeAction`__ | Check if upplied URL responds with expected HTTP response status code | [Status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) to check against. e.g. `["200", "201", "202", "204"]`  |
+| __`EmailIsValidAction`__ | Checks if email address is valid | |
 
 
 4. __Type__ related actions:
@@ -295,19 +296,14 @@ multiple arguments and provides relevant error messages.
 | __`IsConvertibleToUUIDAction`__ | Checks if value is convertible to UUID | |
 | __`IsFalsyAction`__ | Checks if value is falsy | |
 | __`IsTruthyAction`__ | Checks if value is truthy | |
+ --- | --- | --- |
 
-5. __Email__ related actions:
-
-| Action | Description | `action_values` |
-| --- | --- | --- |
-| __`EmailIsValidAction`__ | Checks if email address is valid | |
-
-6. __Range__ related actions:
+5. __Range__ related actions:
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
 
-7. __Miscellaneous__ actions:
+6. __Miscellaneous__ actions:
 
 | Action | Description | `action_values` |
 | --- | --- | --- |
