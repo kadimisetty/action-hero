@@ -3,9 +3,10 @@ import contextlib
 import functools
 import getpass
 import io
+import json
+import pickle
 import sys
 import unittest
-import json
 import yaml
 
 try:
@@ -846,54 +847,71 @@ class LoadSerializedFile(BaseAction):
                     "Error in configuration file: {}".format(e)
                 )
 
+    def load_pickle_from_file(self, file):
+        """Return loaded pickle file
+
+        Args:
+            file(str/path): Filename to load pickled data from
+
+        Returns:
+            (list/dict): contents of pickle file
+
+        Raises:
+            argparse.ArgmentError that captures yaml.YAMLError: When the
+                yaml cannot be loaded
+
+        """
+        try:
+            with open(file, "rb") as f:
+                return pickle.load(f)
+
+        except pickle.UnpicklingError as e:
+            raise argparse.ArgumentError(self, e)
+
+        except (
+            AttributeError,
+            EOFError,
+            ImportError,
+            IndexError,
+            pickle.PickleError,
+        ) as e:
+            raise argparse.ArgumentError(self, "Unable to unpickle: {}", e)
+
     def __call__(self, parser, namespace, values, option_string=None):
-        # Ensure self.format is specified and either json/yaml
-        supported_formats = ["json", "yml"]
+        loader_for_format = {
+            "json": self.load_json_from_file,
+            "yaml": self.load_yaml_from_file,
+            "pickle": self.load_pickle_from_file,
+        }
+
+        # Ensure self.format was supplied
         if not self.format:
             raise ValueError("Required file format not specified")
 
-        elif self.format not in supported_formats:
+        # Ensure there is a loader present for self.format
+        elif self.format not in loader_for_format:
             raise ValueError(
                 "Unsupported file format: {}. Supported format(s): {}".format(
                     self.format,
                     ", ".join(
-                        [
-                            supported_format
-                            for supported_format in supported_formats
-                        ]
+                        [format for format in list(loader_for_format.keys())]
                     ),
                 )
             )
 
-        # Valid formats
+        # Run loader and save to self.dest
         else:
-            # 1. Load yaml
-            if self.format == "yml":
-                # When values is a list
-                if isinstance(values, list):
-                    values = [
-                        self.load_yaml_from_file(value) for value in values
-                    ]
+            # When values is a list
+            if isinstance(values, list):
+                values = [
+                    loader_for_format[self.format](value) for value in values
+                ]
 
-                # When values is a str
-                else:
-                    value = values
-                    value = self.load_yaml_from_file(value)
-                    values = value
-
-            # 2. Load json
-            if self.format == "json":
-                # When values is a list
-                if isinstance(values, list):
-                    values = [
-                        self.load_json_from_file(value) for value in values
-                    ]
-
-                # When values is a str
-                else:
-                    value = values
-                    value = self.load_json_from_file(value)
-                    values = value
+            # When values is a str
+            else:
+                value = values
+                value = loader_for_format[self.format](value)
+                values = value
 
             # Save to self.dest
             setattr(namespace, self.dest, values)

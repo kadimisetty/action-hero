@@ -11,10 +11,11 @@ __all__ = [
     "ConfirmAction",
     "GetInputAction",
     "GetSecretInputAction",
+    "LoadJSONFromFileAction",
+    "LoadPickleFromFileAction",
+    "LoadYAMLFromFileAction",
     "NotifyAndContinueAction",
     "NotifyAndExitAction",
-    "LoadYAMLFromFileAction",
-    "LoadJSONFromFileAction",
 ]
 
 
@@ -61,10 +62,16 @@ class GetSecretInputAction(DisplayMessageAndGetInputAction):
 class LoadYAMLFromFileAction(LoadSerializedFile):
     """Return loaded contents of a YAML file"""
 
-    format = "yml"
+    format = "yaml"
 
 
 class LoadJSONFromFileAction(LoadSerializedFile):
     """Return loaded contents of a JSON file"""
 
     format = "json"
+
+
+class LoadPickleFromFileAction(LoadSerializedFile):
+    """Return loaded contents of a JSON file"""
+
+    format = "pickle"
