@@ -314,6 +314,7 @@ multiple values and provides relevant error messages.
 | __`GetSecretInputAction`__<sup>2</sup> | Get user input without displaying characters and save to the `self.dest`  | Message(s) e.g. `["Enter your Password"]` |
 | __`LoadJSONFromFileAction`__<sup>2</sup> | Return loaded JSON file(s) |  |
 | __`LoadYAMLFromFileAction`__<sup>2</sup> | Return loaded YAML file(s) |  |
+| __`LoadPickleFromFileAction`__<sup>2</sup> | Return unpickled file(s) |  |
 
 
 <strong><sup>1</sup></strong> Actions that can make changes to disk  
