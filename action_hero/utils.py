@@ -810,7 +810,6 @@ class LoadSerializedFile(BaseAction):
             with open(file, "r") as f:
                 return json.load(f)
 
-        # except json.decoder.JSONDecodeError:
         except json.JSONDecodeError as e:
             raise argparse.ArgumentError(
                 self, "JSONDecodeError in file {}: {}".format(file, e)
