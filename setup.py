@@ -7,7 +7,7 @@ URL = "https://github.com/kadimisetty/action-hero"
 LICENSE = "MIT"
 PYTHON_REQUIRES = ">=3.5.0"
 README_FILENAME = "README.md"
-INSTALL_REQUIRES = ["requests"]
+INSTALL_REQUIRES = ["requests", "pyyaml"]
 CLASSIFIERS = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
