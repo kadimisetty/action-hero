@@ -13,8 +13,8 @@ __all__ = [
     "GetSecretInputAction",
     "NotifyAndContinueAction",
     "NotifyAndExitAction",
-    "LoadYAMLFromFile",
-    "LoadJSONFromFile",
+    "LoadYAMLFromFileAction",
+    "LoadJSONFromFileAction",
 ]
 
 
@@ -58,13 +58,13 @@ class GetSecretInputAction(DisplayMessageAndGetInputAction):
     hide_input_on_screen = True
 
 
-class LoadYAMLFromFile(LoadSerializedFile):
+class LoadYAMLFromFileAction(LoadSerializedFile):
     """Return loaded contents of a YAML file"""
 
     format = "yml"
 
 
-class LoadJSONFromFile(LoadSerializedFile):
+class LoadJSONFromFileAction(LoadSerializedFile):
     """Return loaded contents of a JSON file"""
 
     format = "json"

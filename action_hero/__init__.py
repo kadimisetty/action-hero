@@ -54,8 +54,8 @@ from action_hero.misc import (
     ConfirmAction,
     GetInputAction,
     GetSecretInputAction,
-    LoadJSONFromFile,
-    LoadYAMLFromFile,
+    LoadJSONFromFileAction,
+    LoadYAMLFromFileAction,
     NotifyAndContinueAction,
     NotifyAndExitAction,
 )
@@ -67,8 +67,7 @@ __all__ = [
     "DebugAction"
     # email
     # net
-    "EmailIsValidAction"
-    "IPIsValidIPAddressAction",
+    "EmailIsValidAction" "IPIsValidIPAddressAction",
     "IPIsValidIPv4AddressAction",
     "IPIsValidIPv6AddressAction",
     "URLIsNotReachableAction",
@@ -119,8 +118,8 @@ __all__ = [
     "ConfirmAction",
     "GetInputAction",
     "GetSecretInputAction",
-    "LoadJSONFromFile",
-    "LoadYAMLFromFile",
+    "LoadJSONFromFileAction",
+    "LoadYAMLFromFileAction",
     "NotifyAndContinueAction",
     "NotifyAndExitAction",
 ]
