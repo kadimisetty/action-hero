@@ -315,6 +315,9 @@ multiple values and provides relevant error messages.
 | __`LoadJSONFromFileAction`__<sup>†</sup> | Return loaded JSON file(s) |  |
 | __`LoadYAMLFromFileAction`__<sup>†</sup> | Return loaded YAML file(s) |  |
 | __`LoadPickleFromFileAction`__<sup>†</sup> | Return unpickled file(s) |  |
+| __`CollectIntoListAction`__<sup>†</sup> | Collect values into a list |  |
+| __`CollectIntoTupleAction`__<sup>†</sup> | Collect values into a tuple |  |
+| __`CollectIntoDictAction`__<sup>†</sup> | Collect values into a dict | Delimiter used to split value(s) into key:value pair(s) e.g. `":"` as type: `str`|
 
 
 <strong><sup>*</sup></strong> Actions that can make changes to disk  
