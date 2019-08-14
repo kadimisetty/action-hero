@@ -9,6 +9,9 @@ from action_hero.utils import (
 
 __all__ = [
     "ChoicesAction",
+    "CollectIntoDictAction",
+    "CollectIntoListAction",
+    "CollectIntoTupleAction",
     "ConfirmAction",
     "GetInputAction",
     "GetSecretInputAction",
@@ -81,16 +84,17 @@ class LoadPickleFromFileAction(LoadSerializedFileAction):
 class CollectIntoListAction(CollectIntoContainerAction):
     """Collect into a list and return it"""
 
-    container = list
+    collector = list
 
 
 class CollectIntoTupleAction(CollectIntoContainerAction):
     """Collect into a tuple and return it"""
 
-    container = tuple
+    collector = tuple
 
 
 class CollectIntoDictAction(CollectIntoContainerAction):
     """Collect into dict and return it"""
 
-    container = dict
+    collector = dict
+    delimiter = ":"

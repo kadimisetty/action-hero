@@ -22,6 +22,7 @@ __all__ = [
     "ActionHeroAction",
     "CheckAction",
     "CheckPresentInValuesAction",
+    "CollectIntoContainerAction",
     "DebugAction",
     "DisplayMessageAndExitAction",
     "DisplayMessageAndGetInputAction",
@@ -884,11 +885,11 @@ class LoadSerializedFileAction(BaseAction):
             "pickle": self.load_pickle_from_file,
         }
 
-        # Ensure self.format was supplied
+        # Verify self.format was supplied
         if not self.format:
             raise ValueError("Required file format not specified")
 
-        # Ensure there is a loader present for self.format
+        # Verify there is a loader present for self.format
         elif self.format not in loader_for_format:
             raise ValueError(
                 "Unsupported file format: {}. Supported format(s): {}".format(
@@ -915,3 +916,76 @@ class LoadSerializedFileAction(BaseAction):
 
             # Save to self.dest
             setattr(namespace, self.dest, values)
+
+
+class CollectIntoContainerAction(BaseAction):
+    """Collect into container of specified type and return it
+
+    Args:
+        collector(str): the container(list/tuple/dict) to collect into
+
+    """
+
+    collector = None
+    delimiters = None
+
+    @staticmethod
+    def collect_into_list(values):
+        """Return collected values into a list"""
+        return list(values)
+
+    @staticmethod
+    def collect_into_tuple(values):
+        """Return collected values into a tuple"""
+        return tuple(values)
+
+    def collect_into_dict(self, values):
+        """Return collected values into a dict"""
+        # 1. Verify delimiter was supplied and is of type str
+        if not getattr(self, "delimiter", None) or not isinstance(
+            self.delimiter, str
+        ):
+            raise argparse.ArgumentError(
+                self, "Supplied delimiterof type str is required"
+            )
+
+        # 2. Verify delimiter is present in all values
+        failures = [value for value in values if self.delimiter not in value]
+        if failures:
+            raise argparse.ArgumentError(
+                self,
+                'Delimiter "{}" is not present in: {}'.format(
+                    self.delimiter, failures
+                ),
+            )
+
+        # 3. Return a dict with collected key, value pairs
+        return {
+            key: value
+            for key, value in [
+                tuple(value.split(self.delimiter)) for value in values
+            ]
+        }
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        collectors = {
+            list: self.collect_into_list,
+            tuple: self.collect_into_tuple,
+            dict: self.collect_into_dict,
+        }
+
+        # 1. Verify supplied collector is supported
+        if self.collector not in collectors:
+            "Unsupported container: {}. Supported container(s): {}".format(
+                self.collector, ", ".join(str(collectors.keys()))
+            )
+
+        # 2. Ensure values is a list
+        if not isinstance(values, list):
+            values = list(values)
+
+        # 3. Collect into container
+        values = collectors[self.collector](values)
+
+        # 4. Save to self.dest
+        setattr(namespace, self.dest, values)
