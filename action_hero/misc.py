@@ -1,5 +1,6 @@
 from action_hero.utils import (
     CheckPresentInValuesAction,
+    CollectIntoContainerAction,
     DisplayMessageAndExitAction,
     DisplayMessageAndGetInputAction,
     LoadSerializedFileAction,
@@ -75,3 +76,21 @@ class LoadPickleFromFileAction(LoadSerializedFileAction):
     """Return loaded contents of a JSON file"""
 
     format = "pickle"
+
+
+class CollectIntoListAction(CollectIntoContainerAction):
+    """Collect into a list and return it"""
+
+    container = list
+
+
+class CollectIntoTupleAction(CollectIntoContainerAction):
+    """Collect into a tuple and return it"""
+
+    container = tuple
+
+
+class CollectIntoDictAction(CollectIntoContainerAction):
+    """Collect into dict and return it"""
+
+    container = dict
