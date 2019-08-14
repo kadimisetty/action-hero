@@ -332,6 +332,4 @@ multiple values and provides relevant error messages.
 - __License__: _The MIT License_
 - __Image Attributions__: _Karate by Alex Auda Samora from the Noun Project_
 
--
-
 ✨⭐️ Thank you for using `action_hero` — @kadimisetty ⭐️✨
