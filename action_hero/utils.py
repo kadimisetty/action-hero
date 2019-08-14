@@ -972,31 +972,47 @@ class CollectIntoContainerAction(BaseAction):
         # - Container type is str to accept single delimiter
         _raise_exception_if_invalid_action_values(
             action_values=self.action_values,
-            container_type=str,
+            container_type=list,
             empty_allowed=False,
             different_item_types_allowed=False,
             preferred_exception=ValueError,
         )
         self.action_values
 
-        # Get delimiter from action_values
-        delimiter = self.action_values[0]
+        # Get delimiters from action_values
+        delimiters = self.action_values
 
         # 2. Verify delimiter is present in all values
-        failures = [value for value in values if delimiter not in value]
+        failures = [
+            value
+            for value in values
+            if not any([delimiter in value for delimiter in delimiters])
+        ]
         if failures:
             raise argparse.ArgumentError(
                 self,
-                'Delimiter "{}" is not present in: {}'.format(
-                    delimiter, ", ".join(failures)
+                'Delimiter(s) "{}" not present in: {}'.format(
+                    ", ".join(delimiters), ", ".join(failures)
                 ),
             )
 
         # 3. Return a dict with collected kv(key, value) pairs
-        return {
-            k: v
-            for (k, v) in [tuple(value.split(delimiter)) for value in values]
-        }
+        d = {}
+        for value in values:
+            # Search for first found delimiter to split on
+            for delimiter in delimiters:
+                # At this point, it is verified there is atleast one delimiter
+                # present, so loop until it is found
+                # Extract key, value pairs by splitting on first present
+                # delimiter
+                if delimiter in value:
+                    # Save (key, value) pair into dict to return
+                    (key, value) = tuple(value.split(delimiter))
+                    d[key] = value
+
+                    # Exit for loop if first delimiter is found
+                    break
+        return d
 
     def __call__(self, parser, namespace, values, option_string=None):
         collectors = {
