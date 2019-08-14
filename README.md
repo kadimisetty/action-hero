@@ -315,7 +315,7 @@ multiple values and provides relevant error messages.
 | __`LoadJSONFromFileAction`__<sup>†</sup> | Return loaded JSON file(s) |  |
 | __`LoadYAMLFromFileAction`__<sup>†</sup> | Return loaded YAML file(s) |  |
 | __`LoadPickleFromFileAction`__<sup>†</sup> | Return unpickled file(s) |  |
-| __`CollectIntoDictAction`__<sup>†</sup> | Collect values into a dict | Delimiter(s) to split value(s) into key:value pair(s) e.g. `[":", "="]` (If multiple delimiters exist in value, the first will be used to split) |
+| __`CollectIntoDictAction`__<sup>†</sup> | Collect values into a dict | Delimiter(s) to split value(s) into key:value pair(s) e.g. `[":", "="]` (If multiple delimiters exist inside a value, only the first match is used) |
 | __`CollectIntoListAction`__<sup>†</sup> | Collect values into a list |  |
 | __`CollectIntoTupleAction`__<sup>†</sup> | Collect values into a tuple |  |
 
@@ -332,13 +332,6 @@ multiple values and provides relevant error messages.
 - __License__: _The MIT License_
 - __Image Attributions__: _Karate by Alex Auda Samora from the Noun Project_
 
-### Roadmap
-1. Configurable exception type. e.g. ValueError/ArgumentError etc.
-2. More Actions.
-3. Reference with Sphinx docs + github pages on a seperate branch.
-4. More examples.
-5. Proper repo things.
+-
 
-> If you like action hero please give it a quick star ⭐️  
-> It helps with visibility and will be much appreciated!  
-> Thank you for using `action_hero`
+✨⭐️ Thank you for using `action_hero` — @kadimisetty ⭐️✨
