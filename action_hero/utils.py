@@ -927,7 +927,7 @@ class CollectIntoContainerAction(BaseAction):
     """
 
     collector = None
-    delimiters = None
+    delimiter = None
 
     @staticmethod
     def collect_into_list(values):
@@ -962,7 +962,7 @@ class CollectIntoContainerAction(BaseAction):
         # 3. Return a dict with collected key, value pairs
         return {
             key: value
-            for key, value in [
+            for (key, value) in [
                 tuple(value.split(self.delimiter)) for value in values
             ]
         }
