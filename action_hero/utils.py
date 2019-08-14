@@ -531,6 +531,7 @@ def _raise_exception_if_invalid_action_values(
     action_values=None,
     container_type=list,
     empty_allowed=False,
+    list_length=None,
     different_item_types_allowed=False,
     preferred_exception=ValueError,
 ):
@@ -557,7 +558,19 @@ def _raise_exception_if_invalid_action_values(
         # Raise exception if action_values is not of container type
         if not isinstance(action_values, container_type):
             raise preferred_exception(
-                "Required attribute action_values has to be of type list"
+                "action_values has to be of type: {}".format(container_type)
+            )
+
+        # When action_values is a list
+        # - Verify list_length is as expected
+        # - Length of list is same as list_length
+        if (
+            isinstance(action_values, list)
+            and list_length
+            and len(action_values) != list_length
+        ):
+            raise preferred_exception(
+                "action_values has to be of length: {}".format(list_length)
             )
 
         # Raise exception if action_values list is empty
@@ -926,8 +939,39 @@ class CollectIntoContainerAction(BaseAction):
 
     """
 
+    action_values = None
     collector = None
-    delimiter = None
+
+    def __init__(
+        self,
+        option_strings,
+        dest,
+        action_values=None,
+        nargs=None,
+        type=None,
+        help=None,
+        metavar=None,
+    ):
+        # Raise exception if action_values are invalid, else accept
+        _raise_exception_if_invalid_action_values(
+            action_values=action_values,
+            container_type=list,
+            empty_allowed=False,
+            # List length is 1 to accomodate only one action_value - delimiter
+            list_length=1,
+            different_item_types_allowed=False,
+            preferred_exception=ValueError,
+        )
+        self.action_values = action_values
+
+        super().__init__(
+            option_strings=option_strings,
+            dest=dest,
+            nargs=nargs,
+            type=type,
+            help=help,
+            metavar=metavar,
+        )
 
     @staticmethod
     def collect_into_list(values):
@@ -942,20 +986,23 @@ class CollectIntoContainerAction(BaseAction):
     def collect_into_dict(self, values):
         """Return collected values into a dict"""
         # 1. Verify delimiter was supplied and is of type str
+        # Get delimiter from action_values
+        delimiter = self.action_values[0]
+
         if not getattr(self, "delimiter", None) or not isinstance(
-            self.delimiter, str
+            delimiter, str
         ):
             raise argparse.ArgumentError(
                 self, "Supplied delimiterof type str is required"
             )
 
         # 2. Verify delimiter is present in all values
-        failures = [value for value in values if self.delimiter not in value]
+        failures = [value for value in values if delimiter not in value]
         if failures:
             raise argparse.ArgumentError(
                 self,
                 'Delimiter "{}" is not present in: {}'.format(
-                    self.delimiter, failures
+                    delimiter, failures
                 ),
             )
 

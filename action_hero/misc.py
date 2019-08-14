@@ -97,4 +97,3 @@ class CollectIntoDictAction(CollectIntoContainerAction):
     """Collect into dict and return it"""
 
     collector = dict
-    delimiter = ":"
