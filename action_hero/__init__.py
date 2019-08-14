@@ -51,6 +51,9 @@ from action_hero.types import (
 )
 from action_hero.misc import (
     ChoicesAction,
+    CollectIntoDictAction,
+    CollectIntoListAction,
+    CollectIntoTupleAction,
     ConfirmAction,
     GetInputAction,
     GetSecretInputAction,
@@ -116,6 +119,9 @@ __all__ = [
     "IsTruthyAction",
     # misc
     "ChoicesAction",
+    "CollectIntoDictAction",
+    "CollectIntoListAction",
+    "CollectIntoTupleAction",
     "ConfirmAction",
     "GetInputAction",
     "GetSecretInputAction",
