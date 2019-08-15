@@ -1,7 +1,7 @@
 AUTHOR = "Sri Kadimisetty"
 AUTHOR_EMAIL = "s@sri.io"
 NAME = "action-hero"
-VERSION = "0.6.4"
+VERSION = "0.6.5"
 DESCRIPTION = "Argparse Actions that pack a punch!"
 URL = "https://github.com/kadimisetty/action-hero"
 LICENSE = "MIT"
