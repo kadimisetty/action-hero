@@ -68,10 +68,10 @@ from action_hero.misc import (
 __all__ = [
     # utils
     "PipelineAction",
-    "DebugAction"
-    # email
-    # net
-    "EmailIsValidAction" "IPIsValidIPAddressAction",
+    "DebugAction",
+    # net & email
+    "EmailIsValidAction",
+    "IPIsValidIPAddressAction",
     "IPIsValidIPv4AddressAction",
     "IPIsValidIPv6AddressAction",
     "URLIsNotReachableAction",
