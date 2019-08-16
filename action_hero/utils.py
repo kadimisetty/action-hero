@@ -118,7 +118,7 @@ class BaseAction(ActionHeroAction):
     error_message = None
 
     @classmethod
-    def run_user_func(cls, value):
+    def _run_user_func(cls, value):
         """Runs cls.func over value
 
         Used nside __call__
@@ -163,7 +163,7 @@ class CheckAction(BaseAction):
         # When values are a list of strings
         if isinstance(values, list):
             failures = [
-                value for value in values if not self.run_user_func(value)
+                value for value in values if not self._run_user_func(value)
             ]
 
             if failures:
@@ -175,7 +175,7 @@ class CheckAction(BaseAction):
         # When values is one string
         else:
             value = values
-            if not self.run_user_func(value):
+            if not self._run_user_func(value):
                 failure = value
                 raise argparse.ArgumentError(
                     self, "{}: {}".format(self.error_message, failure)
@@ -255,7 +255,7 @@ class CheckPresentInValuesAction(BaseAction):
             failures = [
                 value
                 for value in values
-                if self.run_user_func(chosen_type(value))
+                if self._run_user_func(chosen_type(value))
                 not in self.action_values
             ]
 
@@ -269,7 +269,7 @@ class CheckPresentInValuesAction(BaseAction):
         else:
             value = values
             if (
-                not self.run_user_func(chosen_type(value))
+                not self._run_user_func(chosen_type(value))
                 in self.action_values
             ):
                 failure = value
@@ -305,12 +305,12 @@ class MapAction(BaseAction):
     def __call__(self, parser, namespace, values, option_string=None):
         # When values are a list of strings
         if isinstance(values, list):
-            [self.run_user_func(value) for value in values]
+            [self._run_user_func(value) for value in values]
 
         # When values is one string
         else:
             value = values
-            self.run_user_func(value)
+            self._run_user_func(value)
 
         setattr(namespace, self.dest, values)
 
@@ -340,13 +340,13 @@ class MapAndReplaceAction(BaseAction):
     def __call__(self, parser, namespace, values, option_string=None):
         # When values are a list of strings
         if isinstance(values, list):
-            updated = [self.run_user_func(value) for value in values]
+            updated = [self._run_user_func(value) for value in values]
             values = updated
 
         # When values is one string
         else:
             value = values
-            updated = self.run_user_func(value)
+            updated = self._run_user_func(value)
             values = updated
 
         setattr(namespace, self.dest, values)
@@ -741,16 +741,16 @@ class DebugAction(BaseAction):
         print("│  DEBUG  │")
         print("├─────────┴─────────")
 
-        # 1. Get all attributes
-        # 2. Remove callables
-        # 3. Remove dunders
         attributes = [
             "{}: {}".format(attribute, getattr(self, attribute))
+            # Get all attributes from dir(self) i.e. self.__dict__
             for attribute in dir(self)
-            if not callable(attribute)
+            # Remove callables. Use getattr to check using self.attribute
+            if not callable(getattr(self, attribute))
+            # Remove dunders
             and not (attribute.startswith("__") and attribute.endswith("__"))
-            and not (attribute == "_get_args" or attribute == "_get_kwargs")
-            and not attribute == "run_user_func"
+            # Remove private attributes
+            and not (attribute.startswith("_"))
         ]
 
         [print("│ {}".format(attribute)) for attribute in attributes]
