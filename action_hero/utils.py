@@ -2,7 +2,6 @@ import argparse
 import contextlib
 import functools
 import getpass
-import inspect
 import io
 import json
 import pickle
@@ -756,13 +755,10 @@ class DebugAction(BaseAction):
 
         [print("│ {}".format(attribute)) for attribute in attributes]
 
-
         print("├───────────────────")
 
         # namespace
         print("│ {}".format(namespace))
-
-
 
         # values type and values
         if isinstance(values, list):
