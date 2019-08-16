@@ -2,6 +2,7 @@ import argparse
 import contextlib
 import functools
 import getpass
+import inspect
 import io
 import json
 import pickle
@@ -741,17 +742,27 @@ class DebugAction(BaseAction):
         print("│  DEBUG  │")
         print("├─────────┴─────────")
 
-        # func
-        if getattr(self, "func", None):
-            print("│ self.func(function): {}".format(self.func.__name__))
+        # 1. Get all attributes
+        # 2. Remove callables
+        # 3. Remove dunders
+        attributes = [
+            "{}: {}".format(attribute, getattr(self, attribute))
+            for attribute in dir(self)
+            if not callable(attribute)
+            and not (attribute.startswith("__") and attribute.endswith("__"))
+            and not (attribute == "_get_args" or attribute == "_get_kwargs")
+            and not attribute == "run_user_func"
+        ]
 
-        # action_values
-        if getattr(self, "action_values", None):
-            print("│ self.action_values(list): {}".format(self.action_values))
+        [print("│ {}".format(attribute)) for attribute in attributes]
 
-        # error_message
-        if getattr(self, "error_message", None):
-            print("│ self.error_message(str): {}".format(self.error_message))
+
+        print("├───────────────────")
+
+        # namespace
+        print("│ {}".format(namespace))
+
+
 
         # values type and values
         if isinstance(values, list):
@@ -762,26 +773,11 @@ class DebugAction(BaseAction):
             # values is a str
             print("│ values(str): {}".format(values))
 
-        # nargs
-        if getattr(self, "nargs", None):
-            print("│ self.nargs: {}".format(self.nargs))
-
-        # type
-        if getattr(self, "type", None):
-            print("│ self.type: {}".format(self.type))
-
-        # self.dest
-        print("│ self.dest({}): {}".format(type(self.dest), self.dest))
-
         # option_string
         if option_string:
             print("│ option_string: {}".format(option_string))
 
-        # namespace
-        print("│ namespace: {}".format(namespace))
-
-        # END
-        print("")
+        print("└───────────────────")
 
 
 class LoadSerializedFileAction(BaseAction):
