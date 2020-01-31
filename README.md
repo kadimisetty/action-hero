@@ -14,7 +14,7 @@
 __manage user arguments in command line applications using `argparse`__ 
 
 
-Index: __Introduction__ · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
+Index: [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
 ## Introduction
 
