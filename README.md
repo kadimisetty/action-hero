@@ -307,7 +307,7 @@ multiple values and provides relevant error messages.
 | __`ChoicesAction`__ | Argument can only have values from provided choice(s)  | Choices e.g. `["red", "blue", "green"]` |
 | __`NotifyAndContinueAction`__ | Print provided notification message(s) | Message(s) e.g. `["This command will be deprecated in the next version."]` |
 | __`NotifyAndExitAction`__ | Print provided notification message(s) and Exit | Message(s) e.g. `["This command has been deprecated", "Try --new-command"]` |
-| __`ConfirmAction`__ | Print provided message and proceed with user confirmation _yes or no_. | Message(s) e.g. `["Proceed to Installation?"]` |
+| __`ConfirmAction`__ | Print provided message and proceed with user confirmation _yes or no_. | Message(s) e.g. `["Proceed to Installation? (Y/n)"]` |
 | __`GetInputAction`__<sup>†</sup> | Get user input and save to `self.dest`  | Message(s) e.g. `["Favorite color"]` |
 | __`GetSecretInputAction`__<sup>†</sup> | Get user input without displaying characters and save to the `self.dest`  | Message(s) e.g. `["Enter your Password"]` |
 | __`LoadJSONFromFileAction`__<sup>†</sup> | Return loaded JSON file(s) |  |
