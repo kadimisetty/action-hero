@@ -14,8 +14,9 @@
 __manage user arguments in command line applications using `argparse`__ 
 
 
+Index: __Introduction__ · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
+
 ## Introduction
-> __Introduction__ · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
 <dl>
 
@@ -43,7 +44,6 @@ no? <a href="#catalog">Browse the catalog</a> for many such actions.</dd>
 
 
 ## Quick Usage
-> [Introduction](#introduction) · __Quick Usage__ · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
 __1. Installation__:
 
@@ -109,7 +109,6 @@ line_counter.py: error: argument --file: File is not readable
 **Note**: _Supported Python Versions >= 3.5_
 
 ## Help and FAQ
-> [Introduction](#introduction) · [Quick Usage](#quick-usage) · __Help & FAQ__ · [Catalog](#catalog) · [Development](#development)
 
 ### Accepting `action_values`
 There are times your action requires an additional value. For instance, when your argument accepts only filenames with `md` or `markdown` extensions. You can use the `FileHasExtension` action for this and pass in the extensions to check for via `action_values`, like so — 
@@ -225,7 +224,6 @@ multiple values and provides relevant error messages.
 
 
 ## Catalog
-> [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · __Catalog__ · [Development](#development)
 
 
 1. __Special__ actions:
@@ -325,7 +323,6 @@ multiple values and provides relevant error messages.
 
 
 ## Development
-> [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · __Development__
 
 ### Notes
 - __Formatting__-: _PEP8 only. Please format with black using `black_linelength=79`_
