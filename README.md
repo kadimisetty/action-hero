@@ -14,7 +14,7 @@
 __manage user arguments in command line applications using `argparse`__ 
 
 
-Index: [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
+[Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
 
 ## Introduction
 
@@ -329,4 +329,4 @@ multiple values and provides relevant error messages.
 - __License__: _The MIT License_
 - __Image Attributions__: _Karate by Alex Auda Samora from the Noun Project_
 
-✨⭐️ Thank you for using `action_hero` — @kadimisetty ⭐️✨
+Thank you for using `action_hero` — [@kadimisetty](https://github.com/kadimisetty) ⭐️✨
