@@ -31,7 +31,7 @@ command line applications.
 
 
 <dt><code>action_hero</code> 🔥</dt>
-<dd><code>action_hero</code> make <code>argparse</code> more capable by
+<dd><code>action_hero</code> makes <code>argparse</code> more capable by
 providing a large number of custom actions. For example, the
 <strong><code>FileIsWritableAction</code> automatically verifies that file
 path(s) accepted as arguments are writable, informing the user if they
@@ -70,22 +70,22 @@ from action_hero import FileIsReadableAction
 
 
 if __name__ == "__main__":
+
     # Create parser
     parser = argparse.ArgumentParser()
 
-    # Add user argument "file"
+    # Add user argument "--file" and assert that it will be readable
     parser.add_argument("--file", action=FileIsReadableAction)
 
     # Parse user arguments
     args = parser.parse_args()
 
     if args.file:
-        # Count lines in file
+        # Print number of lines in file
         with open(args.file) as f:
-            # print(f"{args.file} has {len(f.readlines())} lines")
             print("{} has {} lines".format(args.file, len(f.readlines())))
     else:
-        # Print usage when no arguments were supplied
+        # Print usage if no arguments were given
         parser.print_usage()
 ```
 
@@ -153,12 +153,12 @@ Another helpful feature, this action provides is the _order of error
 reporting_.  In the above example, if the supplied argument file did not have
 the markdown extensions, the error message would reflect that and exit.  After
 the user redoes the entry with a valid filename the next action in the pipeline
-applies `FileExistsAction` which check for existence.  If the file does not
+applies `FileExistsAction` which checks for existence.  If the file does not
 exist, an error message about file not existing will be shown and exits
 allowing the user to try again.
 
 This behavior can save you a lot of manual condition checks later on. For
-example, here's how to check for an existing, writable, non-empty, markdown
+example, here's how to check for an _existing, writable, non-empty_, markdown
 file —
 
 ```python
@@ -194,7 +194,7 @@ In order to maintain consistency with the rest of your `argparse` code,
 exceptions in `action_hero` are also of type `argparse.ArgumentError` and
 causes system exit as well. More information can be found in [PEP
 389](https://www.python.org/dev/peps/pep-0389/#id46). Since this is
-expected behavior, I recommend you allow exception and let it display usage
+expected behavior, I recommend you allow this exception and let it display usage
 information and exit.
 
 ### Arguments accepting multiple values
