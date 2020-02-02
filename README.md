@@ -112,12 +112,12 @@ line_counter.py: error: argument --file: File is not readable
 ## Help and FAQ
 
 ### Accepting `action_values`
-There are times your action requires an additional value. For instance, when your argument accepts only filenames with `md` or `markdown` extensions. You can use the `FileHasExtension` action for this and pass in the extensions to check for via `action_values`, like so — 
+There are times your action requires an additional value. For instance, when your argument accepts only filenames with `md` or `markdown` extensions. You can use the `FileHasExtensionAction` action for this and pass in the extensions to check for via `action_values`, like so —
 
 ```python
 parser.add_argument(
     "--file", 
-    action=FileHasExtension, 
+    action=FileHasExtensionAction,
     action_values=["md", "markdown"]
 )
 
@@ -133,7 +133,7 @@ list of strings. e.g.
 The `PipelineAction` allows you to run multiple actions as a pipeline. Pass in
 your pipeline of actions as a list to `action_values`. If one of the actions
 you're passing in has it's own `action_values`, put that one as a tuple, like
-such: `(FileHasExtension, ["md", "markdown"])`. Here's an example of
+such: `(FileHasExtensionAction, ["md", "markdown"])`. Here's an example of
 pipelining actions for `--file` 
 
 1. File has extensions `md` or `markdown`
@@ -144,7 +144,7 @@ parser.add_argument(
     "--file", 
     action=PipelineAction, 
     action_values=[
-        (FileHasExtension, ["md", "markdown"]),
+        (FileHasExtensionAction, ["md", "markdown"]),
         FileExistsAction
     ]
 )
@@ -170,7 +170,7 @@ parser.add_argument(
         FileExistsAction, 
         FileIsWritableAction,
         FileIsNotEmptyAction,
-        (FileHasExtension, ["md", "markdown"])
+        (FileHasExtensionAction, ["md", "markdown"])
 ]
 ```
 
@@ -260,7 +260,7 @@ multiple values and provides relevant error messages.
 | __`FileIsReadableAction`__ | Check if file is readable | |
 | __`FileIsValidAction`__ | Check file is valid | |
 | __`FileIsWritableAction`__ | Check if file is writable | |
-| __`FileHasExtension`__ | Check if file has specified extension | Extensions to check against. e.g. `["md", "markdown"]` |
+| __`FileHasExtensionAction`__ | Check if file has specified extension | Extensions to check against. e.g. `["md", "markdown"]` |
 | __`PathDoesNotExistsAction`__ | Check if path does not exist | |
 | __`PathExistsAction`__ | Check if path exists | |
 | __`PathIsExecutableAction`__ | Check if path is executable | |

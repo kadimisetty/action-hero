@@ -51,7 +51,7 @@ __all__ = [
     "FileIsReadableAction",
     "FileIsValidAction",
     "FileIsWritableAction",
-    "FileHasExtension",
+    "FileHasExtensionAction",
     "PathDoesNotExistsAction",
     "PathExistsAction",
     "PathIsExecutableAction",
@@ -323,7 +323,7 @@ class FileIsNotEmptyAction(CheckAction):
     error_message = "Empty file(s)"
 
 
-class FileHasExtension(CheckPresentInValuesAction):
+class FileHasExtensionAction(CheckPresentInValuesAction):
     """Check if file has specified extension"""
 
     func = get_extension

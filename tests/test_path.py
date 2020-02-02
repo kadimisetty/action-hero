@@ -24,7 +24,7 @@ from action_hero import (
     FileIsNotWritableAction,
     FileIsReadableAction,
     FileIsWritableAction,
-    FileHasExtension,
+    FileHasExtensionAction,
     PathDoesNotExistsAction,
     PathExistsAction,
     PathIsExecutableAction,
@@ -1487,25 +1487,25 @@ class TestFileIsNotEmptyAction(ActionHeroTestCase):
                     self.parser.parse_args(["--path", file1.name, file2.name])
 
 
-class TestFileHasExtension(ActionHeroTestCase):
+class TestFileHasExtensionAction(ActionHeroTestCase):
     def test_on_parser_with_extension(self):
         self.parser.add_argument(
-            "--filename", action=FileHasExtension, action_values=["txt"]
+            "--filename", action=FileHasExtensionAction, action_values=["txt"]
         )
 
     def test_on_parser_without_extension(self):
         with self.assertRaises(ValueError):
-            self.parser.add_argument("--filename", action=FileHasExtension)
+            self.parser.add_argument("--filename", action=FileHasExtensionAction)
 
     def test_on_filename_with_matching_extension(self):
         self.parser.add_argument(
-            "--filename", action=FileHasExtension, action_values=["txt"]
+            "--filename", action=FileHasExtensionAction, action_values=["txt"]
         )
         self.parser.parse_args(["--filename", "diary.txt"])
 
     def test_on_filename_with_nonmatching_extension(self):
         self.parser.add_argument(
-            "--filename", action=FileHasExtension, action_values=["txt"]
+            "--filename", action=FileHasExtensionAction, action_values=["txt"]
         )
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--filename", "diary.md"])
@@ -1514,7 +1514,7 @@ class TestFileHasExtension(ActionHeroTestCase):
         self.parser.add_argument(
             "--filename",
             nargs="+",
-            action=FileHasExtension,
+            action=FileHasExtensionAction,
             action_values=["txt"],
         )
         self.parser.parse_args(
@@ -1525,7 +1525,7 @@ class TestFileHasExtension(ActionHeroTestCase):
         self.parser.add_argument(
             "--filename",
             nargs="+",
-            action=FileHasExtension,
+            action=FileHasExtensionAction,
             action_values=["txt"],
         )
         with self.assertRaises(ValueError):
@@ -1537,7 +1537,7 @@ class TestFileHasExtension(ActionHeroTestCase):
         self.parser.add_argument(
             "--filename",
             nargs="+",
-            action=FileHasExtension,
+            action=FileHasExtensionAction,
             action_values=["txt"],
         )
         with self.assertRaises(ValueError):
@@ -1554,7 +1554,7 @@ class TestFileHasExtension(ActionHeroTestCase):
     def test_on_multiple_action_values(self):
         self.parser.add_argument(
             "--filename",
-            action=FileHasExtension,
+            action=FileHasExtensionAction,
             action_values=["md", "markdown"],
         )
         self.parser.parse_args(["--filename", "diary.md"])
@@ -1562,7 +1562,7 @@ class TestFileHasExtension(ActionHeroTestCase):
     def test_on_multiple_action_values_with_expected_filenames(self):
         self.parser.add_argument(
             "--filename",
-            action=FileHasExtension,
+            action=FileHasExtensionAction,
             action_values=["md", "markdown"],
         )
         with self.assertRaises(ValueError):
@@ -1573,7 +1573,7 @@ class TestFileHasExtension(ActionHeroTestCase):
     def test_on_multiple_action_values_with_unexpected_filenames(self):
         self.parser.add_argument(
             "--filename",
-            action=FileHasExtension,
+            action=FileHasExtensionAction,
             action_values=["md", "markdown"],
         )
         with self.assertRaises(ValueError):
@@ -1583,7 +1583,7 @@ class TestFileHasExtension(ActionHeroTestCase):
         self.parser.add_argument(
             "--filename",
             nargs="+",
-            action=FileHasExtension,
+            action=FileHasExtensionAction,
             action_values=["md", "markdown"],
         )
         with self.assertRaises(ValueError):
