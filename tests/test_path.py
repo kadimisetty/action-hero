@@ -1495,7 +1495,9 @@ class TestFileHasExtensionAction(ActionHeroTestCase):
 
     def test_on_parser_without_extension(self):
         with self.assertRaises(ValueError):
-            self.parser.add_argument("--filename", action=FileHasExtensionAction)
+            self.parser.add_argument(
+                "--filename", action=FileHasExtensionAction
+            )
 
     def test_on_filename_with_matching_extension(self):
         self.parser.add_argument(
