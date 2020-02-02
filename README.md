@@ -216,8 +216,8 @@ multiple values and provides relevant error messages.
 <dt>What type are the user argument exceptions?</dt>
 <dd><code>argparse.ArgumentError{"helpful error message"}</code>, just like any other <code>argparse.Action</code></code></dd>
 
-<dt>Why re-implement actions already provided by `argparse` like the `choices` action?</dt>
-<dd>In order to include them in `PipelineAction`.</dd>
+<dt>Why re-implement actions already provided by <code>argparse</code> like the <code>choices</code> action?</dt>
+<dd>In order to include them in <code>PipelineAction</code>.</dd>
 
 <dt>There was no mention of humans! Does this work for humans?</dt>
 <dd>Yes, it works for humans :)</dd>
