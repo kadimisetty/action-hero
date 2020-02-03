@@ -75,7 +75,7 @@ if __name__ == "__main__":
     # Create parser
     parser = argparse.ArgumentParser()
 
-    # Add user argument "--file" and assert that it will be readable
+    # Add user argument "--file" and confirm that it will be readable
     parser.add_argument("--file", action=FileIsReadableAction)
 
     # Parse user arguments
@@ -158,9 +158,8 @@ applies `FileExistsAction` which checks for existence.  If the file does not
 exist, an error message about file not existing will be shown and exits
 allowing the user to try again.
 
-This behavior can save you a lot of manual condition checks later on. For
-example, here's how to check for an _existing, writable, non-empty_, markdown
-file —
+Pipelining can save you a lot of manual condition checks. For example, here's
+how to check for an _existing markdown file that is writable and empty_, -
 
 ```python
 parser.add_argument(
@@ -168,10 +167,10 @@ parser.add_argument(
     action=PipelineAction, 
     action_values=[
         FileExistsAction, 
+        (FileHasExtensionAction, ["md", "markdown"]),
         FileIsWritableAction,
-        FileIsNotEmptyAction,
-        (FileHasExtensionAction, ["md", "markdown"])
-]
+        FileIsEmptyAction
+    ]
 ```
 
 ### Exceptions in this module
