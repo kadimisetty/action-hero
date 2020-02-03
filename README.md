@@ -12,7 +12,7 @@
 ####
 
 `action_hero` is a python package that helps you  
-__manage user arguments in command line applications using `argparse`__ 
+__make powerful command line applications using the built-in `argparse` library__
 
 
 [Introduction](#introduction) · [Quick Usage](#quick-usage) · [Help & FAQ](#help-and-faq) · [Catalog](#catalog) · [Development](#development)
