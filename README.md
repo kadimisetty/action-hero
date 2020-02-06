@@ -2,12 +2,12 @@
 ![Action Hero Logo][action_hero_logo]
 
 
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/action-hero?style=flat-square)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/action-hero?style=flat-square)](https://pypi.org/project/action-hero/)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 [![codecov](https://codecov.io/gh/kadimisetty/action-hero/branch/master/graph/badge.svg)](https://codecov.io/gh/kadimisetty/action-hero)
 [![Build Status](https://travis-ci.org/kadimisetty/action-hero.svg?branch=master)](https://travis-ci.org/kadimisetty/action-hero)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-green.svg)](https://www.python.org/dev/peps/pep-0008/)
-![PyPI - License](https://img.shields.io/pypi/l/action-hero?style=flat-square)
+[![PyPI - License](https://img.shields.io/pypi/l/action-hero?style=flat-square)](https://github.com/kadimisetty/action-hero/blob/master/LICENSE)
 
 ####
 
