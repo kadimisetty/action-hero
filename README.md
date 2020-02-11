@@ -37,7 +37,8 @@ providing a large number of custom actions. For example, the
 <strong><code>FileIsWritableAction</code> automatically verifies that file
 path(s) accepted as arguments are writable, informing the user if they
 aren't.</strong> This saves you the trouble of doing that check yourself. Nice,
-no? <a href="#catalog">Browse the catalog</a> for many such actions.</dd>
+no? <a href="#catalog">Browse the catalog</a> for many such actions. Also, they
+can be chained together too.</dd>
 
 </dl>
 
