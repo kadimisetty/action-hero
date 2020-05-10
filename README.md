@@ -325,9 +325,10 @@ multiple values and provides relevant error messages.
 
 ## Development
 
-### Notes
-- __Formatting__-: _PEP8 only. Please format with black using `black_linelength=79`_
-- __License__: _The MIT License_
-- __Image Attributions__: _Karate by Alex Auda Samora from the Noun Project_
+- __Feedback__: Please use the github issue tracker to submit feedback and recommend ideas for new actions.
+- __Note__: Class inheritance here is dealt with slightly unusually in order to accomodate `argparse` manageably.
+- __Formatting__: PEP8 only. Please format with black using `blacklinelength=79`
+- __License__: The MIT License.
+- __Image Attributions__: Karate by Alex Auda Samora from the Noun Project
 
 Thank you for using `action_hero` — [@kadimisetty](https://github.com/kadimisetty) ⭐️✨
