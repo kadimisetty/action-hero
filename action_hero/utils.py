@@ -276,7 +276,6 @@ class CheckPresentInValuesAction(BaseAction):
                 raise argparse.ArgumentError(
                     self, "{}: {}".format(self.error_message, failure)
                 )
-                raise argparse.ArgumentError(self, self.error_message)
 
         setattr(namespace, self.dest, values)
 
