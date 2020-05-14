@@ -9,8 +9,6 @@
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-green.svg)](https://www.python.org/dev/peps/pep-0008/)
 ![PyPI - License](https://img.shields.io/pypi/l/action-hero?style=flat-square)
 
-####
-
 `action_hero` is a python package that helps you  
 __make powerful command line applications using the built-in `argparse` library__
 
@@ -19,29 +17,17 @@ __make powerful command line applications using the built-in `argparse` library_
 
 ## Introduction
 
-<dl>
-
-<dt><code>argparse</code></dt>
-<dd><code>argparse</code> is a python standard library module used to make
-command line applications.
-<code>argparse</code> provides
-<code>ArgumentParser</code> that parses user arguments and runs
-<code>argparse.Action</code>s on them.
-<a href="https://docs.python.org/3/library/argparse.html">⚓︎</a>
-</dd>
+`argparse` is a python standard library module used to make command line
+applications. `argparse` provides `ArgumentParser` that parses user arguments
+and runs `argparse.Action`s on them.
+[⚓︎](https://docs.python.org/3/library/argpars e.html)
 
 
-<dt><code>action_hero</code> 🔥</dt>
-<dd><code>action_hero</code> makes <code>argparse</code> more capable by
-providing a large number of custom actions. For example, the
-<strong><code>FileIsWritableAction</code> automatically verifies that file
-path(s) accepted as arguments are writable, informing the user if they
-aren't.</strong> This saves you the trouble of doing that check yourself. Nice,
-no? <a href="#catalog">Browse the catalog</a> for many such actions.</dd>
-
-</dl>
-
-
+`action_hero` makes `argparse` more capable by providing a large number of
+custom actions.  For example, the __`FileIsWritableAction` automatically
+verifies that file path(s) accepted as arguments are writable, informing the
+user if they aren't.__ This saves you the trouble of doing that check yourself.
+Nice, no? [Browse the catalog](#catalog) for many such actions.
 
 
 ## Quick Usage
@@ -202,25 +188,30 @@ Just like any other `argparse.Action` each `action_hero.Action` handles
 multiple values and provides relevant error messages.
 
 ### FAQ
-<dl>
-<dt>What do I need to know to use <code>action_hero</code> in my command line application?</dt>
-<dd>Vanilla <code>argparse</code> knowledge should do it.</dd>
 
-<dt>Where can I find information about <code>argparse</code>?</dt>
-<dd><code>argparse</code> is part of the <a href="https://docs.python.org/3.7/library/argparse.html#module-argparse">Python standard library</a>.</dd>
+#### What do I need to know to use `action_hero` in my command line application?
 
-<dt>Is <code>action_hero</code> tied to the <code>argparse</code> module?</dt>
-<dd>Yes <em>(but technically no — any project that can use an <code>argpoarse.Action</code> should work as long as it handles the <code>argparse.ArgumentError</code> exception)</em></dd>
+Vanilla `argparse` knowledge should do it.
 
-<dt>What type are the user argument exceptions?</dt>
-<dd><code>argparse.ArgumentError{"helpful error message"}</code>, just like any other <code>argparse.Action</code></code></dd>
+#### Where can I find information about `argparse`?
 
-<dt>Why re-implement actions already provided by <code>argparse</code> like the <code>choices</code> action?</dt>
-<dd>In order to include them in <code>PipelineAction</code>.</dd>
+`argparse` is part of the [Python standard library](https://docs.python.org/3.7/library/argparse.html#module-argparse).
 
-<dt>There was no mention of humans! Does this work for humans?</dt>
-<dd>Yes, it works for humans :)</dd>
-</dl>
+#### Is `action_hero` tied to the `argparse` module?
+
+Yes _(but technically no — any project that can use an `argpoarse.Action` should work as long as it handles the `argparse.ArgumentError` exception)_
+
+#### What type are the user argument exceptions?
+
+`argparse.ArgumentError{"helpful error message"}`, just like any other `argparse.Action`.
+
+#### Why re-implement actions already provided by `argparse` like the `choices` action?
+
+In order to include them in `PipelineAction`.
+
+#### There was no mention of humans! Does this work for humans?
+
+Yes, it works for humans :)
 
 
 ## Catalog
