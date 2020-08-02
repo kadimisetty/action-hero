@@ -571,8 +571,8 @@ def _raise_exception_if_invalid_action_values(
         # and different item types not allowed
         else:
 
-            def has_different_types_of_items(l):
-                return len(set([v.__class__ for v in l])) != 1
+            def has_different_types_of_items(some_list):
+                return len(set([v.__class__ for v in some_list])) != 1
 
             if has_different_types_of_items(action_values):
                 if not different_item_types_allowed:
