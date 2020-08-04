@@ -19,14 +19,17 @@ __write powerful command line applications using the built-in `argparse` library
 
 `argparse` is a python standard library module used to make command line
 applications. `argparse` provides `ArgumentParser` that parses user arguments
-and runs `argparse.Action`s on them.
-[⚓︎](https://docs.python.org/3/library/argparse.html)
+and runs
+[`argparse.Action`](https://docs.python.org/3/library/argparse.html#action)s on
+them.
 
-`action_hero` makes `argparse` more capable by providing a large number of
-custom actions.  For example, the __`FileIsWritableAction` automatically
-verifies that file path(s) accepted as arguments are writable, informing the
-user if they aren't.__ This saves you the trouble of doing that check yourself.
-Nice, no? [Browse the catalog](#catalog) for many such actions.
+__`action_hero`__ augments `argparse` making it more capable by providing a
+large number of custom actions.  For example, the __`FileIsWritableAction`
+automatically verifies that file path(s) accepted as arguments are writable,
+even informing the user if they aren't.__ This saves you the trouble of doing
+all that work yourself.  These actions can be
+[pipelined](#pipelining-multiple-actions) as well. Nice, no?  [Browse the
+catalog](#catalog) for many such actions.
 
 
 ## Quick Usage
