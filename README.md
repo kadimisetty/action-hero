@@ -311,7 +311,7 @@ Yes, it works for humans :)
 | __`CollectIntoTupleAction`__ † | Collect values into a tuple |  |
 
 
-__†__ Actions that can make changes to `self.dest`
+__†__ Actions that can make changes to `self.dest`    
 __‡__ Actions that can make changes to disk
 
 
