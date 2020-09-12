@@ -239,8 +239,8 @@ Yes, it works for humans :)
 | __`DirectoryIsReadableAction`__ | Check if directory is readable | |
 | __`DirectoryIsValidAction`__ | Check directory is valid | |
 | __`DirectoryIsWritableAction`__ | Check if directory is writable | |
-| __`EnsureDirectoryAction`__<sup>*</sup> | Ensure directory exists and create it if it doesnt | |
-| __`EnsureFileAction`__<sup>*</sup> | Ensure file exists and create it if it doesnt | |
+| __`EnsureDirectoryAction`__ ‡ | Ensure directory exists and create it if it doesnt | |
+| __`EnsureFileAction`__ ‡ | Ensure file exists and create it if it doesnt | |
 | __`FileDoesNotExistAction`__ | Check if file doesnt exist | |
 | __`FileExistsAction`__ | Check if file exists | |
 | __`FileIsEmptyAction`__ | Check if file is empty | |
@@ -262,7 +262,7 @@ Yes, it works for humans :)
 | __`PathIsReadableAction`__ | Check if path is readable | |
 | __`PathIsValidAction`__ | Check if path is valid | |
 | __`PathIsWritableAction`__ | Check if path is writable | |
-| __`ResolvePathAction`__<sup>†</sup> | Resolves path to canonical path removing symbolic links if present | |
+| __`ResolvePathAction`__ † | Resolves path to canonical path removing symbolic links if present | |
 
 
 3. __Net & Email__ related actions:
@@ -301,18 +301,18 @@ Yes, it works for humans :)
 | __`NotifyAndContinueAction`__ | Print provided notification message(s) | Message(s) e.g. `["This command will be deprecated in the next version."]` |
 | __`NotifyAndExitAction`__ | Print provided notification message(s) and Exit | Message(s) e.g. `["This command has been deprecated", "Try --new-command"]` |
 | __`ConfirmAction`__ | Print provided message and proceed with user confirmation _yes or no_. | Message(s) e.g. `["Proceed to Installation? (Y/n)"]` |
-| __`GetInputAction`__<sup>†</sup> | Get user input and save to `self.dest`  | Message(s) e.g. `["Favorite color"]` |
-| __`GetSecretInputAction`__<sup>†</sup> | Get user input without displaying characters and save to the `self.dest`  | Message(s) e.g. `["Enter your Password"]` |
-| __`LoadJSONFromFileAction`__<sup>†</sup> | Return loaded JSON file(s) |  |
-| __`LoadYAMLFromFileAction`__<sup>†</sup> | Return loaded YAML file(s) |  |
-| __`LoadPickleFromFileAction`__<sup>†</sup> | Return unpickled file(s) |  |
-| __`CollectIntoDictAction`__<sup>†</sup> | Collect values into a dict | Delimiter(s) to split value(s) into key:value pair(s) e.g. `[":", "="]` (If multiple delimiters exist inside a value, only the first match is used) |
-| __`CollectIntoListAction`__<sup>†</sup> | Collect values into a list |  |
-| __`CollectIntoTupleAction`__<sup>†</sup> | Collect values into a tuple |  |
+| __`GetInputAction`__ † | Get user input and save to `self.dest`  | Message(s) e.g. `["Favorite color"]` |
+| __`GetSecretInputAction`__ † | Get user input without displaying characters and save to the `self.dest`  | Message(s) e.g. `["Enter your Password"]` |
+| __`LoadJSONFromFileAction`__ † | Return loaded JSON file(s) |  |
+| __`LoadYAMLFromFileAction`__ † | Return loaded YAML file(s) |  |
+| __`LoadPickleFromFileAction`__ † | Return unpickled file(s) |  |
+| __`CollectIntoDictAction`__ † | Collect values into a dict | Delimiter(s) to split value(s) into key:value pair(s) e.g. `[":", "="]` (If multiple delimiters exist inside a value, only the first match is used) |
+| __`CollectIntoListAction`__ † | Collect values into a list |  |
+| __`CollectIntoTupleAction`__ † | Collect values into a tuple |  |
 
 
-<strong><sup>*</sup></strong> Actions that can make changes to disk  
-<strong><sup>†</sup></strong> Actions that can make changes to `self.dest`
+__†__ Actions that can make changes to `self.dest`
+__‡__ Actions that can make changes to disk
 
 
 ## Development
