@@ -10,11 +10,23 @@ from action_hero import (
 
 class TestIsConvertibleToIntAction(ActionHeroTestCase):
     def test_on_valid_value(self):
+        """
+        The test for validation.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsConvertibleToIntAction)
         value = "5"
         self.parser.parse_args(["--value", value])
 
     def test_on_valid_values_list(self):
+        """
+        This function to see if the test values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToIntAction
         )
@@ -22,12 +34,24 @@ class TestIsConvertibleToIntAction(ActionHeroTestCase):
         self.parser.parse_args(["--value", *values])
 
     def test_on_invalid_value(self):
+        """
+        Set the argument.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsConvertibleToIntAction)
         value = "icecream"
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--value", value])
 
     def test_on_invalid_values_list(self):
+        """
+        Validate the test values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToIntAction
         )
@@ -36,6 +60,12 @@ class TestIsConvertibleToIntAction(ActionHeroTestCase):
             self.parser.parse_args(["--value", *values])
 
     def test_on_mixed_valid_and_invalid_values_list(self):
+        """
+        This function for test values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToIntAction
         )
@@ -46,11 +76,23 @@ class TestIsConvertibleToIntAction(ActionHeroTestCase):
 
 class TestIsConvertibleToFloatAction(ActionHeroTestCase):
     def test_on_valid_value(self):
+        """
+        Base validation for validation.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsConvertibleToFloatAction)
         value = "5.3"
         self.parser.parse_args(["--value", value])
 
     def test_on_valid_values_list(self):
+        """
+        Test if the test values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToFloatAction
         )
@@ -58,12 +100,24 @@ class TestIsConvertibleToFloatAction(ActionHeroTestCase):
         self.parser.parse_args(["--value", *values])
 
     def test_on_invalid_value(self):
+        """
+        The test value isvalidator.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsConvertibleToFloatAction)
         value = "bunny"
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--value", value])
 
     def test_on_invalid_values_list(self):
+        """
+        This method to test for test values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToFloatAction
         )
@@ -72,6 +126,12 @@ class TestIsConvertibleToFloatAction(ActionHeroTestCase):
             self.parser.parse_args(["--value", *values])
 
     def test_on_mixed_valid_and_invalid_values_list(self):
+        """
+        Test if the test on the test.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToFloatAction
         )
@@ -82,28 +142,58 @@ class TestIsConvertibleToFloatAction(ActionHeroTestCase):
 
 class TestIsTruthyAction(ActionHeroTestCase):
     def test_on_truthy_value(self):
+        """
+        Test for test value.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsTruthyAction)
         value = "true"
         self.parser.parse_args(["--value", value])
 
     def test_on_truthy_values_list(self):
+        """
+        Add test values todo test values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", nargs="+", action=IsTruthyAction)
         values = ["true", "hundary"]
         self.parser.parse_args(["--value", *values])
 
     def test_on_falsy_value(self):
+        """
+        Test if fals.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsTruthyAction)
         value = ""
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--value", value])
 
     def test_on_falsy_values_list(self):
+        """
+        This function falsy values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", nargs="+", action=IsTruthyAction)
         values = ["", "0"]
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--value", *values])
 
     def test_on_mixed_truthy_and_falsy_values_list(self):
+        """
+        Test if the test test values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", nargs="+", action=IsTruthyAction)
         values = ["", "0", "monday", "15"]
         with self.assertRaises(ValueError):
@@ -112,28 +202,58 @@ class TestIsTruthyAction(ActionHeroTestCase):
 
 class TestIsFalsyAction(ActionHeroTestCase):
     def test_on_truthy_value(self):
+        """
+        Test on test value.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsFalsyAction)
         value = "true"
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--value", value])
 
     def test_on_truthy_values_list(self):
+        """
+        Test if the test values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", nargs="+", action=IsFalsyAction)
         values = ["true", "hundary"]
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--value", *values])
 
     def test_on_falsy_value(self):
+        """
+        Test if the test test for test test.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsFalsyAction)
         value = ""
         self.parser.parse_args(["--value", value])
 
     def test_on_falsy_values_list(self):
+        """
+        This function falsy - test test.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", nargs="+", action=IsFalsyAction)
         values = ["", "0"]
         self.parser.parse_args(["--value", *values])
 
     def test_on_mixed_truthy_and_falsy_values_list(self):
+        """
+        Test if the test values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", nargs="+", action=IsFalsyAction)
         values = ["", "0", "monday", "15"]
         with self.assertRaises(ValueError):
@@ -142,21 +262,45 @@ class TestIsFalsyAction(ActionHeroTestCase):
 
 class TestIsConvertibleToUUIDAction(ActionHeroTestCase):
     def test_on_valid_uuid_value(self):
+        """
+        Add a valid uuid value.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsConvertibleToUUIDAction)
         value = "cc3c3eb9-48a1-4307-8e92-700d9a25fffe"
         self.parser.parse_args(["--value", value])
 
     def test_on_valid_uppercase_uuid_value(self):
+        """
+        Test if the validation uuid is valid.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsConvertibleToUUIDAction)
         value = "CC3C3EB9-48A1-4307-8E92-700D9A25FFFE"
         self.parser.parse_args(["--value", value])
 
     def test_on_valid_mixedcase_uuid_value(self):
+        """
+        Test if the test value for a valid uuid.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsConvertibleToUUIDAction)
         value = "cC3C3Eb9-48a1-4307-8e92-700d9a25fFFE"
         self.parser.parse_args(["--value", value])
 
     def test_on_valid_uuid_values_list(self):
+        """
+        Validate a valid uuid is valid.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToUUIDAction
         )
@@ -168,12 +312,24 @@ class TestIsConvertibleToUUIDAction(ActionHeroTestCase):
         self.parser.parse_args(["--value", *values])
 
     def test_on_invalid_uuid_value(self):
+        """
+        Test that a uuid on a uuid.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--value", action=IsConvertibleToUUIDAction)
         value = ("spaghetti-monster-juice",)
         with self.assertRaises(ValueError):
             self.parser.parse_args(["--value", value])
 
     def test_on_invalid_uuid_values_list(self):
+        """
+        This method is used tovalidate values are valid.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToUUIDAction
         )
@@ -182,6 +338,12 @@ class TestIsConvertibleToUUIDAction(ActionHeroTestCase):
             self.parser.parse_args(["--value", *values])
 
     def test_on_mixed_valid_and_invalid_values_list(self):
+        """
+        Test if the test values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToUUIDAction
         )
@@ -196,6 +358,12 @@ class TestIsConvertibleToUUIDAction(ActionHeroTestCase):
             self.parser.parse_args(["--value", *values])
 
     def test_on_supported_uuid_forms(self):
+        """
+        Test if the supported supported values.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToUUIDAction
         )
@@ -208,6 +376,12 @@ class TestIsConvertibleToUUIDAction(ActionHeroTestCase):
         self.parser.parse_args(["--value", *values])
 
     def test_on_unsupported_uuid_forms(self):
+        """
+        Handle supported supported supported supported.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--value", nargs="+", action=IsConvertibleToUUIDAction
         )

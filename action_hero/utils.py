@@ -58,8 +58,19 @@ def run_only_when_modules_loaded(modules=["argparse"]):
     """
 
     def run_only_when_modules_loaded_wrapper(func):
+        """
+        Decorator for modules that are loaded.
+
+        Args:
+            func: (callable): write your description
+        """
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            """
+            Run all modules in the module.
+
+            Args:
+            """
             # Only run func if module loaded
             if all([(module in sys.modules) for module in modules]):
                 func(*args, **kwargs)
@@ -81,8 +92,19 @@ def run_only_when_when_internet_is_up(urls=["http://www.google.com"]):
     """
 
     def run_only_when_when_internet_is_up_wrapper(func):
+        """
+        Decorator to ensure the decorated function is called when the given func.
+
+        Args:
+            func: (callable): write your description
+        """
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            """
+            Wraps requests. requests. requests. url.
+
+            Args:
+            """
             # Do network check
             try:
                 [requests.get(url).raise_for_status() for url in urls]
@@ -144,6 +166,17 @@ class CheckAction(BaseAction):
     def __init__(
         self, option_strings, dest, nargs=None, help=None, metavar=None
     ):
+        """
+        Initialize an argparse.
+
+        Args:
+            self: (todo): write your description
+            option_strings: (str): write your description
+            dest: (str): write your description
+            nargs: (todo): write your description
+            help: (todo): write your description
+            metavar: (todo): write your description
+        """
         for attr in ["func", "error_message"]:
             # Use getattr. hasattr returns True as they're initialized to None.
             if not getattr(self, attr):
@@ -160,6 +193,16 @@ class CheckAction(BaseAction):
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Call the given command with the given arguments.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+            namespace: (str): write your description
+            values: (array): write your description
+            option_string: (str): write your description
+        """
         # When values are a list of strings
         if isinstance(values, list):
             failures = [
@@ -207,6 +250,19 @@ class CheckPresentInValuesAction(BaseAction):
         help=None,
         metavar=None,
     ):
+        """
+        Initialize the parser.
+
+        Args:
+            self: (todo): write your description
+            option_strings: (str): write your description
+            dest: (str): write your description
+            action_values: (todo): write your description
+            nargs: (todo): write your description
+            type: (str): write your description
+            help: (todo): write your description
+            metavar: (todo): write your description
+        """
         for attr in ["func", "error_message"]:
             # Use getattr. hasattr returns True as they're initialized to None.
             if not getattr(self, attr):
@@ -234,6 +290,16 @@ class CheckPresentInValuesAction(BaseAction):
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Calls the given action.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+            namespace: (str): write your description
+            values: (array): write your description
+            option_string: (str): write your description
+        """
 
         # 1. Check presence
 
@@ -286,6 +352,17 @@ class MapAction(BaseAction):
     def __init__(
         self, option_strings, dest, nargs=None, help=None, metavar=None
     ):
+        """
+        Initialize an optionparser object.
+
+        Args:
+            self: (todo): write your description
+            option_strings: (str): write your description
+            dest: (str): write your description
+            nargs: (todo): write your description
+            help: (todo): write your description
+            metavar: (todo): write your description
+        """
         for attr in ["func"]:
             # Use getattr. hasattr returns True as they're initialized to None.
             if not getattr(self, attr):
@@ -302,6 +379,16 @@ class MapAction(BaseAction):
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Calls the specified parser.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+            namespace: (str): write your description
+            values: (array): write your description
+            option_string: (str): write your description
+        """
         # When values are a list of strings
         if isinstance(values, list):
             [self._run_user_func(value) for value in values]
@@ -321,6 +408,17 @@ class MapAndReplaceAction(BaseAction):
     def __init__(
         self, option_strings, dest, nargs=None, help=None, metavar=None
     ):
+        """
+        Initialize an optionparser object.
+
+        Args:
+            self: (todo): write your description
+            option_strings: (str): write your description
+            dest: (str): write your description
+            nargs: (todo): write your description
+            help: (todo): write your description
+            metavar: (todo): write your description
+        """
         for attr in ["func"]:
             # Use getattr. hasattr returns True as they're initialized to None.
             if not getattr(self, attr):
@@ -337,6 +435,16 @@ class MapAndReplaceAction(BaseAction):
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Calls the specified parser.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+            namespace: (str): write your description
+            values: (array): write your description
+            option_string: (str): write your description
+        """
         # When values are a list of strings
         if isinstance(values, list):
             updated = [self._run_user_func(value) for value in values]
@@ -383,6 +491,12 @@ class PipelineAction(ActionHeroAction):
 
     @staticmethod
     def _is_valid_action_hero_action(action):
+        """
+        Return true if action is an action action.
+
+        Args:
+            action: (str): write your description
+        """
         return issubclass(action, ActionHeroAction)
 
     def __init__(
@@ -394,6 +508,18 @@ class PipelineAction(ActionHeroAction):
         help=None,
         metavar=None,
     ):
+        """
+        Initialize an action.
+
+        Args:
+            self: (todo): write your description
+            option_strings: (str): write your description
+            dest: (str): write your description
+            action_values: (todo): write your description
+            nargs: (todo): write your description
+            help: (todo): write your description
+            metavar: (todo): write your description
+        """
 
         # Raise exception if action_values are invalid, else accept
         _raise_exception_if_invalid_action_values(
@@ -572,6 +698,12 @@ def _raise_exception_if_invalid_action_values(
         else:
 
             def has_different_types_of_items(some_list):
+                """
+                Returns true if any of the items in the set of items.
+
+                Args:
+                    some_list: (list): write your description
+                """
                 return len(set([v.__class__ for v in some_list])) != 1
 
             if has_different_types_of_items(action_values):
@@ -600,6 +732,19 @@ class DisplayMessageAndExitAction(BaseAction):
         help=None,
         metavar=None,
     ):
+        """
+        Initialize the parser.
+
+        Args:
+            self: (todo): write your description
+            option_strings: (str): write your description
+            dest: (str): write your description
+            action_values: (todo): write your description
+            nargs: (todo): write your description
+            type: (str): write your description
+            help: (todo): write your description
+            metavar: (todo): write your description
+        """
 
         # Raise exception if action_values are invalid, else accept
         _raise_exception_if_invalid_action_values(
@@ -621,6 +766,16 @@ class DisplayMessageAndExitAction(BaseAction):
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Call an arbitrary function
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+            namespace: (str): write your description
+            values: (array): write your description
+            option_string: (str): write your description
+        """
 
         # 1. CONFIRMATION (Exit program if confirmation is no)
         if self.get_confirmation:
@@ -684,6 +839,19 @@ class DisplayMessageAndGetInputAction(BaseAction):
         help=None,
         metavar=None,
     ):
+        """
+        Initialize the parser.
+
+        Args:
+            self: (todo): write your description
+            option_strings: (str): write your description
+            dest: (str): write your description
+            action_values: (todo): write your description
+            nargs: (todo): write your description
+            type: (str): write your description
+            help: (todo): write your description
+            metavar: (todo): write your description
+        """
 
         # Raise exception if action_values are invalid, else accept
         _raise_exception_if_invalid_action_values(
@@ -705,6 +873,16 @@ class DisplayMessageAndGetInputAction(BaseAction):
         )
 
     def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Call the screen
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+            namespace: (str): write your description
+            values: (array): write your description
+            option_string: (str): write your description
+        """
 
         # 1. Display any provided message prompts for input from action_values
         display_message = "\n".join(
@@ -734,6 +912,16 @@ class DebugAction(BaseAction):
     """Prints debug information"""
 
     def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Call the parser.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+            namespace: (str): write your description
+            values: (array): write your description
+            option_string: (str): write your description
+        """
 
         # BEGIN
         print("┌─────────┐")
@@ -870,6 +1058,16 @@ class LoadSerializedFileAction(BaseAction):
             raise argparse.ArgumentError(self, "Unable to unpickle: {}", e)
 
     def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Call pickle.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+            namespace: (str): write your description
+            values: (array): write your description
+            option_string: (str): write your description
+        """
         loader_for_format = {
             "json": self.load_json_from_file,
             "yaml": self.load_yaml_from_file,
@@ -930,6 +1128,19 @@ class CollectIntoContainerAction(BaseAction):
         help=None,
         metavar=None,
     ):
+        """
+        Initialize an option parser.
+
+        Args:
+            self: (todo): write your description
+            option_strings: (str): write your description
+            dest: (str): write your description
+            action_values: (todo): write your description
+            nargs: (todo): write your description
+            type: (str): write your description
+            help: (todo): write your description
+            metavar: (todo): write your description
+        """
 
         # Accept action_values but only do verification within dict
         # collector, because it's the only collector that uses action_values
@@ -1006,6 +1217,16 @@ class CollectIntoContainerAction(BaseAction):
         return d
 
     def __call__(self, parser, namespace, values, option_string=None):
+        """
+        Calls the parser.
+
+        Args:
+            self: (todo): write your description
+            parser: (todo): write your description
+            namespace: (str): write your description
+            values: (array): write your description
+            option_string: (str): write your description
+        """
         collectors = {
             list: self.collect_into_list,
             tuple: self.collect_into_tuple,

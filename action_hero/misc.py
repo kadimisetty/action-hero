@@ -27,6 +27,12 @@ class ChoicesAction(CheckPresentInValuesAction):
     """Limit options to provided choices"""
 
     def func(value):
+        """
+        Decorator to wrap a function.
+
+        Args:
+            value: (todo): write your description
+        """
         return value
 
     error_message = "Value(s) not in allowed choices"

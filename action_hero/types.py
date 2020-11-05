@@ -42,6 +42,12 @@ class IsFalsyAction(CheckAction):
     """Checks if value is falsy"""
 
     def func(value):
+        """
+        Convert a function that represents a function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_truthy(value)
 
     error_message = "Value(s) is not falsy"

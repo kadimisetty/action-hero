@@ -76,6 +76,12 @@ class EnsureDirectoryAction(MapAction):
 
     @staticmethod
     def _ensure_directory(directory):
+        """
+        Ensure that the given directory exists.
+
+        Args:
+            directory: (str): write your description
+        """
         # create_directory raises FileExistsError if dir exists so check first
         if not is_existing_directory(directory):
             create_directory(directory)
@@ -88,6 +94,12 @@ class EnsureFileAction(MapAction):
 
     @staticmethod
     def _ensure_file(filename):
+        """
+        Ens a file exists.
+
+        Args:
+            filename: (str): write your description
+        """
         if not is_existing_file(filename):
             create_file(filename)
 
@@ -112,6 +124,12 @@ class PathDoesNotExistsAction(CheckAction):
     """Check if path does not exist"""
 
     def func(value):
+        """
+        Returns a function that will be used function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_existing_path(value)
 
     error_message = "Existing path(s)"
@@ -128,6 +146,12 @@ class PathIsNotWritableAction(CheckAction):
     """Check if path is not writable"""
 
     def func(value):
+        """
+        Returns the given value as a function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_writable_path(value)
 
     error_message = "Writable path(s)"
@@ -144,6 +168,12 @@ class PathIsNotReadableAction(CheckAction):
     """Check if path is not writable"""
 
     def func(value):
+        """
+        Return a function that value as a function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_readable_path(value)
 
     error_message = "Readable path(s)"
@@ -160,6 +190,12 @@ class PathIsNotExecutableAction(CheckAction):
     """Check if path is not executable"""
 
     def func(value):
+        """
+        Return the given value as a function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_executable_path(value)
 
     error_message = "Executable path(s)"
@@ -176,6 +212,12 @@ class DirectoryDoesNotExistAction(CheckAction):
     """Check if directory does not exist"""
 
     def func(value):
+        """
+        Return a function that will be used for a function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_existing_directory(value)
 
     error_message = "Existing director(y/ies)"
@@ -192,6 +234,12 @@ class DirectoryIsNotWritableAction(CheckAction):
     """Check if directory is not writable"""
 
     def func(value):
+        """
+        Returns true if value is a function or false otherwise.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_writable_directory(value)
 
     error_message = "Unwritable director(y/ies)"
@@ -208,6 +256,12 @@ class DirectoryIsNotReadableAction(CheckAction):
     """Check if directory is not readable"""
 
     def func(value):
+        """
+        Decor function that returns true if the value is a string.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_readable_directory(value)
 
     error_message = "Readable director(y/ies)"
@@ -224,6 +278,12 @@ class DirectoryIsNotExecutableAction(CheckAction):
     """Check if directory is not executable"""
 
     def func(value):
+        """
+        Return a function that will be used function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_executable_directory(value)
 
     error_message = "Executable director(y/ies)"
@@ -247,6 +307,12 @@ class FileIsNotWritableAction(CheckAction):
     """Check if file is not writable"""
 
     def func(value):
+        """
+        Returns true if value is a function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_writable_file(value)
 
     error_message = "Writable file(s)"
@@ -263,6 +329,12 @@ class FileIsNotReadableAction(CheckAction):
     """Check if file is not readable"""
 
     def func(value):
+        """
+        Returns true if value is a function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_readable_file(value)
 
     error_message = "Readable file(s)"
@@ -279,6 +351,12 @@ class FileIsNotExecutableAction(CheckAction):
     """Check if file is not executable"""
 
     def func(value):
+        """
+        Return the given function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_executable_file(value)
 
     error_message = "Executable file(s)"
@@ -302,6 +380,12 @@ class FileDoesNotExistAction(CheckAction):
     """Check if file exists"""
 
     def func(value):
+        """
+        Returns true if value is a function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_existing_file(value)
 
     error_message = "Existing file(s)"
@@ -318,6 +402,12 @@ class FileIsNotEmptyAction(CheckAction):
     """Check if file is not empty"""
 
     def func(value):
+        """
+        Returns true if value is a function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_empty_file(value)
 
     error_message = "Empty file(s)"
