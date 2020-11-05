@@ -60,6 +60,12 @@ class URLIsNotReachableAction(CheckAction):
     """Check if URL is not reachable"""
 
     def func(value):
+        """
+        Decorator that can be used function.
+
+        Args:
+            value: (todo): write your description
+        """
         return not is_reachable_url(value)
 
     error_message = "Reachable URL(s)"

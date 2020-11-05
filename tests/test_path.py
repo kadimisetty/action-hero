@@ -60,12 +60,24 @@ from action_hero.path_utils import (
 
 class TestResolvePathAction(ActionHeroTestCase):
     def test_processes_path(self):
+        """
+        Parse the arguments exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=ResolvePathAction)
         with tempfile.TemporaryDirectory() as dir1:
             args = self.parser.parse_args(["--path", dir1])
             self.assertIn("path", args)
 
     def test_on_single_path(self):
+        """
+        Test if the given path exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=ResolvePathAction)
         with tempfile.TemporaryDirectory() as dir1:
             args = self.parser.parse_args(["--path", dir1])
@@ -73,6 +85,12 @@ class TestResolvePathAction(ActionHeroTestCase):
             self.assertEqual(args.path, expected)
 
     def test_on_list_of_paths(self):
+        """
+        Test if a list of directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", nargs="+", action=ResolvePathAction)
 
         # Create few temporary paths
@@ -92,6 +110,12 @@ class TestResolvePathAction(ActionHeroTestCase):
 
 class TestEnsureDirectoryAction(ActionHeroTestCase):
     def test_on_nonexisting_directory(self):
+        """
+        Test if any empty directories exist
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=EnsureDirectoryAction)
         with tempfile.TemporaryDirectory() as parent_directory:
             # Specify unique directory name
@@ -104,6 +128,12 @@ class TestEnsureDirectoryAction(ActionHeroTestCase):
             self.assertTrue(os.path.isdir(dir1))
 
     def test_on_existing_directory(self):
+        """
+        Test if the given directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=EnsureDirectoryAction)
         # Specify directory to check
         with tempfile.TemporaryDirectory() as dir1:
@@ -115,6 +145,12 @@ class TestEnsureDirectoryAction(ActionHeroTestCase):
             self.assertTrue(os.path.isdir(dir1))
 
     def test_on_multiple_mixed_existing_directories(self):
+        """
+        Create multiple directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=EnsureDirectoryAction
         )
@@ -147,6 +183,12 @@ class TestEnsureDirectoryAction(ActionHeroTestCase):
 
 class TestEnsureFileAction(ActionHeroTestCase):
     def test_on_nonexisting_file(self):
+        """
+        Test if the file to the file1.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=EnsureFileAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -164,6 +206,12 @@ class TestEnsureFileAction(ActionHeroTestCase):
             self.assertTrue(os.path.isfile(file1))
 
     def test_on_existing_file(self):
+        """
+        Test if an existing existing existing existing existing file.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=EnsureFileAction)
         # Specify file to check
         with tempfile.NamedTemporaryFile() as file1:
@@ -175,6 +223,12 @@ class TestEnsureFileAction(ActionHeroTestCase):
             self.assertTrue(os.path.isfile(file1.name))
 
     def test_on_multiple_mixed_existing_files(self):
+        """
+        Test for multiple directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", nargs="+", action=EnsureFileAction)
         with tempfile.TemporaryDirectory() as parent_directory:
             # Specify few new temporary files
@@ -205,6 +259,12 @@ class TestEnsureFileAction(ActionHeroTestCase):
 
 class TestPathIsValidAction(ActionHeroTestCase):
     def test_on_valid_path(self):
+        """
+        Test if the given path is valid.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.TemporaryDirectory() as path1:
             # Assert path is valid path
@@ -215,6 +275,12 @@ class TestPathIsValidAction(ActionHeroTestCase):
             self.assertTrue(is_valid_path(args.path))
 
     def test_on_multiple_valid_paths(self):
+        """
+        Check that all the directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
         # Create few temporary paths
@@ -231,6 +297,12 @@ class TestPathIsValidAction(ActionHeroTestCase):
         [os.rmdir(path) for path in paths]
 
     def test_on_invalid_path(self):
+        """
+        Test if the given path exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.TemporaryDirectory() as parent_directory:
             # Create a file name with a char forbidden in POSIX and WIN*
@@ -246,6 +318,12 @@ class TestPathIsValidAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file_path])
 
     def test_on_mixed_valid_and_invalid_path(self):
+        """
+        Test if the given directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
         with tempfile.TemporaryDirectory() as parent_directory:
@@ -270,6 +348,12 @@ class TestPathIsValidAction(ActionHeroTestCase):
 
 class TestFileIsValidAction(ActionHeroTestCase):
     def test_on_valid_file_path(self):
+        """
+        Test if the given file is valid.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.NamedTemporaryFile() as file_path:
             # Assert file path is valid file path
@@ -280,6 +364,12 @@ class TestFileIsValidAction(ActionHeroTestCase):
             self.assertTrue(is_valid_file(args.path))
 
     def test_on_multiple_valid_file_paths(self):
+        """
+        Check that all the directories exist in the same directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
         # Create few temporary paths
@@ -296,6 +386,12 @@ class TestFileIsValidAction(ActionHeroTestCase):
         [os.remove(path) for path in file_paths]
 
     def test_on_invalid_file_path(self):
+        """
+        Test if the given file exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.TemporaryDirectory() as parent_directory:
             # Create a file name with a char forbidden in POSIX and WIN*
@@ -311,6 +407,12 @@ class TestFileIsValidAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file_path])
 
     def test_on_mixed_valid_and_invalid_file_path(self):
+        """
+        Test if the given file is valid.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
         with tempfile.TemporaryDirectory() as parent_directory:
@@ -337,6 +439,12 @@ class TestFileIsValidAction(ActionHeroTestCase):
 
 class TestDirectoryIsValidAction(ActionHeroTestCase):
     def test_on_valid_directory_path(self):
+        """
+        Test if the given directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsValidAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Assert path is valid path
@@ -347,6 +455,12 @@ class TestDirectoryIsValidAction(ActionHeroTestCase):
             self.assertTrue(is_valid_directory(args.path))
 
     def test_on_multiple_valid_directory_paths(self):
+        """
+        Test that all directories in the given directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsValidAction
         )
@@ -365,6 +479,12 @@ class TestDirectoryIsValidAction(ActionHeroTestCase):
         [os.rmdir(d) for d in dirs]
 
     def test_on_invalid_directory_path(self):
+        """
+        Test if the given directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsValidAction)
         with tempfile.TemporaryDirectory() as parent_directory:
             # Create a file name with a char forbidden in POSIX and WIN*
@@ -380,6 +500,12 @@ class TestDirectoryIsValidAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir_path])
 
     def test_on_mixed_valid_and_invalid_file_path(self):
+        """
+        Test if the given directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
         with tempfile.TemporaryDirectory() as parent_directory:
@@ -404,6 +530,12 @@ class TestDirectoryIsValidAction(ActionHeroTestCase):
 
 class TestPathExistsAction(ActionHeroTestCase):
     def test_on_existing_path(self):
+        """
+        Test if the given path to the given path.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathExistsAction)
         # Specify file to check
         with tempfile.NamedTemporaryFile() as file1:
@@ -415,6 +547,12 @@ class TestPathExistsAction(ActionHeroTestCase):
             self.assertTrue(is_existing_path(file1.name))
 
     def test_on_nonexisting_path(self):
+        """
+        Test if a none none.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -431,6 +569,12 @@ class TestPathExistsAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1])
 
     def test_on_mixed_existing_and_nonexisting_path(self):
+        """
+        Test if the existing directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", nargs="+", action=PathExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -450,6 +594,12 @@ class TestPathExistsAction(ActionHeroTestCase):
 
 class TestPathDoesNotExistsAction(ActionHeroTestCase):
     def test_on_existing_path(self):
+        """
+        Test if the given existing existing on the given parser.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathDoesNotExistsAction)
         # Specify file to check
         with tempfile.NamedTemporaryFile() as file1:
@@ -458,6 +608,12 @@ class TestPathDoesNotExistsAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_nonexisting_path(self):
+        """
+        Test if a none none exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathDoesNotExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -474,6 +630,12 @@ class TestPathDoesNotExistsAction(ActionHeroTestCase):
             self.assertFalse(is_existing_path(file1))
 
     def test_on_mixed_existing_and_nonexisting_path(self):
+        """
+        Test if the existing directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathDoesNotExistsAction
         )
@@ -495,6 +657,12 @@ class TestPathDoesNotExistsAction(ActionHeroTestCase):
 
 class TestFileExistsAction(ActionHeroTestCase):
     def test_on_existing_path(self):
+        """
+        Test if the given existing file exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileExistsAction)
         # Specify file to check
         with tempfile.NamedTemporaryFile() as file1:
@@ -506,6 +674,12 @@ class TestFileExistsAction(ActionHeroTestCase):
             self.assertTrue(is_existing_file(file1.name))
 
     def test_on_nonexisting_file(self):
+        """
+        Test if any none none is set.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -522,6 +696,12 @@ class TestFileExistsAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1])
 
     def test_on_mixed_existing_and_nonexisting_path(self):
+        """
+        Test if a file exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", nargs="+", action=FileExistsAction)
         with tempfile.TemporaryDirectory() as directory:
             # Specify file to check
@@ -545,6 +725,12 @@ class TestFileExistsAction(ActionHeroTestCase):
 
 class TestFileDoesNotExistsAction(ActionHeroTestCase):
     def test_on_existing_path(self):
+        """
+        Test if the given parser.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileDoesNotExistAction)
         # Specify file to check
         with tempfile.NamedTemporaryFile() as file1:
@@ -553,6 +739,12 @@ class TestFileDoesNotExistsAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_nonexisting_path(self):
+        """
+        Test if a none none is set.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileDoesNotExistAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify a file to check
@@ -569,6 +761,12 @@ class TestFileDoesNotExistsAction(ActionHeroTestCase):
             self.assertFalse(is_existing_file(file1))
 
     def test_on_mixed_existing_and_nonexisting_path(self):
+        """
+        Test if the existing file exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=FileDoesNotExistAction
         )
@@ -593,6 +791,12 @@ class TestFileDoesNotExistsAction(ActionHeroTestCase):
 
 class TestDirectoryExistsAction(ActionHeroTestCase):
     def test_on_existing_path(self):
+        """
+        Test if the given existing directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryExistsAction)
         # Specify directory to check
         with tempfile.TemporaryDirectory() as dir1:
@@ -605,6 +809,12 @@ class TestDirectoryExistsAction(ActionHeroTestCase):
             self.assertTrue(is_existing_path(args.path))
 
     def test_on_nonexisting_path(self):
+        """
+        Test if a none none is set to true.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryExistsAction)
         # Specifiy directory
         dir1 = tempfile.mkdtemp()
@@ -620,6 +830,12 @@ class TestDirectoryExistsAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", dir1])
 
     def test_on_mixed_existing_and_nonexisting_path(self):
+        """
+        Test if a temporary directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryExistsAction)
         # Specifiy directores
         dir1 = tempfile.mkdtemp()
@@ -639,12 +855,24 @@ class TestDirectoryExistsAction(ActionHeroTestCase):
 
 class TestDirectoryDoesNotExistsAction(ActionHeroTestCase):
     def test_on_existing_path(self):
+        """
+        Test if the given directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryDoesNotExistAction)
         with tempfile.TemporaryDirectory() as dir1:
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
     def test_on_nonexisting_path(self):
+        """
+        Test if a temporary directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryDoesNotExistAction)
         # Specify directory
         dir1 = tempfile.mkdtemp()
@@ -656,6 +884,12 @@ class TestDirectoryDoesNotExistsAction(ActionHeroTestCase):
         self.parser.parse_args(["--path", dir1])
 
     def test_on_mixed_existing_and_nonexisting_path(self):
+        """
+        Test if a temporary directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryDoesNotExistAction
         )
@@ -676,6 +910,12 @@ class TestDirectoryDoesNotExistsAction(ActionHeroTestCase):
 
 class TestFileIsWritableAction(ActionHeroTestCase):
     def test_on_writable_file(self):
+        """
+        The writable callback is writable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsWritableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -687,6 +927,12 @@ class TestFileIsWritableAction(ActionHeroTestCase):
             self.assertTrue(is_writable_file(file1.name))
 
     def test_on_unwritable_file(self):
+        """
+        The test case - test file handler.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsWritableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -696,6 +942,12 @@ class TestFileIsWritableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", file1.name])
 
     def test_on_mixed_writable_and_unwritable_file(self):
+        """
+        Test if a writable is writable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsWritableAction
         )
@@ -711,6 +963,12 @@ class TestFileIsWritableAction(ActionHeroTestCase):
 
 class TestFileIsNotWritableAction(ActionHeroTestCase):
     def test_on_writable_file(self):
+        """
+        Add a writable argument to write a writable file.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsNotWritableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -721,6 +979,12 @@ class TestFileIsNotWritableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_unwritable_file(self):
+        """
+        Test if the file is writable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsNotWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify file and remove write permission
@@ -734,6 +998,12 @@ class TestFileIsNotWritableAction(ActionHeroTestCase):
             self.assertFalse(is_writable_file(file1))
 
     def test_on_mixed_writable_and_unwritable_file(self):
+        """
+        Test if a writable file is writable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsNotWritableAction
         )
@@ -749,6 +1019,12 @@ class TestFileIsNotWritableAction(ActionHeroTestCase):
 
 class TestDirectoryIsWritableAction(ActionHeroTestCase):
     def test_on_writable_directory(self):
+        """
+        Test if a writable directory is writable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsWritableAction)
         # Specify writable directory
         with tempfile.TemporaryDirectory() as dir1:
@@ -756,6 +1032,12 @@ class TestDirectoryIsWritableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", dir1])
 
     def test_on_wunwritable_directory(self):
+        """
+        Test if a temporary directory is writable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify unwritable directory and remove write permissions
@@ -766,6 +1048,12 @@ class TestDirectoryIsWritableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir2])
 
     def test_on_writable_and_unwritable_directories(self):
+        """
+        Test if the given directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsWritableAction
         )
@@ -780,6 +1068,12 @@ class TestDirectoryIsWritableAction(ActionHeroTestCase):
 
 class TestDirectoryIsNotWritableAction(ActionHeroTestCase):
     def test_on_writable_directory(self):
+        """
+        Test if a writable directory is writable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsNotWritableAction)
         # Specify writable directory
         with tempfile.TemporaryDirectory() as dir1:
@@ -788,6 +1082,12 @@ class TestDirectoryIsNotWritableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir1])
 
     def test_on_unwritable_directory(self):
+        """
+        Test if the given directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsNotWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify unwritable directory and remove write permissions
@@ -797,6 +1097,12 @@ class TestDirectoryIsNotWritableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", dir2])
 
     def test_on_writable_and_unwritable_directories(self):
+        """
+        Test if the directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsNotWritableAction
         )
@@ -811,6 +1117,12 @@ class TestDirectoryIsNotWritableAction(ActionHeroTestCase):
 
 class TestPathIsWritableAction(ActionHeroTestCase):
     def test_on_writable_directory(self):
+        """
+        Test if a writable directory is writable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsWritableAction)
         # Specify writable directory
         with tempfile.TemporaryDirectory() as dir1:
@@ -818,6 +1130,12 @@ class TestPathIsWritableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", dir1])
 
     def test_on_unwritable_directory(self):
+        """
+        Test if the given directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify unwritable directory and remove write permissions
@@ -828,6 +1146,12 @@ class TestPathIsWritableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir2])
 
     def test_on_writable_and_unwritable_directories(self):
+        """
+        Test if the directories existable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsWritableAction
         )
@@ -842,6 +1166,12 @@ class TestPathIsWritableAction(ActionHeroTestCase):
 
 class TestPathIsNotWritableAction(ActionHeroTestCase):
     def test_on_writable_directory(self):
+        """
+        Test if a writable directory is writable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsNotWritableAction)
         # Specify writable directory
         with tempfile.TemporaryDirectory() as dir1:
@@ -850,6 +1180,12 @@ class TestPathIsNotWritableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir1])
 
     def test_on_unwritable_directory(self):
+        """
+        Test if the given directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsNotWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify unwritable directory and remove write permissions
@@ -859,6 +1195,12 @@ class TestPathIsNotWritableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", dir2])
 
     def test_on_writable_and_unwritable_directories(self):
+        """
+        Test if the given directories.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsNotWritableAction
         )
@@ -873,6 +1215,12 @@ class TestPathIsNotWritableAction(ActionHeroTestCase):
 
 class TestFileIsReadableAction(ActionHeroTestCase):
     def test_on_readable_file(self):
+        """
+        Test if a readable file is readable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsReadableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -884,6 +1232,12 @@ class TestFileIsReadableAction(ActionHeroTestCase):
             self.assertTrue(is_readable_file(file1.name))
 
     def test_on_unreadable_file(self):
+        """
+        Test if the parser to the parser.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsReadableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -893,6 +1247,12 @@ class TestFileIsReadableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", file1.name])
 
     def test_on_mixed_readable_and_unreadable_file(self):
+        """
+        Test if the given file is writable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsReadableAction
         )
@@ -908,6 +1268,12 @@ class TestFileIsReadableAction(ActionHeroTestCase):
 
 class TestFileIsNotReadableAction(ActionHeroTestCase):
     def test_on_readable_file(self):
+        """
+        Test if the parser to the parser.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsNotReadableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -918,6 +1284,12 @@ class TestFileIsNotReadableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_unreadable_file(self):
+        """
+        Test if this file is readable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsNotReadableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify file and remove write permission
@@ -931,6 +1303,12 @@ class TestFileIsNotReadableAction(ActionHeroTestCase):
             self.assertFalse(is_readable_file(file1))
 
     def test_on_mixed_readable_and_unreadable_file(self):
+        """
+        Test if a file to the temp file.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsNotReadableAction
         )
@@ -946,6 +1324,12 @@ class TestFileIsNotReadableAction(ActionHeroTestCase):
 
 class TestDirectoryIsReadableAction(ActionHeroTestCase):
     def test_on_readable_directory(self):
+        """
+        Test if the given directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsReadableAction)
         # Specify directory
         with tempfile.TemporaryDirectory() as dir1:
@@ -957,6 +1341,12 @@ class TestDirectoryIsReadableAction(ActionHeroTestCase):
             self.assertTrue(is_readable_directory(dir1))
 
     def test_on_unreadable_directory(self):
+        """
+        Test if the given directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsReadableAction)
         # Specify dir amd make unreadable
         dir1 = tempfile.mkdtemp()
@@ -968,6 +1358,12 @@ class TestDirectoryIsReadableAction(ActionHeroTestCase):
         os.rmdir(dir1)
 
     def test_on_mixed_readable_and_unreadable_directories(self):
+        """
+        Test if the given directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsReadableAction
         )
@@ -982,6 +1378,12 @@ class TestDirectoryIsReadableAction(ActionHeroTestCase):
 
 class TestDirectoryIsNotReadableAction(ActionHeroTestCase):
     def test_on_readable_directory(self):
+        """
+        Test if the given directory exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsNotReadableAction)
         # Specify directory
         with tempfile.TemporaryDirectory() as dir1:
@@ -992,6 +1394,12 @@ class TestDirectoryIsNotReadableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir1])
 
     def test_on_unreadable_directory(self):
+        """
+        Test if the given directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsNotReadableAction)
         # Specify dir amd make unreadable
         dir1 = tempfile.mkdtemp()
@@ -1004,6 +1412,12 @@ class TestDirectoryIsNotReadableAction(ActionHeroTestCase):
         os.rmdir(dir1)
 
     def test_on_mixed_readable_and_unreadable_directories(self):
+        """
+        Test if the given directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsNotReadableAction
         )
@@ -1018,6 +1432,12 @@ class TestDirectoryIsNotReadableAction(ActionHeroTestCase):
 
 class TestPathIsReadableAction(ActionHeroTestCase):
     def test_on_readable_file(self):
+        """
+        Sets the test file is readable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsReadableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -1029,6 +1449,12 @@ class TestPathIsReadableAction(ActionHeroTestCase):
             self.assertTrue(is_readable_file(file1.name))
 
     def test_on_unreadable_file(self):
+        """
+        Test if the file on_on_file callback.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsReadableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -1038,6 +1464,12 @@ class TestPathIsReadableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", file1.name])
 
     def test_on_mixed_readable_and_unreadable_file(self):
+        """
+        Test if the file to be read - only if it doesn t exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsReadableAction
         )
@@ -1051,6 +1483,12 @@ class TestPathIsReadableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1, file2])
 
     def test_on_readable_directory(self):
+        """
+        Test if the given directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsReadableAction)
         # Specify directory
         with tempfile.TemporaryDirectory() as dir1:
@@ -1062,6 +1500,12 @@ class TestPathIsReadableAction(ActionHeroTestCase):
             self.assertTrue(is_readable_directory(dir1))
 
     def test_on_unreadable_directory(self):
+        """
+        Test if the given directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsReadableAction)
         # Specify dir amd make unreadable
         dir1 = tempfile.mkdtemp()
@@ -1073,6 +1517,12 @@ class TestPathIsReadableAction(ActionHeroTestCase):
         os.rmdir(dir1)
 
     def test_on_mixed_readable_and_unreadable_directories(self):
+        """
+        Test if the given directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsReadableAction
         )
@@ -1087,6 +1537,12 @@ class TestPathIsReadableAction(ActionHeroTestCase):
 
 class TestPathIsNotReadableAction(ActionHeroTestCase):
     def test_on_readable_file(self):
+        """
+        Test if the argument file is readable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsNotReadableAction)
         # Specify file
         with tempfile.NamedTemporaryFile() as file1:
@@ -1097,6 +1553,12 @@ class TestPathIsNotReadableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_unreadable_file(self):
+        """
+        Test if the given file is readable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsNotReadableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify file and remove write permission
@@ -1110,6 +1572,12 @@ class TestPathIsNotReadableAction(ActionHeroTestCase):
             self.assertFalse(is_readable_path(file1))
 
     def test_on_mixed_readable_and_unreadable_file(self):
+        """
+        Test if the given file is opened.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsNotReadableAction
         )
@@ -1123,6 +1591,12 @@ class TestPathIsNotReadableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1, file2])
 
     def test_on_readable_directory(self):
+        """
+        Test if the directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsNotReadableAction)
         # Specify directory
         with tempfile.TemporaryDirectory() as dir1:
@@ -1133,6 +1607,12 @@ class TestPathIsNotReadableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir1])
 
     def test_on_unreadable_directory(self):
+        """
+        Test if the given directory exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsNotReadableAction)
         # Specify dir amd make unreadable
         dir1 = tempfile.mkdtemp()
@@ -1145,6 +1625,12 @@ class TestPathIsNotReadableAction(ActionHeroTestCase):
         os.rmdir(dir1)
 
     def test_on_mixed_readable_and_unreadable_directories(self):
+        """
+        Test if the given directories exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsNotReadableAction
         )
@@ -1159,6 +1645,12 @@ class TestPathIsNotReadableAction(ActionHeroTestCase):
 
 class TestFileIsExecutableAction(ActionHeroTestCase):
     def test_on_executable_file(self):
+        """
+        Test if the given by invoking the executable file.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsExecutableAction)
         # Specify file and make executable
         with tempfile.NamedTemporaryFile() as file1:
@@ -1168,6 +1660,12 @@ class TestFileIsExecutableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", file1.name])
 
     def test_on_unexecutable_file(self):
+        """
+        Test if the argument is a file is_onutable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsExecutableAction)
         # Specify file and assert not executable
         with tempfile.NamedTemporaryFile() as file1:
@@ -1177,6 +1675,12 @@ class TestFileIsExecutableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_mixed_executable_and_unexecutable_file(self):
+        """
+        Test if the executable on the given.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsExecutableAction
         )
@@ -1192,6 +1696,12 @@ class TestFileIsExecutableAction(ActionHeroTestCase):
 
 class TestFileIsNotExecutableAction(ActionHeroTestCase):
     def test_on_executable_file(self):
+        """
+        Test if the file is run the executable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsNotExecutableAction)
         # Specify file and make executable
         with tempfile.NamedTemporaryFile() as file1:
@@ -1202,6 +1712,12 @@ class TestFileIsNotExecutableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_unreadable_file(self):
+        """
+        Test if the file to the given.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsNotExecutableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify file and remove write permission
@@ -1214,6 +1730,12 @@ class TestFileIsNotExecutableAction(ActionHeroTestCase):
             self.assertFalse(is_executable_file(file1))
 
     def test_on_mixed_executable_and_unexecutable_file(self):
+        """
+        Test on_onon_on_unexecutableutable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsNotExecutableAction
         )
@@ -1229,6 +1751,12 @@ class TestFileIsNotExecutableAction(ActionHeroTestCase):
 
 class TestDirectoryIsExecutableAction(ActionHeroTestCase):
     def test_on_executable_directory(self):
+        """
+        Test if the given directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsExecutableAction)
         # Specify directory and make executable
         with tempfile.TemporaryDirectory() as dir1:
@@ -1237,6 +1765,12 @@ class TestDirectoryIsExecutableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", dir1])
 
     def test_on_unexecutable_directory(self):
+        """
+        Test if the given directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=DirectoryIsExecutableAction)
         # Specify dir and make unexecutable
         with tempfile.TemporaryDirectory() as dir1:
@@ -1246,6 +1780,12 @@ class TestDirectoryIsExecutableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir1])
 
     def test_on_mixed_executable_and_unexecutable_directories(self):
+        """
+        Test if the given in the executable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsExecutableAction
         )
@@ -1260,6 +1800,12 @@ class TestDirectoryIsExecutableAction(ActionHeroTestCase):
 
 class TestDirectoryIsNotExecutableAction(ActionHeroTestCase):
     def test_on_executable_directory(self):
+        """
+        Test if the given directory is a directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", action=DirectoryIsNotExecutableAction
         )
@@ -1272,6 +1818,12 @@ class TestDirectoryIsNotExecutableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir1])
 
     def test_on_unexecutable_directory(self):
+        """
+        Test if the given directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", action=DirectoryIsNotExecutableAction
         )
@@ -1285,6 +1837,12 @@ class TestDirectoryIsNotExecutableAction(ActionHeroTestCase):
             self.assertFalse(is_executable_directory(dir1))
 
     def test_on_mixed_executable_and_unexecutable_directories(self):
+        """
+        Test if the directories on the given directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsNotExecutableAction
         )
@@ -1299,6 +1857,12 @@ class TestDirectoryIsNotExecutableAction(ActionHeroTestCase):
 
 class TestPathIsExecutableAction(ActionHeroTestCase):
     def test_on_executable_file(self):
+        """
+        Test if the executable on the executable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsExecutableAction)
         # Specify file and make executable
         with tempfile.NamedTemporaryFile() as file1:
@@ -1308,6 +1872,12 @@ class TestPathIsExecutableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", file1.name])
 
     def test_on_unexecutable_file(self):
+        """
+        Test if the executable is unexecutable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsExecutableAction)
         # Specify file and assert not executable
         with tempfile.NamedTemporaryFile() as file1:
@@ -1317,6 +1887,12 @@ class TestPathIsExecutableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_mixed_executable_and_unexecutable_file(self):
+        """
+        Test if the executable has been run.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsExecutableAction
         )
@@ -1330,6 +1906,12 @@ class TestPathIsExecutableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1, file2])
 
     def test_on_executable_directory(self):
+        """
+        Test if the given executable is on the given directory.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsExecutableAction)
         # Specify directory and make executable
         with tempfile.TemporaryDirectory() as dir1:
@@ -1338,6 +1920,12 @@ class TestPathIsExecutableAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", dir1])
 
     def test_on_unexecutable_directory(self):
+        """
+        Test if the given executable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsExecutableAction)
         # Specify dir and make unexecutable
         with tempfile.TemporaryDirectory() as dir1:
@@ -1347,6 +1935,12 @@ class TestPathIsExecutableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir1])
 
     def test_on_mixed_executable_and_unexecutable_directories(self):
+        """
+        Test if the directories on the given directories.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsExecutableAction
         )
@@ -1361,6 +1955,12 @@ class TestPathIsExecutableAction(ActionHeroTestCase):
 
 class TestPathIsNotExecutableAction(ActionHeroTestCase):
     def test_on_executable_file(self):
+        """
+        Test if the executable was received by the executable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsNotExecutableAction)
         # Specify file and make executable
         with tempfile.NamedTemporaryFile() as file1:
@@ -1371,6 +1971,12 @@ class TestPathIsNotExecutableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_unreadable_file(self):
+        """
+        Test if the given file is unreadable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsNotExecutableAction)
         with tempfile.TemporaryDirectory() as dir1:
             # Specify file and remove write permission
@@ -1383,6 +1989,12 @@ class TestPathIsNotExecutableAction(ActionHeroTestCase):
             self.assertFalse(is_executable_file(file1))
 
     def test_on_mixed_executable_and_unexecutable_file(self):
+        """
+        Test if the given executable and execute it.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsNotExecutableAction
         )
@@ -1396,6 +2008,12 @@ class TestPathIsNotExecutableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1, file2])
 
     def test_on_executable_directory(self):
+        """
+        Test if the given executable is on - placeutable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsNotExecutableAction)
         # Specify directory
         with tempfile.TemporaryDirectory() as dir1:
@@ -1406,6 +2024,12 @@ class TestPathIsNotExecutableAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", dir1])
 
     def test_on_unexecutable_directory(self):
+        """
+        Test if the given executable.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=PathIsNotExecutableAction)
         # Specify dir amd make unexecutable
         with tempfile.TemporaryDirectory() as dir1:
@@ -1417,6 +2041,12 @@ class TestPathIsNotExecutableAction(ActionHeroTestCase):
             self.assertFalse(is_executable_directory(dir1))
 
     def test_on_mixed_executable_and_unexecutable_directories(self):
+        """
+        Test if the directories on the given.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsNotExecutableAction
         )
@@ -1431,12 +2061,24 @@ class TestPathIsNotExecutableAction(ActionHeroTestCase):
 
 class TestFileIsEmptyAction(ActionHeroTestCase):
     def test_on_empty_file(self):
+        """
+        Test if the argument file exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsEmptyAction)
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_empty_file(file1.name))
             self.parser.parse_args(["--path", file1.name])
 
     def test_on_nonempty_file(self):
+        """
+        Test if the non - empty non - empty.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsEmptyAction)
         with tempfile.NamedTemporaryFile() as file1:
             with open(file1.name, "a") as file_for_writing:
@@ -1446,6 +2088,12 @@ class TestFileIsEmptyAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_list_of_empty_and_nonempty_files(self):
+        """
+        Create a new empty files that the same as a list of_argument : none : : return :
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", nargs="+", action=FileIsEmptyAction)
         with tempfile.NamedTemporaryFile() as file1:
             with tempfile.NamedTemporaryFile() as file2:
@@ -1459,6 +2107,12 @@ class TestFileIsEmptyAction(ActionHeroTestCase):
 
 class TestFileIsNotEmptyAction(ActionHeroTestCase):
     def test_on_empty_file(self):
+        """
+        Test for empty empty empty is not empty.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsNotEmptyAction)
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_empty_file(file1.name))
@@ -1466,6 +2120,12 @@ class TestFileIsNotEmptyAction(ActionHeroTestCase):
                 self.parser.parse_args(["--path", file1.name])
 
     def test_on_nonempty_file(self):
+        """
+        Test if a non - blank non - like object.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument("--path", action=FileIsNotEmptyAction)
         with tempfile.NamedTemporaryFile() as file1:
             with open(file1.name, "a") as file_for_writing:
@@ -1474,6 +2134,12 @@ class TestFileIsNotEmptyAction(ActionHeroTestCase):
             self.parser.parse_args(["--path", file1.name])
 
     def test_on_list_of_empty_and_nonempty_files(self):
+        """
+        Create a new file and copy of files exist.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsNotEmptyAction
         )
@@ -1489,23 +2155,47 @@ class TestFileIsNotEmptyAction(ActionHeroTestCase):
 
 class TestFileHasExtensionAction(ActionHeroTestCase):
     def test_on_parser_with_extension(self):
+        """
+        Register a test command to the parser.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--filename", action=FileHasExtensionAction, action_values=["txt"]
         )
 
     def test_on_parser_without_extension(self):
+        """
+        Sets the extension extension extension extension extension extension extension extension.
+
+        Args:
+            self: (todo): write your description
+        """
         with self.assertRaises(ValueError):
             self.parser.add_argument(
                 "--filename", action=FileHasExtensionAction
             )
 
     def test_on_filename_with_matching_extension(self):
+        """
+        Test if the extension extension extension command.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--filename", action=FileHasExtensionAction, action_values=["txt"]
         )
         self.parser.parse_args(["--filename", "diary.txt"])
 
     def test_on_filename_with_nonmatching_extension(self):
+        """
+        Sets up onmatching extension.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--filename", action=FileHasExtensionAction, action_values=["txt"]
         )
@@ -1513,6 +2203,12 @@ class TestFileHasExtensionAction(ActionHeroTestCase):
             self.parser.parse_args(["--filename", "diary.md"])
 
     def test_on_list_of_filenames_with_matching_extension(self):
+        """
+        Add the test files to the test list of files.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--filename",
             nargs="+",
@@ -1524,6 +2220,12 @@ class TestFileHasExtensionAction(ActionHeroTestCase):
         )
 
     def test_on_list_of_filenames_with_nonmatching_extension(self):
+        """
+        Sets the extension extension extension extension.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--filename",
             nargs="+",
@@ -1536,6 +2238,12 @@ class TestFileHasExtensionAction(ActionHeroTestCase):
             )
 
     def test_on_list_of_filenames_with_mixed_matching_extensions(self):
+        """
+        Test if the argument list of files.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--filename",
             nargs="+",
@@ -1554,6 +2262,12 @@ class TestFileHasExtensionAction(ActionHeroTestCase):
             )
 
     def test_on_multiple_action_values(self):
+        """
+        Sets the action actions to parse.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--filename",
             action=FileHasExtensionAction,
@@ -1562,6 +2276,12 @@ class TestFileHasExtensionAction(ActionHeroTestCase):
         self.parser.parse_args(["--filename", "diary.md"])
 
     def test_on_multiple_action_values_with_expected_filenames(self):
+        """
+        Sets the action action action to be run when the action was received.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--filename",
             action=FileHasExtensionAction,
@@ -1573,6 +2293,12 @@ class TestFileHasExtensionAction(ActionHeroTestCase):
             )
 
     def test_on_multiple_action_values_with_unexpected_filenames(self):
+        """
+        Sets the action action on the given.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--filename",
             action=FileHasExtensionAction,
@@ -1582,6 +2308,12 @@ class TestFileHasExtensionAction(ActionHeroTestCase):
             self.parser.parse_args(["--filename", "config.yml"])
 
     def test_on_multiple_action_values_with_mixed_expected_filenames(self):
+        """
+        Sets the action action action action.
+
+        Args:
+            self: (todo): write your description
+        """
         self.parser.add_argument(
             "--filename",
             nargs="+",
