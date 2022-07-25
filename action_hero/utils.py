@@ -707,9 +707,7 @@ class DisplayMessageAndGetInputAction(BaseAction):
     def __call__(self, parser, namespace, values, option_string=None):
 
         # 1. Display any provided message prompts for input from action_values
-        display_message = "\n".join(
-            [message for message in self.action_values]
-        )
+        display_message = "\n".join([message for message in self.action_values])
         display_message += " : "
 
         try:
@@ -831,8 +829,7 @@ class LoadSerializedFileAction(BaseAction):
                 # Report point of problem
                 mark = e.problem_mark
                 raise argparse.ArgumentError(
-                    "Error position: (%s:%s)"
-                    % (mark.line + 1, mark.column + 1)
+                    "Error position: (%s:%s)" % (mark.line + 1, mark.column + 1)
                 )
             else:
                 raise argparse.ArgumentError(

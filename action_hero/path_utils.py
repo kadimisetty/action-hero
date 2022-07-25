@@ -189,7 +189,7 @@ def is_valid_path(path):
 
 
 def is_valid_directory(path):
-    """ Returns True if directoy as path already exists or is creatable by
+    """Returns True if directoy as path already exists or is creatable by
     current User.
 
     """
@@ -254,9 +254,7 @@ def remove_execute_permission(path):
     NO_USER_EXECUTING = ~stat.S_IXUSR
     NO_GROUP_EXECUTING = ~stat.S_IXGRP
     NO_OTHER_EXECUTING = ~stat.S_IXOTH
-    NO_EXECUTING = (
-        NO_USER_EXECUTING & NO_GROUP_EXECUTING & NO_OTHER_EXECUTING
-    )
+    NO_EXECUTING = NO_USER_EXECUTING & NO_GROUP_EXECUTING & NO_OTHER_EXECUTING
 
     current_permissions = stat.S_IMODE(os.lstat(path).st_mode)
     os.chmod(path, current_permissions & NO_EXECUTING)

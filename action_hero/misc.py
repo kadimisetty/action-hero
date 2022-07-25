@@ -52,7 +52,7 @@ class ConfirmAction(DisplayMessageAndExitAction):
 
 
 class GetInputAction(DisplayMessageAndGetInputAction):
-    """Get input and save to `self.dest` """
+    """Get input and save to `self.dest`"""
 
     hide_input_on_screen = False
 

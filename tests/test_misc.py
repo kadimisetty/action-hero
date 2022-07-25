@@ -152,7 +152,7 @@ class TestNotifyAndExitAction(ActionHeroTestCase):
 
     @unittest.skip("not implemented -- TODO return val before exit")
     def test_on_getting_expected_messages_after_displaying_multiple_messages(
-        self
+        self,
     ):
         self.parser.add_argument(
             "--message",
@@ -208,7 +208,7 @@ class TestConfirmAction(ActionHeroTestCase):
             action_values=["Continue?"],
         )
         # No SystemExit on "y"
-        with mock.patch('builtins.input', return_value="y"):
+        with mock.patch("builtins.input", return_value="y"):
             self.parser.parse_args(["--message"])
 
     def test_on_quitting_on_n(self):
@@ -220,7 +220,7 @@ class TestConfirmAction(ActionHeroTestCase):
         )
         # Assert SystemExit on not n
         with self.assertRaises(SystemExit):
-            with mock.patch('builtins.input', return_value="n"):
+            with mock.patch("builtins.input", return_value="n"):
                 self.parser.parse_args(["--message"])
 
     @unittest.skip("TODO capture stdout and mock input")

@@ -117,9 +117,7 @@ class TestMapAndReplaceAction(ActionHeroTestCase):
 
 class TestCheckPresentInValuesAction(ActionHeroTestCase):
     def test_on_subclass_of_argparse_action(self):
-        self.assertTrue(
-            issubclass(CheckPresentInValuesAction, argparse.Action)
-        )
+        self.assertTrue(issubclass(CheckPresentInValuesAction, argparse.Action))
 
     def test_on_action_value_that_is_not_a_list(self):
         class Action1(CheckPresentInValuesAction):

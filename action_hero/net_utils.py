@@ -27,7 +27,7 @@ def is_valid_email(email):
 
 
 def is_valid_ipv4_address(ip):
-    """Return True if valid ipv4 address """
+    """Return True if valid ipv4 address"""
 
     try:
         ipaddress.IPv4Address(ip)
@@ -37,7 +37,7 @@ def is_valid_ipv4_address(ip):
 
 
 def is_valid_ipv6_address(ip):
-    """Return True if valid ipv6 address """
+    """Return True if valid ipv6 address"""
 
     try:
         ipaddress.IPv6Address(ip)
@@ -47,7 +47,7 @@ def is_valid_ipv6_address(ip):
 
 
 def is_valid_ip_address(ip):
-    """Return True if valid ipv4 or ipv6 address """
+    """Return True if valid ipv4 or ipv6 address"""
     return is_valid_ipv4_address(ip) or is_valid_ipv6_address(ip)
 
 
