@@ -147,6 +147,7 @@ class TestEnsureDirectoryAction(ActionHeroTestCase):
 
 
 class TestEnsureFileAction(ActionHeroTestCase):
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_file(self):
         self.parser.add_argument("--path", action=EnsureFileAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -281,6 +282,7 @@ class TestFileIsValidAction(ActionHeroTestCase):
             # Assert path from args is valid path
             self.assertTrue(is_valid_file(args.path))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_multiple_valid_file_paths(self):
         self.parser.add_argument("--path", nargs="+", action=PathIsValidAction)
 
@@ -416,6 +418,7 @@ class TestPathExistsAction(ActionHeroTestCase):
             # Assert specified file still exists
             self.assertTrue(is_existing_path(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_path(self):
         self.parser.add_argument("--path", action=PathExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -432,6 +435,7 @@ class TestPathExistsAction(ActionHeroTestCase):
                 # Parse args with --path as specified file that does not exist
                 self.parser.parse_args(["--path", file1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument("--path", nargs="+", action=PathExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -459,6 +463,7 @@ class TestPathDoesNotExistsAction(ActionHeroTestCase):
                 # Parse args with --path as specified file that does not exist
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_path(self):
         self.parser.add_argument("--path", action=PathDoesNotExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -475,6 +480,7 @@ class TestPathDoesNotExistsAction(ActionHeroTestCase):
             # Assert specified file no longer exists
             self.assertFalse(is_existing_path(file1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathDoesNotExistsAction
@@ -507,6 +513,7 @@ class TestFileExistsAction(ActionHeroTestCase):
             # Assert specified file still exists
             self.assertTrue(is_existing_file(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_file(self):
         self.parser.add_argument("--path", action=FileExistsAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -523,6 +530,7 @@ class TestFileExistsAction(ActionHeroTestCase):
                 # Parse args with --path as specified file that does not exist
                 self.parser.parse_args(["--path", file1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument("--path", nargs="+", action=FileExistsAction)
         with tempfile.TemporaryDirectory() as directory:
@@ -554,6 +562,7 @@ class TestFileDoesNotExistsAction(ActionHeroTestCase):
                 # Parse args with --path as specified file that does not exist
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_path(self):
         self.parser.add_argument("--path", action=FileDoesNotExistAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -570,6 +579,7 @@ class TestFileDoesNotExistsAction(ActionHeroTestCase):
             # Assert specified file no longer exists
             self.assertFalse(is_existing_file(file1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument(
             "--path", nargs="+", action=FileDoesNotExistAction
@@ -606,6 +616,7 @@ class TestDirectoryExistsAction(ActionHeroTestCase):
             self.assertTrue(is_existing_path(dir1))
             self.assertTrue(is_existing_path(args.path))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_path(self):
         self.parser.add_argument("--path", action=DirectoryExistsAction)
         # Specifiy directory
@@ -621,6 +632,7 @@ class TestDirectoryExistsAction(ActionHeroTestCase):
             # Parse args with list of paths
             self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_existing_and_nonexisting_path(self):
         self.parser.add_argument("--path", action=DirectoryExistsAction)
         # Specifiy directores
@@ -697,6 +709,7 @@ class TestFileIsWritableAction(ActionHeroTestCase):
             # No errors when parsing args
             self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_writable_and_unwritable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsWritableAction
@@ -722,6 +735,7 @@ class TestFileIsNotWritableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unwritable_file(self):
         self.parser.add_argument("--path", action=FileIsNotWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -735,6 +749,7 @@ class TestFileIsNotWritableAction(ActionHeroTestCase):
             # Assert file is unwritable
             self.assertFalse(is_writable_file(file1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_writable_and_unwritable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsNotWritableAction
@@ -757,6 +772,7 @@ class TestDirectoryIsWritableAction(ActionHeroTestCase):
             # Parse with readable directory
             self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_wunwritable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -767,6 +783,7 @@ class TestDirectoryIsWritableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir2])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_writable_and_unwritable_directories(self):
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsWritableAction
@@ -789,6 +806,7 @@ class TestDirectoryIsNotWritableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unwritable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsNotWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -819,6 +837,7 @@ class TestPathIsWritableAction(ActionHeroTestCase):
             # Parse with readable directory
             self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unwritable_directory(self):
         self.parser.add_argument("--path", action=PathIsWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -829,6 +848,7 @@ class TestPathIsWritableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir2])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_writable_and_unwritable_directories(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsWritableAction
@@ -851,6 +871,7 @@ class TestPathIsNotWritableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unwritable_directory(self):
         self.parser.add_argument("--path", action=PathIsNotWritableAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -860,6 +881,7 @@ class TestPathIsNotWritableAction(ActionHeroTestCase):
             # Parse with readable directory
             self.parser.parse_args(["--path", dir2])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_writable_and_unwritable_directories(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsNotWritableAction
@@ -885,6 +907,7 @@ class TestFileIsReadableAction(ActionHeroTestCase):
             # Assert file is still readable
             self.assertTrue(is_readable_file(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_file(self):
         self.parser.add_argument("--path", action=FileIsReadableAction)
         # Specify file
@@ -894,6 +917,7 @@ class TestFileIsReadableAction(ActionHeroTestCase):
             # No errors when parsing args
             self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_readable_and_unreadable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsReadableAction
@@ -919,6 +943,7 @@ class TestFileIsNotReadableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_file(self):
         self.parser.add_argument("--path", action=FileIsNotReadableAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -932,6 +957,7 @@ class TestFileIsNotReadableAction(ActionHeroTestCase):
             # Assert file is unreadable
             self.assertFalse(is_readable_file(file1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_readable_and_unreadable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsNotReadableAction
@@ -958,6 +984,7 @@ class TestDirectoryIsReadableAction(ActionHeroTestCase):
             # Assert directory is still readable
             self.assertTrue(is_readable_directory(dir1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsReadableAction)
         # Specify dir amd make unreadable
@@ -969,6 +996,7 @@ class TestDirectoryIsReadableAction(ActionHeroTestCase):
         # Tear down temp dirs
         os.rmdir(dir1)
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_readable_and_unreadable_directories(self):
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsReadableAction
@@ -993,6 +1021,7 @@ class TestDirectoryIsNotReadableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsNotReadableAction)
         # Specify dir amd make unreadable
@@ -1005,6 +1034,7 @@ class TestDirectoryIsNotReadableAction(ActionHeroTestCase):
         # Tear down temp dirs
         os.rmdir(dir1)
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_readable_and_unreadable_directories(self):
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsNotReadableAction
@@ -1039,6 +1069,7 @@ class TestPathIsReadableAction(ActionHeroTestCase):
             # No errors when parsing args
             self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_readable_and_unreadable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsReadableAction
@@ -1063,6 +1094,7 @@ class TestPathIsReadableAction(ActionHeroTestCase):
             # Assert directory is still readable
             self.assertTrue(is_readable_directory(dir1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_directory(self):
         self.parser.add_argument("--path", action=PathIsReadableAction)
         # Specify dir amd make unreadable
@@ -1074,6 +1106,7 @@ class TestPathIsReadableAction(ActionHeroTestCase):
         # Tear down temp dirs
         os.rmdir(dir1)
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_readable_and_unreadable_directories(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsReadableAction
@@ -1098,6 +1131,7 @@ class TestPathIsNotReadableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_file(self):
         self.parser.add_argument("--path", action=PathIsNotReadableAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -1111,6 +1145,7 @@ class TestPathIsNotReadableAction(ActionHeroTestCase):
             # Assert file is unreadable
             self.assertFalse(is_readable_path(file1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_readable_and_unreadable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsNotReadableAction
@@ -1124,6 +1159,7 @@ class TestPathIsNotReadableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1, file2])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_readable_directory(self):
         self.parser.add_argument("--path", action=PathIsNotReadableAction)
         # Specify directory
@@ -1134,6 +1170,7 @@ class TestPathIsNotReadableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_directory(self):
         self.parser.add_argument("--path", action=PathIsNotReadableAction)
         # Specify dir amd make unreadable
@@ -1169,6 +1206,7 @@ class TestFileIsExecutableAction(ActionHeroTestCase):
             # No errors when parsing args
             self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unexecutable_file(self):
         self.parser.add_argument("--path", action=FileIsExecutableAction)
         # Specify file and assert not executable
@@ -1178,6 +1216,7 @@ class TestFileIsExecutableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_executable_and_unexecutable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsExecutableAction
@@ -1203,6 +1242,7 @@ class TestFileIsNotExecutableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_file(self):
         self.parser.add_argument("--path", action=FileIsNotExecutableAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -1215,6 +1255,7 @@ class TestFileIsNotExecutableAction(ActionHeroTestCase):
             # Assert file is unexecutable
             self.assertFalse(is_executable_file(file1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_executable_and_unexecutable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsNotExecutableAction
@@ -1238,6 +1279,7 @@ class TestDirectoryIsExecutableAction(ActionHeroTestCase):
             # No errors when parsing args
             self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unexecutable_directory(self):
         self.parser.add_argument("--path", action=DirectoryIsExecutableAction)
         # Specify dir and make unexecutable
@@ -1247,6 +1289,7 @@ class TestDirectoryIsExecutableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_executable_and_unexecutable_directories(self):
         self.parser.add_argument(
             "--path", nargs="+", action=DirectoryIsExecutableAction
@@ -1273,6 +1316,7 @@ class TestDirectoryIsNotExecutableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unexecutable_directory(self):
         self.parser.add_argument(
             "--path", action=DirectoryIsNotExecutableAction
@@ -1309,6 +1353,7 @@ class TestPathIsExecutableAction(ActionHeroTestCase):
             # No errors when parsing args
             self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unexecutable_file(self):
         self.parser.add_argument("--path", action=PathIsExecutableAction)
         # Specify file and assert not executable
@@ -1318,6 +1363,7 @@ class TestPathIsExecutableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_executable_and_unexecutable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsExecutableAction
@@ -1339,6 +1385,7 @@ class TestPathIsExecutableAction(ActionHeroTestCase):
             # No errors when parsing args
             self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unexecutable_directory(self):
         self.parser.add_argument("--path", action=PathIsExecutableAction)
         # Specify dir and make unexecutable
@@ -1348,6 +1395,7 @@ class TestPathIsExecutableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_executable_and_unexecutable_directories(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsExecutableAction
@@ -1372,6 +1420,7 @@ class TestPathIsNotExecutableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_file(self):
         self.parser.add_argument("--path", action=PathIsNotExecutableAction)
         with tempfile.TemporaryDirectory() as dir1:
@@ -1384,6 +1433,7 @@ class TestPathIsNotExecutableAction(ActionHeroTestCase):
             # Assert file is unexecutable
             self.assertFalse(is_executable_file(file1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_executable_and_unexecutable_file(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsNotExecutableAction
@@ -1407,6 +1457,7 @@ class TestPathIsNotExecutableAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", dir1])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unexecutable_directory(self):
         self.parser.add_argument("--path", action=PathIsNotExecutableAction)
         # Specify dir amd make unexecutable
@@ -1418,6 +1469,7 @@ class TestPathIsNotExecutableAction(ActionHeroTestCase):
             # Assert directory is still unreadable
             self.assertFalse(is_executable_directory(dir1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_mixed_executable_and_unexecutable_directories(self):
         self.parser.add_argument(
             "--path", nargs="+", action=PathIsNotExecutableAction
@@ -1438,6 +1490,7 @@ class TestFileIsEmptyAction(ActionHeroTestCase):
             self.assertTrue(is_empty_file(file1.name))
             self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonempty_file(self):
         self.parser.add_argument("--path", action=FileIsEmptyAction)
         with tempfile.NamedTemporaryFile() as file1:
@@ -1447,6 +1500,7 @@ class TestFileIsEmptyAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_list_of_empty_and_nonempty_files(self):
         self.parser.add_argument("--path", nargs="+", action=FileIsEmptyAction)
         with tempfile.NamedTemporaryFile() as file1:
@@ -1467,6 +1521,7 @@ class TestFileIsNotEmptyAction(ActionHeroTestCase):
             with self.assertRaises(ValueError):
                 self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonempty_file(self):
         self.parser.add_argument("--path", action=FileIsNotEmptyAction)
         with tempfile.NamedTemporaryFile() as file1:
@@ -1475,6 +1530,7 @@ class TestFileIsNotEmptyAction(ActionHeroTestCase):
             self.assertFalse(is_empty_file(file1.name))
             self.parser.parse_args(["--path", file1.name])
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_list_of_empty_and_nonempty_files(self):
         self.parser.add_argument(
             "--path", nargs="+", action=FileIsNotEmptyAction

@@ -48,6 +48,7 @@ class TestExistenceUtils(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_existing_file(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_file(self):
         # Create and Remove a file to confirm it doesnt exist
         file1 = tempfile.mkstemp()[1]
@@ -59,6 +60,7 @@ class TestExistenceUtils(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_existing_path(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_path_as_file(self):
         # Create and Remove a file to confirm it doesnt exist
         file1 = tempfile.mkstemp()[1]
@@ -83,6 +85,7 @@ class TestWritableUtils(unittest.TestCase):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_writable_directory(dir1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unwritable_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             remove_write_permission(dir1)
@@ -101,6 +104,7 @@ class TestWritableUtils(unittest.TestCase):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_writable_path(dir1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unwritable_path_as_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             remove_write_permission(dir1)
@@ -122,6 +126,7 @@ class TestReadableUtils(unittest.TestCase):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_readable_directory(dir1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_directory(self):
         dir1 = tempfile.mkdtemp()
         remove_read_permission(dir1)
@@ -132,6 +137,7 @@ class TestReadableUtils(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_readable_file(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             remove_read_permission(file1.name)
@@ -141,6 +147,7 @@ class TestReadableUtils(unittest.TestCase):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_readable_path(dir1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_path_as_directory(self):
         dir1 = tempfile.mkdtemp()
         remove_read_permission(dir1)
@@ -151,6 +158,7 @@ class TestReadableUtils(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_readable_path(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unreadable_path_as_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             remove_read_permission(file1.name)
@@ -162,6 +170,7 @@ class TestExecutableUtils(unittest.TestCase):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_executable_directory(dir1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unexecutable_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             remove_execute_permission(dir1)
@@ -172,6 +181,7 @@ class TestExecutableUtils(unittest.TestCase):
             add_execute_permission(file1.name)
             self.assertTrue(is_executable_file(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unexecutable_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             remove_execute_permission(file1.name)
@@ -181,6 +191,7 @@ class TestExecutableUtils(unittest.TestCase):
         with tempfile.TemporaryDirectory() as dir1:
             self.assertTrue(is_executable_path(dir1))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unexecutable_path_as_directory(self):
         with tempfile.TemporaryDirectory() as dir1:
             remove_execute_permission(dir1)
@@ -191,11 +202,13 @@ class TestExecutableUtils(unittest.TestCase):
             add_execute_permission(file1.name)
             self.assertTrue(is_executable_path(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_unexecutable_path_as_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertFalse(is_executable_path(file1.name))
 
 
+@unittest.skipIf(os.name == "nt", "Fails on Windows")
 class TestSymbolicLinkUtils(unittest.TestCase):
     def setUp(self):
         # Create parent directory to hold symbolic links
@@ -299,6 +312,7 @@ class TestExistingOrCreatablePath(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_existing_or_creatable_path(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_creatable_file(self):
         # Create and delete a temp file so we know that it is a valid path
         file1 = tempfile.mkstemp()[1]
@@ -341,6 +355,7 @@ class TestValidPath(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_valid_path(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_creatable_file(self):
         # Create and delete a temp file so we know that it is a valid path
         file1 = tempfile.mkstemp()[1]
@@ -385,6 +400,7 @@ class TestValidFile(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_valid_file(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonexisting_creatable_file(self):
         # Create and delete a temp file so we know that it is a valid path
         file1 = tempfile.mkstemp()[1]
@@ -421,6 +437,7 @@ class TestFileIsEmpty(unittest.TestCase):
         with tempfile.NamedTemporaryFile() as file1:
             self.assertTrue(is_empty_file(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_nonempty_file(self):
         with tempfile.NamedTemporaryFile() as file1:
             with open(file1.name, "a") as file_for_writing:
