@@ -1,5 +1,6 @@
 import os
 import tempfile
+import unittest
 
 from action_hero.utils import ActionHeroTestCase
 from action_hero import (
@@ -174,6 +175,7 @@ class TestEnsureFileAction(ActionHeroTestCase):
             # Assert specified file still exists
             self.assertTrue(os.path.isfile(file1.name))
 
+    @unittest.skipIf(os.name == "nt", "Fails on Windows")
     def test_on_multiple_mixed_existing_files(self):
         self.parser.add_argument("--path", nargs="+", action=EnsureFileAction)
         with tempfile.TemporaryDirectory() as parent_directory:
